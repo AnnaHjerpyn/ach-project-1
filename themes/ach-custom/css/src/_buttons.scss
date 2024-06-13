@@ -1,0 +1,16 @@
+.btn-primary {
+    @include button-variant(
+        $background: $primary,
+        $border: $primary,
+        $color: $white,
+        $hover-background: $secondary,
+        $hover-border: $secondary,
+        $hover-color:  $white,
+        $active-background: $secondary,
+        $active-border: $secondary,
+        $active-color: $white,
+        $disabled-background: #eee,
+        $disabled-border: #000,
+        $disabled-color: #000
+    );
+}

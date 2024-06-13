@@ -1,0 +1,2 @@
+{ContentTitle}
+{$Content}

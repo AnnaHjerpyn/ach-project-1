@@ -1,0 +1,166 @@
+@use 'sass:math';
+
+/************************************* General Settings *************************************/
+$ThemeDir: "_resources/themes/pfs";
+
+$custom-font-sizes: (
+    10px,
+    12px,
+    13px,
+    14px,
+    15px,
+    16px,
+    18px,
+    20px,
+    22px,
+    24px,
+    26px,
+    28px
+);
+
+$letter-spacing: (
+);
+
+$widths: (
+    10%,
+    15%,
+    20%,
+    25%,
+    30%,
+    35%,
+    40%,
+    41%,
+    42%,
+    43%,
+    44%,
+    45%,
+    46%,
+    47%,
+    48%,
+    49%,
+    50%,
+    55%,
+
+    70px,
+    200px,
+    240px,
+    300px,
+    440px,
+    540px,
+    600px,
+);
+
+$paddings: (
+    0px,
+    5px,
+    8px,
+    10px,
+    13px,
+    12px,
+    15px,
+    18px,
+    20px,
+    25px,
+    30px,
+    35px,
+    40px,
+    45px,
+    50px,
+    55px,
+    60px
+);
+
+$modal-backdrop-color: #000000CC;
+
+$footer-background-color: #0C4C91;
+$footer-color: #fff;
+$footer-link-color: #fff;
+$footer-link-decoration: none;
+$footer-link-hover-color: #fff;
+$footer-link-hover-decoration: underline;
+
+$navbar-height: auto;
+
+$btn-border-radius: 4px;
+$body-font-size: 16px;
+
+// Custom container padding.
+$container-max-width: 1430px;
+$container-padding-lg-x: 60px;
+$container-padding-md-x: 40px;
+$container-padding-sm-x: 25px;
+
+$panel-padding-x: 60px;
+$panel-padding-md-x: 40px;
+$panel-padding-sm-x: 40px;
+
+
+/************************************* BootStrap Overrides *************************************/
+$font-family-sans-serif: 'Roboto';
+$input-btn-font-family: 'Roboto';
+
+/* To extend or change theme-colors in bootstrap 5, you have to override all colors */
+$primary: #003e7e;
+$secondary: #12874b;
+$success: #3e8d63;
+$info: #13101c;
+$warning: #945707;
+$danger: #d62518;
+$light: #f8f9fa;
+$dark: #333333;
+
+$headings-font-weight: 400;
+
+$container-padding-x: $container-padding-lg-x;
+
+$navbar-padding-x: 0;
+$navbar-padding-y: 0;
+$navbar-nav-link-padding-x: 60px;
+$navbar-nav-link-padding-y: 0;
+$navbar-light-color: #ffffffb3;
+$navbar-light-hover-color: $primary;
+
+$border-radius: $btn-border-radius;
+$border-radius-sm: $btn-border-radius;
+$border-radius-lg: $btn-border-radius;
+
+$input-btn-padding-y-sm: 4px;
+$input-btn-padding-x-sm: 8px;
+$input-btn-font-size-sm: 14px;
+
+$input-btn-padding-y: 6px;
+$input-btn-padding-x: 12px;
+$input-btn-font-size: 16px;
+
+//$input-btn-padding-y-lg: px;
+//$input-btn-padding-x-lg: px;
+//$input-btn-font-size-lg: px;
+
+$theme-colors: (
+    "primary":                  $primary,
+    "secondary":                $secondary,
+    "success":                  $success,
+    "info":                     $info,
+    "warning":                  $warning,
+    "danger":                   $danger,
+    "light":                    $light,
+    "dark":                     $dark,
+);
+
+$pfs-dark-grey: #e6e9ec;
+$pfs-grey: #e6e9ec;
+$pfs-light-grey: #f2f2f2 ;
+$pfs-blue: #003e7e ;
+
+$custom-colors: (
+    "pfs-dark-grey": $pfs-dark-grey,
+    "pfs-grey": $pfs-grey,
+    "pfs-blue": $pfs-blue,
+    "pfs-light-grey": $pfs-light-grey
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+$container-max-widths: (
+    sm: $container-max-width
+);

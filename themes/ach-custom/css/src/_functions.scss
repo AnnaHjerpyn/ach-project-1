@@ -1,0 +1,53 @@
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin breakpoint($screensize) {
+    @media only screen and (max-width: $screensize) {
+        @content;
+    }
+}
+
+@mixin breakpoint-min($screensize) {
+    @media only screen and (min-width: $screensize) {
+        @content;
+    }
+}
+
+@mixin breakpoint-min-max($screensize-min, $screensize-max) {
+    @media only screen and (min-width: $screensize-min) and (max-width: $screensize-max) {
+        @content;
+    }
+}
+
+/***
+ * The only required value is $property
+ * Passing 0 for any value will still work.
+ * Example usage: @include break-max("font-size", 40px, $md: 24px);
+ */
+@mixin brmax($property, $default-value: false, $lg: false, $md: false, $sm: false) {
+    @if $default-value {
+        #{$property}: $default-value;
+    }
+
+    @if $lg {
+        @include breakpoint($screen-md-max) {
+            #{$property}: $lg;
+        }
+    }
+
+    @if $md {
+        @include breakpoint($screen-sm-max) {
+            #{$property}: $md;
+        }
+    }
+
+    @if $sm {
+        @include breakpoint($screen-xs-max) {
+            #{$property}: $sm;
+        }
+    }
+}

@@ -1,0 +1,194 @@
+// Add one of the following classes to the html above the userform, or to
+//  the "Extra CSS classes" field on the forms "Page Break" in the user forms editor to
+//  apply the styling. (No class will default to a single column layout)
+//
+// userforms-3col, userforms-2col, userforms-1col
+// userforms-label, userforms-nolabel
+//
+// Classes applied to the Page Break will override classes applied in the html.
+
+.userform {
+    .userform-fields .form-step .field span {
+        &.error.message {
+            color: #fff !important;
+        }
+    }
+
+    .userform-fields {
+        @extend .container-fluid;
+        padding: 0;
+
+        .form-step {
+            @extend .row;
+
+            .field {
+                @extend .mb-3;
+
+                input, textarea, select {
+                    @extend .form-control;
+
+
+                    &.error {
+                        @extend .is-invalid;
+                    }
+                }
+
+                .error.message {
+                    @extend .small;
+                    @extend .text-danger;
+                }
+            }
+
+            .field.nocaptcha {
+                .message.validation {
+                    @extend .small;
+                    @extend .text-danger;
+                }
+            }
+
+            .field.text {
+                @extend .col-12;
+            }
+
+            .field.textarea {
+                @extend .col-12;
+            }
+
+            .field.nocaptcha {
+                @extend .col-12;
+            }
+        }
+    }
+
+    .Actions {
+        @extend .container-fluid;
+        padding: 0;
+
+        input[type=submit] {
+            @extend .btn;
+            @extend .btn-primary;
+        }
+    }
+}
+
+@mixin userforms-3col() {
+    @media(min-width: 576px) {
+        flex: 0 0 auto;
+        width: 50%
+    }
+
+    @media(min-width: 768px) {
+        flex: 0 0 auto;
+        width: 33.33333333%
+    }
+}
+
+@mixin userforms-2col() {
+    @media(min-width: 576px) {
+        flex: 0 0 auto;
+        width: 50%
+    }
+}
+
+@mixin userforms-1col() {
+    flex: 0 0 auto;
+    width: 100%
+}
+
+@mixin userforms-nolabel() {
+    /* Hide the label, but keep it visible to screen readers.
+        See: https://www.nomensa.com/blog/how-improve-web-accessibility-hiding-elements
+    */
+
+    border: 0;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.userforms-3col {
+    .userform {
+        .userform-fields {
+            .field.text {
+                @include userforms-3col;
+            }
+        }
+    }
+}
+
+.userforms-2col {
+    .userform {
+        .userform-fields {
+            .field.text {
+                @include userforms-2col;
+            }
+        }
+    }
+}
+
+.userforms-1col {
+    .userform {
+        .userform-fields {
+            .field.text {
+                @include userforms-1col;
+            }
+        }
+    }
+}
+
+.userforms-nolabel {
+    .userform {
+        .userform-fields {
+            .form-step:not(.userforms-label) {
+                label {
+                    @include userforms-nolabel;
+                }
+            }
+        }
+    }
+}
+
+.userform {
+    .userform-fields {
+        .userforms-3col {
+            .field.text {
+                @include userforms-3col;
+            }
+        }
+    }
+}
+
+.userform {
+    .userform-fields {
+        .userforms-2col {
+            .field.text {
+                @include userforms-2col;
+            }
+        }
+    }
+}
+
+.userform {
+    .userform-fields {
+        .userforms-1col {
+            .field.text {
+                @include userforms-1col;
+            }
+        }
+    }
+}
+
+.userform {
+    .userform-fields {
+        .userforms-nolabel {
+            label {
+                @include userforms-nolabel;
+            }
+        }
+    }
+}

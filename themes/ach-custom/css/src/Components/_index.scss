@@ -1,0 +1,16 @@
+@media (min-width: 415px) {
+    :root {
+        --header-height: 65px;
+    }
+}
+@media (min-width: 1024px) {
+    :root {
+        --header-padding-x: 24px;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --header-padding-x: 20px;
+    }
+}

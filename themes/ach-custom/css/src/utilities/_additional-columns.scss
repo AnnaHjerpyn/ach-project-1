@@ -1,0 +1,14 @@
+$additional-columns: () !default;
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $name, $value in $additional-columns {
+            .col#{$infix}-#{$name} {
+                @include make-col-ready();
+                @include make-col(12 / $value);
+            }
+        }
+    }
+}

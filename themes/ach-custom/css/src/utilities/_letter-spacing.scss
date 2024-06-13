@@ -1,0 +1,28 @@
+@use 'sass:math';
+
+$letter-spacing: () !default;
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $space in $letter-spacing {
+            @if type-of($space) != 'number' or unitless($space) {
+                @error "`#{$space}` does not have a valid unit for letter-spacing.";
+            }
+
+            $value: math.div($space, ($space * 0 + 1)); // This odd math removes the unit, leaving just the value.
+            $unit: unit($space);
+            $name: $value;
+
+            // We can't have a decimal in the class name, so for values less than 1, we need to remove the decimal.
+            // We then add a '0' to the front of the name to indicate that the value is less than 1.
+            @if $value < 1 {
+                $name: "0#{($value * 10)}";
+            }
+
+            .ls#{$infix}-#{$name} { letter-spacing: #{$value}#{$unit} !important; }
+        }
+    }
+}
+

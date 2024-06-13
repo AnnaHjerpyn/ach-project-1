@@ -1,0 +1,24 @@
+$screen-xs: map-get($grid-breakpoints, "xs");   // 0px
+$screen-sm: map-get($grid-breakpoints, "sm");   // 576px
+$screen-md: map-get($grid-breakpoints, "md");   // 768px
+$screen-lg: map-get($grid-breakpoints, "lg");   // 992px
+$screen-xl: map-get($grid-breakpoints, "xl");   // 1200px
+$screen-xxl: map-get($grid-breakpoints, "xxl"); // 1400px
+
+$screen-xs-min: $screen-xs;         // 0px
+$screen-xs-max: $screen-sm - 1;     // 575px
+$screen-sm-min: $screen-sm;         // 576px
+$screen-sm-max: $screen-md - 1;     // 767px
+$screen-md-min: $screen-md;         // 768px
+$screen-md-max: $screen-lg - 1;     // 991px
+$screen-lg-min: $screen-lg;         // 992px
+$screen-lg-max: $screen-xl - 1;     // 1199px
+$screen-xl-min: $screen-xl;         // 1200px
+$screen-xl-max: $screen-xxl - 1;    // 1399px
+$screen-xxl-min: $screen-xxl;        // 1400px
+
+$screen-575: $screen-sm - 1;     // 575px
+$screen-767: $screen-md - 1;     // 767px
+$screen-991: $screen-lg - 1;     // 991px
+$screen-1199: $screen-xl - 1;    // 1199px
+$screen-1399: $screen-xxl - 1;   // 1199px

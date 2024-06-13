@@ -1,0 +1,10 @@
+---
+Name: approutes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    'word-bank': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
+    'word-bank/$Action': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
