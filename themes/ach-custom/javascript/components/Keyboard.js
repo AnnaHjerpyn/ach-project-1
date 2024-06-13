@@ -26,7 +26,7 @@ function Keyboard({usedKeys, handleKeyInput}) {
                 })}
             </div>
             <div className="row">
-                <div style={{flex: 0.5}}></div>
+                <div style={{flex: 0.5}} className="p-0"></div>
                 {middleRow.map((letter) => {
                     const className = usedKeys[letter];
                     return (
@@ -40,7 +40,7 @@ function Keyboard({usedKeys, handleKeyInput}) {
                         </button>
                     );
                 })}
-                <div style={{flex: 0.5}}></div>
+                <div style={{flex: 0.5}} className="p-0"></div>
             </div>
 
             <div className="row">
@@ -53,7 +53,6 @@ function Keyboard({usedKeys, handleKeyInput}) {
                 >
                     Enter
                 </button>
-
                 {bottomRow.map((letter) => {
                     const className = usedKeys[letter];
                     return (

@@ -23,7 +23,6 @@ function App() {
                 console.error('Error fetching solution:', error);
             }
         }
-
         getRandomWord();
     }, []);
 

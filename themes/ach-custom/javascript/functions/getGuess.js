@@ -1,13 +1,12 @@
 import {useState, useCallback, useEffect} from 'react';
 
-const getGuess = () => {
+const getGuess = (solution) => {
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
     const [history, setHistory] = useState([]); // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
-    const [solution, setSolution] = useState('');
 
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
