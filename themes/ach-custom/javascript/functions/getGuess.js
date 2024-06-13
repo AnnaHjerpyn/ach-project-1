@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { fetchRandomWord, submitGuess } from '../wordSubmit';
+import {useState, useCallback, useEffect} from 'react';
 
 const getGuess = () => {
     const [turn, setTurn] = useState(0);
@@ -10,24 +9,10 @@ const getGuess = () => {
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [solution, setSolution] = useState('');
 
-    // Fetch random word when the component mounts
-    useEffect(() => {
-        const fetchSolution = async () => {
-            try {
-                const randomWord = await fetchRandomWord();
-                setSolution(randomWord);
-            } catch (error) {
-                console.error('Error fetching solution:', error);
-            }
-        };
-
-        fetchSolution();
-    }, []);
-
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
         let formattedGuess = [...currentGuess].map((l) => {
-            return { key: l, color: 'grey' };
+            return {key: l, color: 'grey'};
         });
 
         // find any green letters
@@ -49,7 +34,7 @@ const getGuess = () => {
         return formattedGuess;
     }, [currentGuess, solution]);
 
-    const addNewGuess = useCallback(async (formattedGuess) => {
+    const addNewGuess = useCallback((formattedGuess) => {
         if (currentGuess === solution) {
             setIsCorrect(true);
         }
@@ -85,13 +70,6 @@ const getGuess = () => {
             return prevUsedKeys;
         });
         setCurrentGuess('');
-
-        try {
-            const response = await submitGuess(currentGuess);
-            console.log(response.message); // handle the response as needed
-        } catch (error) {
-            console.error('Error submitting guess:', error);
-        }
     }, [currentGuess, turn, solution]);
 
     const handleKeyInput = useCallback((key) => {
@@ -123,7 +101,7 @@ const getGuess = () => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return { turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput };
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput};
 };
 
 export default getGuess;

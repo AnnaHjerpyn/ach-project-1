@@ -17,19 +17,19 @@
     });
 })(jQuery);
 
-export function fetchRandomWord() {
-    return fetch("/word-bank")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response error.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            return data.solution;
-        })
-        .catch(error => {
-            console.error('Error fetching random word:', error);
-            throw error;
-        });
-}
+// export function fetchRandomWord() {
+//     return fetch("/word-bank")
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response error.');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             return data.solution;
+//         })
+//         .catch(error => {
+//             console.error('Error fetching random word:', error);
+//             throw error;
+//         });
+// }
