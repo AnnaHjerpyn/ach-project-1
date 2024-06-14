@@ -63,7 +63,6 @@ class WordBankController extends PageController
 
     public function wordHook(HTTPRequest $request)
     {
-
         // Handle word submission
         if ($request->isPOST()) {
             $submittedWord = strtolower($request->postVar('Word'));

@@ -15,7 +15,7 @@ class SolutionWord extends DataObject
     ];
 
     private static $summary_fields = [
-        'Word' => 'Solution Word'
+        'Solution Word' => 'Solution Word'
     ];
 
     public function getCMSFields()
@@ -27,25 +27,5 @@ class SolutionWord extends DataObject
         ]);
 
         return $fields;
-    }
-
-    // Ensure only one record exists
-    public static function get_current_solution()
-    {
-        return self::get()->first();
-    }
-
-    public static function set_solution($word)
-    {
-        // Getting the current solution
-        $solution = self::get_current_solution();
-        // Checking to see if it actually exists
-        if (!$solution) {
-            $solution = self::create();
-        }
-        // Save the word
-        $solution->Word = $word;
-        // Now save it to the DB !
-        $solution->write();
     }
 }
