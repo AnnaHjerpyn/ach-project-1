@@ -22,6 +22,7 @@ class CustomSiteConfig extends DataExtension
     ];
 
     private static $has_one = [
+        'Favicon' => Image::class,
 
     ];
 
@@ -30,20 +31,19 @@ class CustomSiteConfig extends DataExtension
     ];
 
     private static $owns = [
+        'Favicon',
 
     ];
 
-    // TODO: Figure out what you need in each of these
     public function updateCMSFields(FieldList $fields)
     {
 
-        /***** MAIN ! *****/
+        /*********************
+         * MAIN !
+         *********************/
 
         $fields->addFieldsToTab('Root.Main', [
-            TextField::create('PhoneNumber', 'Contact Number')->setDescription('Formatted phone number for top nav.'),
-            TextField::create('GoogleTagManagerID', 'Google Tag Manager ID'),
             UploadField::create('Favicon', 'Favicon')->setFolderName('favicon')->setDescription('Use a 32x32 png image named "favicon.png" for maximum compatibility.'),
-            TextareaField::create('EmailSignUpFormRecipients')->setDescription('Separate entries on new line.'),
         ]);
     }
 

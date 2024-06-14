@@ -15,12 +15,17 @@ class SolutionWord extends DataObject
     ];
 
     private static $summary_fields = [
-        'Solution Word' => 'Solution Word'
+        'Word' => 'Solution Word'
     ];
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->removeByName([
+            'SortOrder',
+            'Solution Word',
+        ]);
 
         $fields->addFieldsToTab('Root.Main', [
             TextField::create('Word', 'Solution Word'),
