@@ -18,6 +18,7 @@ class WordBankController extends PageController
 
     private static $url_handlers = [
         'random' => 'getRandomWord',
+        'checkWord' => 'wordHook',
     ];
 
     protected function init()
@@ -29,8 +30,26 @@ class WordBankController extends PageController
 
     protected function getRandomSolutionWord()
     {
-        // Fetch a random WordBank entry
-        $randomWord = WordBank::get()->first();
+
+        // Fetch the minimum and maximum IDs
+        $minID = 1;
+        $maxID = WordBank::get()->count();
+
+        if ($minID === null || $maxID === null) {
+            return '';
+        }
+
+        // Generate a random ID within the range
+        $randomID = rand($minID, $maxID);
+
+        // Fetch the WordBank entry with the random ID
+        $randomWord = WordBank::get()->byID($randomID);
+
+        // If no entry is found, recursively try again
+        if (!$randomWord) {
+            return $this->getRandomSolutionWord();
+        }
+
         return ! is_null($randomWord) ? $randomWord->Word : '';
     }
 
@@ -44,6 +63,7 @@ class WordBankController extends PageController
 
     public function wordHook(HTTPRequest $request)
     {
+
         // Handle word submission
         if ($request->isPOST()) {
             $submittedWord = strtolower($request->postVar('Word'));

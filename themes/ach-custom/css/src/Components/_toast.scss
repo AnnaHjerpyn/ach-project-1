@@ -1,15 +1,16 @@
 .custom-toast-container {
     position: fixed;
-    top: 45px; /* Adjust as needed */
+    top: 10%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
     pointer-events: none;
-    width: fit-content;
-    z-index: 9999; /* Ensure it's on top of other content */
+    z-index: 9999;
 }
 
 .custom-toast {
     position: relative;
     background-color: black;
     color: white;
+    width: fit-content;
+    text-transform: uppercase;
 }
