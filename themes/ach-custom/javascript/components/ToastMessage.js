@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Toast, Button} from 'react-bootstrap';
+import {Toast} from 'react-bootstrap';
 import '../../css/src/Components/_toast.scss';
 
 const ToastMessage = ({message, duration = 3000}) => {

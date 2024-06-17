@@ -15,19 +15,50 @@ function Board({solution}) {
     }, [handleKeyup]);
 
     useEffect(() => {
-        async function checkWord() {
+        async function checkDatabase() {
             try {
-                const response = await fetch('/word-bank/check');
+                const response = await fetch('/word-bank/checkDatabase', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Word: currentGuess })
+                });
+
                 if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Error: ${response.status} - ${response.statusText}`);
+                    console.error('Response text:', errorText);
                     throw new Error('Failed to check.');
                 }
-                const data = await response.json();
+
+                const contentType = response.headers.get('Content-Type');
+                let data;
+
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    throw new Error('Received non-JSON response');
+                }
+
+                console.log('Server response:', data);
             } catch (error) {
-                console.error('Error fetching solution:', error);
+                console.error('Error fetching response:', error);
             }
         }
-        checkWord();
-    }, []);
+
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                checkDatabase();
+            }
+        }
+
+        // Add event listener for keydown events (for Enter key)
+        window.addEventListener('keydown', handleEnterKey);
+        return () => window.removeEventListener('keydown', handleEnterKey);
+    }, [currentGuess]); // dependency makes it run only when currentGuess changes
 
     return (
         <>

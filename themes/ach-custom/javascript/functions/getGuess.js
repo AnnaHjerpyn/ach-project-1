@@ -62,7 +62,6 @@ const getGuess = (solution) => {
                 }
                 if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
                     prevUsedKeys[l.key] = 'grey';
-                    return;
                 }
             });
 

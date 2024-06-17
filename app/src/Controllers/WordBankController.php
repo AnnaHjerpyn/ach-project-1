@@ -13,12 +13,12 @@ class WordBankController extends PageController
 
     private static $allowed_actions = [
         'getRandomWord',
-        'wordHook',
+        'checkDatabase',
     ];
 
     private static $url_handlers = [
         'random' => 'getRandomWord',
-        'checkWord' => 'wordHook',
+        'checkDatabase' => 'checkDatabase',
     ];
 
     protected function init()
@@ -50,7 +50,7 @@ class WordBankController extends PageController
             return $this->getRandomSolutionWord();
         }
 
-        return ! is_null($randomWord) ? $randomWord->Word : '';
+        return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
     public function getRandomWord()
@@ -61,17 +61,17 @@ class WordBankController extends PageController
         return $response;
     }
 
-    public function wordHook(HTTPRequest $request)
+    public function checkDatabase(HTTPRequest $request)
     {
-        // Handle word submission
+        // Initialize response array
+        $response = [
+            'isValidWord' => false,
+            'isCorrect' => false,
+            'message' => ''
+        ];
+
         if ($request->isPOST()) {
             $submittedWord = strtolower($request->postVar('Word'));
-
-            $response = [
-                'isValidWord' => false,
-                'isCorrect' => false,
-                'message' => ''
-            ];
 
             // Check if the word exists in the WordBank
             $wordExists = WordBank::get()->filter('Word', $submittedWord)->exists();
@@ -87,10 +87,12 @@ class WordBankController extends PageController
             } else {
                 $response['message'] = 'Invalid word. Please try again.';
             }
-
-            return $this->customise(new ArrayData($response))->renderWith('WordBank');
+        } else {
+            $response['message'] = 'No POST data received.';
         }
 
-        return $this->redirectBack();
+        // Set the HTTP response headers and encode the response as JSON
+        $this->getResponse()->addHeader('Content-Type', 'application/json');
+        return json_encode($response);
     }
 }
