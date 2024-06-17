@@ -4,18 +4,19 @@ namespace AnnaHjerpyn\Custom\Models;
 
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\ValidationException;
 
-class SolutionWord extends DataObject
+class Board extends DataObject
 {
-    private static $table_name = 'SolutionWord';
+    private static $table_name = 'Board';
 
     private static $db = [
-        'Word' => 'Varchar(255)',
+        'BoardID' => 'Int',
+        'CorrectWord' => 'Varchar(255)',
     ];
 
     private static $summary_fields = [
-        'Word' => 'Solution Word'
+        'BoardID' => 'BoardID',
+        'CorrectWord' => 'CorrectWord'
     ];
 
     public function getCMSFields()
@@ -24,11 +25,13 @@ class SolutionWord extends DataObject
 
         $fields->removeByName([
             'SortOrder',
-            'Solution Word',
+            'CorrectWord',
+            'BoardID',
         ]);
 
         $fields->addFieldsToTab('Root.Main', [
-            TextField::create('Word', 'Solution Word'),
+            TextField::create('BoardID', 'BoardID'),
+            TextField::create('CorrectWord', 'CorrectWord'),
         ]);
 
         return $fields;

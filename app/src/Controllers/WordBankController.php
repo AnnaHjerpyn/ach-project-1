@@ -2,6 +2,7 @@
 
 namespace AnnaHjerpyn\Custom\Controllers;
 
+use AnnaHjerpyn\Custom\Models\Board;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\View\ArrayData;
@@ -26,13 +27,18 @@ class WordBankController extends PageController
         parent::init();
         // Select a random word from the WordBank as the correct word for this session
         $this->correctWord = $this->getRandomSolutionWord();
+        // Update the correct word to the SW db each round
+        // Save the correct word to the SolutionWord database
+//        $log = Board::get_by_id();
+//        $log->Word = $this->correctWord;
+//        $log->write();
     }
 
     protected function getRandomSolutionWord()
     {
 
         // Fetch the minimum and maximum IDs
-        $minID = 1;
+        $minID = 263;
         $maxID = WordBank::get()->count();
 
         if ($minID === null || $maxID === null) {
@@ -79,14 +85,12 @@ class WordBankController extends PageController
 
             if ($wordExists) {
                 $response['isValidWord'] = true;
-                if ($submittedWord === $this->correctWord) {
+                if ($submittedWord === Board::get()->last()) {
                     $response['isCorrect'] = true;
-                    $response['message'] = 'Congratulations! You guessed the correct word!';
+                    $response['message'] = 'You guessed the correct word!';
                 } else {
-                    $response['message'] = 'Valid word, but not the correct word. Try again!';
+                    $response['message'] = 'Not in word list';
                 }
-            } else {
-                $response['message'] = 'Invalid word. Please try again.';
             }
         } else {
             $response['message'] = 'No POST data received.';

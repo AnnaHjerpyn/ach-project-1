@@ -5,6 +5,7 @@ import Keyboard from "./Keyboard";
 import ToastMessage from "./ToastMessage";
 
 function Board({solution}) {
+
     const {currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput} = getGuess(solution);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
@@ -25,22 +26,11 @@ function Board({solution}) {
                     body: JSON.stringify({ Word: currentGuess })
                 });
 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error(`Error: ${response.status} - ${response.statusText}`);
-                    console.error('Response text:', errorText);
+                    console.log('Server response:', data);
                     throw new Error('Failed to check.');
-                }
-
-                const contentType = response.headers.get('Content-Type');
-                let data;
-
-                if (contentType && contentType.includes('application/json')) {
-                    data = await response.json();
-                } else {
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    throw new Error('Received non-JSON response');
                 }
 
                 console.log('Server response:', data);
@@ -59,6 +49,7 @@ function Board({solution}) {
         window.addEventListener('keydown', handleEnterKey);
         return () => window.removeEventListener('keydown', handleEnterKey);
     }, [currentGuess]); // dependency makes it run only when currentGuess changes
+
 
     return (
         <>

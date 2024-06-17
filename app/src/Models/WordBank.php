@@ -9,12 +9,12 @@ class WordBank extends DataObject
 {
     private static $table_name = 'WordBank';
 
-
     private static $default_sort = 'SortOrder ASC';
     private static $db = [
         'Word' => 'Varchar(255)',
         'SortOrder' => 'Int',
     ];
+
     private static $summary_fields = [
         'Word' => 'Word'
     ];

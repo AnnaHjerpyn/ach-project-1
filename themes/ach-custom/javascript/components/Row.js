@@ -3,7 +3,6 @@ import '../../css/src/Components/_row.scss';
 
 function Row({guess, currentGuess}) {
     if (guess) {
-        console.log('Rendering past guess:', guess);
         return (
             <div className="row-container past">
                 {guess.map((l, i) => (
@@ -15,7 +14,6 @@ function Row({guess, currentGuess}) {
 
     if (currentGuess) {
         let letters = currentGuess.split('');
-        console.log('Rendering current guess:', letters);
 
         return (
             <div className="row-container current">
