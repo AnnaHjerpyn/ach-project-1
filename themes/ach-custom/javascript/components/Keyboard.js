@@ -2,7 +2,6 @@ import React from 'react';
 import '../../css/src/Components/_keyboard.scss';
 
 function Keyboard({usedKeys, handleKeyInput}) {
-    console.log('Used keys:', usedKeys); // Log usedKeys
 
     const topRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
     const middleRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];

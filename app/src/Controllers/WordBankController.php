@@ -71,10 +71,11 @@ class WordBankController extends PageController
         ];
 
         if ($request->isPOST()) {
-            $submittedWord = strtolower($request->postVar('Word'));
+            $submittedWord = strtolower($request->getBody());
+            $submittedWord = json_decode($submittedWord);
 
             // Check if the word exists in the WordBank
-            $wordExists = WordBank::get()->filter('Word', $submittedWord)->exists();
+            $wordExists = WordBank::get()->filter('Word', $submittedWord->word)->first();
 
             if ($wordExists) {
                 $response['isValidWord'] = true;
