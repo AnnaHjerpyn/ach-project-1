@@ -29,12 +29,35 @@ class WordBankController extends PageController
         parent::init();
     }
 
-    protected function getBoard() {
+    public function setBoard()
+    {
+        // Select a random word from the WordBank as the correct word for this session
+        $randomWord = $this->getRandomSolutionWord();
+        // Create a new Board entry
+        $board = new Board();
+        $guessCount = $board->getGuesses();
+        $board->CorrectWord = $randomWord;
+        $board->write();
+
+        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
+        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
+        return $response;
+    }
+
+    protected function getBoard()
+    {
+        // Want to get the Board object based on its ID
         $boardID = $this->request->param('ID');
+        // We got it :O
         $board = Board::get()->byID($boardID);
+        // Now return that Board object !!
         return $board;
     }
 
+    /*
+     * Helper function to randomize the Word Bank
+     * @return - a randomly retrieved word <3
+     */
     protected function getRandomSolutionWord()
     {
         // Fetch the minimum and maximum IDs
@@ -57,20 +80,6 @@ class WordBankController extends PageController
         }
 
         return !is_null($randomWord) ? $randomWord->Word : '';
-    }
-
-    public function setBoard()
-    {
-        // Select a random word from the WordBank as the correct word for this session
-        $randomWord = $this->getRandomSolutionWord();
-        // Create a new Board entry
-        $board = new Board();
-        $board->CorrectWord = $randomWord;
-        $board->write();
-
-        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
-        return $response;
     }
 
     public function checkDatabase(HTTPRequest $request)
@@ -97,7 +106,7 @@ class WordBankController extends PageController
         $wordExists = WordBank::get()->filter('Word', $submittedWord)->first();
 
         if (!$wordExists) {
-            $response['message'] = 'Not in word list.';
+            $response['message'] = 'Not in word list';
             $this->getResponse()->addHeader('Content-Type', 'application/json');
             return json_encode($response);
         }
@@ -109,9 +118,7 @@ class WordBankController extends PageController
         $board = Board::get()->byID($boardID);
         if ($board && $submittedWord === strtolower($board->CorrectWord)) {
             $response['isCorrect'] = true;
-            $response['message'] = 'You guessed the correct word!';
-        } else {
-            $response['message'] = 'Not the correct word.';
+            $response['message'] = $board->CorrectWord;
         }
 
         // Set the HTTP response headers and encode the response as JSON
@@ -119,3 +126,12 @@ class WordBankController extends PageController
         return json_encode($response);
     }
 }
+
+
+//if ($board->getGuesses() < 6) {
+//    $newGuess = new Guess();
+//    $newGuess->Guess = 'your-guess-word';
+//    $newGuess->write();
+//
+//    $board->Guesses()->add($newGuess);
+//}

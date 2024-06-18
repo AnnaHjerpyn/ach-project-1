@@ -16,7 +16,7 @@ class Board extends DataObject
     ];
 
     private static $has_many = [
-        'Row' => Te::class,
+        'Guesses' => Guess::class,
     ];
 
     private static $summary_fields = [
@@ -25,21 +25,21 @@ class Board extends DataObject
         'GameState' => 'GameState',
     ];
 
+    public function getGuesses(){
+        return $this->Guesses()->count();
+    }
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
         $fields->removeByName([
-            'SortOrder',
-            'CorrectWord',
             'GameState',
-            'Row',
+            'SortOrder',
         ]);
 
         $fields->addFieldsToTab('Root.Main', [
             TextField::create('CorrectWord', 'CorrectWord'),
-            TextField::create('Game State', 'Game State'),
-
         ]);
 
         return $fields;

@@ -12,9 +12,9 @@ function App() {
     const [boardID, setBoardID] = useState("");
 
     useEffect(() => {
-        async function fetchRandomSolutionAndBoardID() {
+        async function  setBoard() {
             try {
-                const response = await fetch('/word-bank/random');
+                const response = await fetch('/word-bank/board');
                 if (!response.ok) {
                     throw new Error('Failed to fetch random solution');
                 }
@@ -25,7 +25,7 @@ function App() {
                 console.error('Error fetching solution:', error);
             }
         }
-        fetchRandomSolutionAndBoardID();
+        setBoard();
     }, []);
 
     return (
