@@ -15,13 +15,13 @@ class WordBankController extends PageController
     private static $allowed_actions = [
         'getRandomWord',
         'checkDatabase',
-        'getRandomSolutionAndBoardID'
+        'setBoard'
     ];
 
     private static $url_handlers = [
-        'random' => 'getRandomSolutionAndBoardID',
+        'board' => 'setBoard',
         'checkDatabase' => 'checkDatabase',
-        '$ID' => 'getGame'
+        '$ID' => 'getBoard'
     ];
 
     protected function init()
@@ -29,7 +29,7 @@ class WordBankController extends PageController
         parent::init();
     }
 
-    protected function getGame() {
+    protected function getBoard() {
         $boardID = $this->request->param('ID');
         $board = Board::get()->byID($boardID);
         return $board;
@@ -59,7 +59,7 @@ class WordBankController extends PageController
         return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
-    public function getRandomSolutionAndBoardID()
+    public function setBoard()
     {
         // Select a random word from the WordBank as the correct word for this session
         $randomWord = $this->getRandomSolutionWord();
