@@ -10,12 +10,11 @@ class Board extends DataObject
     private static $table_name = 'Board';
 
     private static $db = [
-        'BoardID' => 'Int',
         'CorrectWord' => 'Varchar(255)',
     ];
 
     private static $summary_fields = [
-        'BoardID' => 'BoardID',
+        'ID' => 'Board ID',
         'CorrectWord' => 'CorrectWord'
     ];
 
@@ -26,11 +25,9 @@ class Board extends DataObject
         $fields->removeByName([
             'SortOrder',
             'CorrectWord',
-            'BoardID',
         ]);
 
         $fields->addFieldsToTab('Root.Main', [
-            TextField::create('BoardID', 'BoardID'),
             TextField::create('CorrectWord', 'CorrectWord'),
         ]);
 

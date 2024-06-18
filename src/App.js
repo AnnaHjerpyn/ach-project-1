@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../themes/ach-custom/css/src/Components/_app.scss';
-import {createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import Board from "../themes/ach-custom/javascript/components/Board";
 import ThemeToggle from "./ThemeToggle";
-import {ThemeProvider} from "./ThemeContext";
+import { ThemeProvider } from "./ThemeContext";
 
 const root = createRoot(document.getElementById("root"));
 
 function App() {
     const [solution, setSolution] = useState("");
+    const [boardID, setBoardID] = useState("");
 
     useEffect(() => {
-        async function getRandomWord() {
+        async function fetchRandomSolutionAndBoardID() {
             try {
                 const response = await fetch('/word-bank/random');
                 if (!response.ok) {
@@ -19,19 +20,20 @@ function App() {
                 }
                 const data = await response.json();
                 setSolution(data.solution);
+                setBoardID(data.boardID);
             } catch (error) {
                 console.error('Error fetching solution:', error);
             }
         }
-        getRandomWord();
+        fetchRandomSolutionAndBoardID();
     }, []);
 
     return (
         <ThemeProvider>
             <div className="App">
                 <h1>Wordle</h1>
-                <ThemeToggle/>
-                <Board solution={solution}/>
+                <ThemeToggle />
+                <Board solution={solution} boardID={boardID} />
             </div>
         </ThemeProvider>
     );

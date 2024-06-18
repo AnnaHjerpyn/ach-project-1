@@ -15,28 +15,28 @@ class WordBankController extends PageController
     private static $allowed_actions = [
         'getRandomWord',
         'checkDatabase',
+        'getRandomSolutionAndBoardID'
     ];
 
     private static $url_handlers = [
-        'random' => 'getRandomWord',
+        'random' => 'getRandomSolutionAndBoardID',
         'checkDatabase' => 'checkDatabase',
+        '$ID' => 'getGame'
     ];
 
     protected function init()
     {
         parent::init();
-        // Select a random word from the WordBank as the correct word for this session
-        $this->correctWord = $this->getRandomSolutionWord();
-        // Update the correct word to the SW db each round
-        // Save the correct word to the SolutionWord database
-//        $log = Board::get_by_id();
-//        $log->Word = $this->correctWord;
-//        $log->write();
+    }
+
+    protected function getGame() {
+        $boardID = $this->request->param('ID');
+        $board = Board::get()->byID($boardID);
+        return $board;
     }
 
     protected function getRandomSolutionWord()
     {
-
         // Fetch the minimum and maximum IDs
         $minID = 263;
         $maxID = WordBank::get()->count();
@@ -59,11 +59,17 @@ class WordBankController extends PageController
         return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
-    public function getRandomWord()
+    public function getRandomSolutionAndBoardID()
     {
+        // Select a random word from the WordBank as the correct word for this session
         $randomWord = $this->getRandomSolutionWord();
+        // Create a new Board entry
+        $board = new Board();
+        $board->CorrectWord = $randomWord;
+        $board->write();
+
         $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $randomWord]));
+        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
         return $response;
     }
 
@@ -76,24 +82,36 @@ class WordBankController extends PageController
             'message' => ''
         ];
 
-        if ($request->isPOST()) {
-            $submittedWord = strtolower($request->getBody());
-            $submittedWord = json_decode($submittedWord);
-
-            // Check if the word exists in the WordBank
-            $wordExists = WordBank::get()->filter('Word', $submittedWord->word)->first();
-
-            if ($wordExists) {
-                $response['isValidWord'] = true;
-                if ($submittedWord === Board::get()->last()) {
-                    $response['isCorrect'] = true;
-                    $response['message'] = 'You guessed the correct word!';
-                } else {
-                    $response['message'] = 'Not in word list';
-                }
-            }
-        } else {
+        if (!$request->isPOST()) {
             $response['message'] = 'No POST data received.';
+            $this->getResponse()->addHeader('Content-Type', 'application/json');
+            return json_encode($response);
+        }
+
+        // Process the POST request data
+        $submittedData = json_decode($request->getBody(), true);
+        $submittedWord = strtolower($submittedData['Word']);
+        $boardID = $submittedData['BoardID'];
+
+        // Check if the word exists in the WordBank
+        $wordExists = WordBank::get()->filter('Word', $submittedWord)->first();
+
+        if (!$wordExists) {
+            $response['message'] = 'Not in word list.';
+            $this->getResponse()->addHeader('Content-Type', 'application/json');
+            return json_encode($response);
+        }
+
+        // If word exists, mark it as a valid word
+        $response['isValidWord'] = true;
+
+        // Check if the submitted word matches the correct word for the board
+        $board = Board::get()->byID($boardID);
+        if ($board && $submittedWord === strtolower($board->CorrectWord)) {
+            $response['isCorrect'] = true;
+            $response['message'] = 'You guessed the correct word!';
+        } else {
+            $response['message'] = 'Not the correct word.';
         }
 
         // Set the HTTP response headers and encode the response as JSON
