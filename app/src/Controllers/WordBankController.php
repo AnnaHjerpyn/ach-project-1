@@ -44,6 +44,10 @@ class WordBankController extends PageController
         return $response;
     }
 
+    /*
+     * getBoard function: grabs the Board object by its boardID
+     * returns that Board object with its Row and current guesses
+     */
     protected function getBoard()
     {
         // Want to get the Board object based on its ID
@@ -55,13 +59,43 @@ class WordBankController extends PageController
     }
 
     /*
+     * Handles the updating of the Board's
+     * guesses and game state
+     */
+    protected function updateBoard(){
+        // Retrieve the current Board being played
+        $board = $this->getBoard();
+        // Checks to see if the Board has less than 6 guesses
+        if ($board->getGuesses() < 6) {
+            // Creates a new Guess object
+            $newGuess = new Guess();
+            // Pass the new Guess of the user input
+            $newGuess->Guess = 'your-guess-word';
+            // Save the Guess to the DB
+            $newGuess->write();
+            // Save the Guess to the Board's Guesses
+            $board->Guesses()->add($newGuess);
+        } // think of an else-statement
+
+
+
+    }
+
+    /*
+     * Handles the deletion of a Board object
+     */
+    protected function deleteBoard(){
+
+    }
+
+    /*
      * Helper function to randomize the Word Bank
      * @return - a randomly retrieved word <3
      */
     protected function getRandomSolutionWord()
     {
         // Fetch the minimum and maximum IDs
-        $minID = 263;
+        $minID = 263; // TODO: this should be 1 but the DB starts at 263 :o
         $maxID = WordBank::get()->count();
 
         if ($minID === null || $maxID === null) {
@@ -82,6 +116,11 @@ class WordBankController extends PageController
         return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
+    /*
+     * Helper function to check if the word is in
+     * the word bank (valid), the board's solution word (isCorrect),
+     * or is not in the word bank (invalid)
+     */
     public function checkDatabase(HTTPRequest $request)
     {
         // Initialize response array
@@ -126,12 +165,3 @@ class WordBankController extends PageController
         return json_encode($response);
     }
 }
-
-
-//if ($board->getGuesses() < 6) {
-//    $newGuess = new Guess();
-//    $newGuess->Guess = 'your-guess-word';
-//    $newGuess->write();
-//
-//    $board->Guesses()->add($newGuess);
-//}
