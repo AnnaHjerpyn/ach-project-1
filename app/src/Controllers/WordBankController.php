@@ -69,23 +69,34 @@ class WordBankController extends PageController
         if ($board->getGuesses() < 6) {
             // Creates a new Guess object
             $newGuess = new Guess();
+
             // Pass the new Guess of the user input
             $newGuess->Guess = 'your-guess-word';
+
             // Save the Guess to the DB
             $newGuess->write();
+
             // Save the Guess to the Board's Guesses
             $board->Guesses()->add($newGuess);
-        } // think of an else-statement
 
+        } else { // This means the Board has more than 6 guesses
 
+            // Output a Modal that allows user to restart
+            // TODO: I'll add the Modal here later <3
 
+            // Set the Board's game state to finished
+            $board->GameState = 1;
+        }
     }
 
     /*
      * Handles the deletion of a Board object
      */
     protected function deleteBoard(){
-
+        // Retrieve the Board
+        $board = $this->getBoard();
+        // Does this function actually delete it ??
+        $board->delete();
     }
 
     /*
