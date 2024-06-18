@@ -3,6 +3,7 @@
 namespace AnnaHjerpyn\Custom\Controllers;
 
 use AnnaHjerpyn\Custom\Models\Board;
+use AnnaHjerpyn\Custom\Models\Guess;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\View\ArrayData;
@@ -15,13 +16,16 @@ class WordBankController extends PageController
     private static $allowed_actions = [
         'getRandomWord',
         'checkDatabase',
-        'setBoard'
+        'setBoard',
+        'getBoard',
+        'updateBoard'
     ];
 
     private static $url_handlers = [
         'board' => 'setBoard',
         'checkDatabase' => 'checkDatabase',
-        '$ID' => 'getBoard'
+        'board/$ID' => 'getBoard',
+        'updateBoard' => 'updateBoard'
     ];
 
     protected function init()
@@ -33,76 +37,83 @@ class WordBankController extends PageController
     {
         // Select a random word from the WordBank as the correct word for this session
         $randomWord = $this->getRandomSolutionWord();
+
         // Create a new Board entry
         $board = new Board();
-        $guessCount = $board->getGuesses();
         $board->CorrectWord = $randomWord;
         $board->write();
 
+        // Package it up yup
         $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
         $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
         return $response;
     }
 
-    /*
-     * getBoard function: grabs the Board object by its boardID
-     * returns that Board object with its Row and current guesses
-     */
     protected function getBoard()
     {
         // Want to get the Board object based on its ID
         $boardID = $this->request->param('ID');
+
         // We got it :O
         $board = Board::get()->byID($boardID);
+
         // Now return that Board object !!
         return $board;
     }
 
-    /*
-     * Handles the updating of the Board's
-     * guesses and game state
-     */
-    protected function updateBoard(){
+    protected function updateBoard(HTTPRequest $request)
+    {
         // Retrieve the current Board being played
         $board = $this->getBoard();
+
+        // Retrieve the user's guess from the request
+        $userGuess = $this->getUserGuess($request);
+
         // Checks to see if the Board has less than 6 guesses
-        if ($board->getGuesses() < 6) {
+        if ($board->getGuesses()->count() < 6) {
             // Creates a new Guess object
             $newGuess = new Guess();
-
-            // Pass the new Guess of the user input
-            $newGuess->Guess = 'your-guess-word';
+            $newGuess->Guess = $userGuess;
+            $newGuess->BoardID = $board->ID;
 
             // Save the Guess to the DB
             $newGuess->write();
 
             // Save the Guess to the Board's Guesses
             $board->Guesses()->add($newGuess);
-
         } else { // This means the Board has more than 6 guesses
-
             // Output a Modal that allows user to restart
             // TODO: I'll add the Modal here later <3
 
             // Set the Board's game state to finished
             $board->GameState = 1;
         }
+
+        // Return the updated board as JSON response
+        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
+        $response->setBody(json_encode($board->toMap()));
+        return $response;
     }
 
-    /*
-     * Handles the deletion of a Board object
-     */
-    protected function deleteBoard(){
+    protected function deleteBoard()
+    {
         // Retrieve the Board
         $board = $this->getBoard();
+
         // Does this function actually delete it ??
         $board->delete();
     }
 
-    /*
-     * Helper function to randomize the Word Bank
-     * @return - a randomly retrieved word <3
-     */
+    protected function getUserGuess(HTTPRequest $request)
+    {
+        // Process the POST request data
+        $submittedData = json_decode($request->getBody(), true);
+        $submittedWord = strtolower($submittedData['Word']);
+
+        // Return the submitted word -- current guess
+        return $submittedWord;
+    }
+
     protected function getRandomSolutionWord()
     {
         // Fetch the minimum and maximum IDs
@@ -127,11 +138,6 @@ class WordBankController extends PageController
         return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
-    /*
-     * Helper function to check if the word is in
-     * the word bank (valid), the board's solution word (isCorrect),
-     * or is not in the word bank (invalid)
-     */
     public function checkDatabase(HTTPRequest $request)
     {
         // Initialize response array
