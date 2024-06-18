@@ -15,30 +15,87 @@ class WordBankController extends PageController
     private static $allowed_actions = [
         'getRandomWord',
         'checkDatabase',
+        'setBoard'
     ];
 
     private static $url_handlers = [
-        'random' => 'getRandomWord',
+        'board' => 'setBoard',
         'checkDatabase' => 'checkDatabase',
+        '$ID' => 'getBoard'
     ];
 
     protected function init()
     {
         parent::init();
-        // Select a random word from the WordBank as the correct word for this session
-        $this->correctWord = $this->getRandomSolutionWord();
-        // Update the correct word to the SW db each round
-        // Save the correct word to the SolutionWord database
-//        $log = Board::get_by_id();
-//        $log->Word = $this->correctWord;
-//        $log->write();
     }
 
+    public function setBoard()
+    {
+        // Select a random word from the WordBank as the correct word for this session
+        $randomWord = $this->getRandomSolutionWord();
+        // Create a new Board entry
+        $board = new Board();
+        $guessCount = $board->getGuesses();
+        $board->CorrectWord = $randomWord;
+        $board->write();
+
+        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
+        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
+        return $response;
+    }
+
+    /*
+     * getBoard function: grabs the Board object by its boardID
+     * returns that Board object with its Row and current guesses
+     */
+    protected function getBoard()
+    {
+        // Want to get the Board object based on its ID
+        $boardID = $this->request->param('ID');
+        // We got it :O
+        $board = Board::get()->byID($boardID);
+        // Now return that Board object !!
+        return $board;
+    }
+
+    /*
+     * Handles the updating of the Board's
+     * guesses and game state
+     */
+    protected function updateBoard(){
+        // Retrieve the current Board being played
+        $board = $this->getBoard();
+        // Checks to see if the Board has less than 6 guesses
+        if ($board->getGuesses() < 6) {
+            // Creates a new Guess object
+            $newGuess = new Guess();
+            // Pass the new Guess of the user input
+            $newGuess->Guess = 'your-guess-word';
+            // Save the Guess to the DB
+            $newGuess->write();
+            // Save the Guess to the Board's Guesses
+            $board->Guesses()->add($newGuess);
+        } // think of an else-statement
+
+
+
+    }
+
+    /*
+     * Handles the deletion of a Board object
+     */
+    protected function deleteBoard(){
+
+    }
+
+    /*
+     * Helper function to randomize the Word Bank
+     * @return - a randomly retrieved word <3
+     */
     protected function getRandomSolutionWord()
     {
-
         // Fetch the minimum and maximum IDs
-        $minID = 263;
+        $minID = 263; // TODO: this should be 1 but the DB starts at 263 :o
         $maxID = WordBank::get()->count();
 
         if ($minID === null || $maxID === null) {
@@ -59,14 +116,11 @@ class WordBankController extends PageController
         return !is_null($randomWord) ? $randomWord->Word : '';
     }
 
-    public function getRandomWord()
-    {
-        $randomWord = $this->getRandomSolutionWord();
-        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $randomWord]));
-        return $response;
-    }
-
+    /*
+     * Helper function to check if the word is in
+     * the word bank (valid), the board's solution word (isCorrect),
+     * or is not in the word bank (invalid)
+     */
     public function checkDatabase(HTTPRequest $request)
     {
         // Initialize response array
@@ -76,24 +130,34 @@ class WordBankController extends PageController
             'message' => ''
         ];
 
-        if ($request->isPOST()) {
-            $submittedWord = strtolower($request->getBody());
-            $submittedWord = json_decode($submittedWord);
-
-            // Check if the word exists in the WordBank
-            $wordExists = WordBank::get()->filter('Word', $submittedWord->word)->first();
-
-            if ($wordExists) {
-                $response['isValidWord'] = true;
-                if ($submittedWord === Board::get()->last()) {
-                    $response['isCorrect'] = true;
-                    $response['message'] = 'You guessed the correct word!';
-                } else {
-                    $response['message'] = 'Not in word list';
-                }
-            }
-        } else {
+        if (!$request->isPOST()) {
             $response['message'] = 'No POST data received.';
+            $this->getResponse()->addHeader('Content-Type', 'application/json');
+            return json_encode($response);
+        }
+
+        // Process the POST request data
+        $submittedData = json_decode($request->getBody(), true);
+        $submittedWord = strtolower($submittedData['Word']);
+        $boardID = $submittedData['BoardID'];
+
+        // Check if the word exists in the WordBank
+        $wordExists = WordBank::get()->filter('Word', $submittedWord)->first();
+
+        if (!$wordExists) {
+            $response['message'] = 'Not in word list';
+            $this->getResponse()->addHeader('Content-Type', 'application/json');
+            return json_encode($response);
+        }
+
+        // If word exists, mark it as a valid word
+        $response['isValidWord'] = true;
+
+        // Check if the submitted word matches the correct word for the board
+        $board = Board::get()->byID($boardID);
+        if ($board && $submittedWord === strtolower($board->CorrectWord)) {
+            $response['isCorrect'] = true;
+            $response['message'] = $board->CorrectWord;
         }
 
         // Set the HTTP response headers and encode the response as JSON

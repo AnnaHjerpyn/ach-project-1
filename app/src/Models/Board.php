@@ -2,6 +2,7 @@
 
 namespace AnnaHjerpyn\Custom\Models;
 
+use League\Csv\Query\Row;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 
@@ -10,27 +11,34 @@ class Board extends DataObject
     private static $table_name = 'Board';
 
     private static $db = [
-        'BoardID' => 'Int',
         'CorrectWord' => 'Varchar(255)',
+        'GameState' => 'Int',
+    ];
+
+    private static $has_many = [
+        'Guesses' => Guess::class,
     ];
 
     private static $summary_fields = [
-        'BoardID' => 'BoardID',
-        'CorrectWord' => 'CorrectWord'
+        'ID' => 'Board ID',
+        'CorrectWord' => 'CorrectWord',
+        'GameState' => 'GameState',
     ];
+
+    public function getGuesses(){
+        return $this->Guesses()->count();
+    }
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
         $fields->removeByName([
+            'GameState',
             'SortOrder',
-            'CorrectWord',
-            'BoardID',
         ]);
 
         $fields->addFieldsToTab('Root.Main', [
-            TextField::create('BoardID', 'BoardID'),
             TextField::create('CorrectWord', 'CorrectWord'),
         ]);
 

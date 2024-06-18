@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 const getGuess = (solution) => {
     const [turn, setTurn] = useState(0);
@@ -11,7 +11,7 @@ const getGuess = (solution) => {
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
         let formattedGuess = [...currentGuess].map((l) => {
-            return {key: l, color: 'grey'};
+            return { key: l, color: 'grey' };
         });
 
         // find any green letters
@@ -99,7 +99,7 @@ const getGuess = (solution) => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput};
+    return { turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput };
 };
 
 export default getGuess;
