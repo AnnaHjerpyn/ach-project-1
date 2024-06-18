@@ -24,7 +24,7 @@ class WordBankController extends PageController
     private static $url_handlers = [
         'board' => 'setBoard',
         'checkDatabase' => 'checkDatabase',
-        'board/$ID' => 'getBoard',
+        '$ID' => 'getBoard',
         'updateBoard' => 'updateBoard'
     ];
 
@@ -52,7 +52,7 @@ class WordBankController extends PageController
     protected function getBoard()
     {
         // Want to get the Board object based on its ID
-        $boardID = $this->request->param('ID');
+        $boardID = $this->getRequest()->param('ID');
 
         // We got it :O
         $board = Board::get()->byID($boardID);

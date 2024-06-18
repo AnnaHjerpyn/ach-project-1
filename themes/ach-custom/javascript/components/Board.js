@@ -12,13 +12,13 @@ function Board() {
     } = useGameLogic();
 
     return (<>
-            <h1>Board ID: {boardID}</h1>
-            <div className="board-container">
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn}/>
-            </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-            {showToast && <ToastMessage message={message}/>}
-        </>);
+        <h1>Board ID: {boardID}</h1>
+        <div className="board-container">
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn}/>
+        </div>
+        <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
+        {showToast && <ToastMessage message={message}/>}
+    </>);
 }
 
 export default Board;
