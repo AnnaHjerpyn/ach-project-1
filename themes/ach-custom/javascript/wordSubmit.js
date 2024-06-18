@@ -1,35 +1,56 @@
-(function ($) {
-    $(function () {
-        submitGuess = (word) => {
-            $.ajax({
-                type: "POST",
-                url: "/word-bank/random",
-                contentType: "application/json",
-                data: JSON.stringify({Word: word}),
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                },
-                success: function (response) {
-                    console.log('Guess submitted successfully:', response);
-                }
-            });
-        };
+export async function createBoard() {
+    const response = await fetch('/word-bank/board', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
-})(jQuery);
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to create board.');
+    }
+    return data;
+}
 
-// export function fetchRandomWord() {
-//     return fetch("/word-bank")
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response error.');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             return data.solution;
-//         })
-//         .catch(error => {
-//             console.error('Error fetching random word:', error);
-//             throw error;
-//         });
-// }
+export async function checkDatabase(currentGuess, boardID) {
+    const response = await fetch('/word-bank/checkDatabase', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ Word: currentGuess, BoardID: boardID })
+    });
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to check.');
+    }
+    return data;
+}
+
+export async function updateBoardWithGuess(boardID, guess) {
+    const response = await fetch(`/word-bank/board/${boardID}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ newGuess: guess })
+    });
+    if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to update board.');
+    }
+}
+
+export async function updateGameState(boardID, gameState) {
+    const response = await fetch(`/word-bank/board/${boardID}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ gameState })
+    });
+    if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to update game state.');
+    }
+}
