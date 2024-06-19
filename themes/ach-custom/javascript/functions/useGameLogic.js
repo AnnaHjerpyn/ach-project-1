@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {createBoard, checkDatabase, updateBoardWithGuess, updateGameState} from '../wordSubmit';
+import {checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 
 export function useGameLogic() {
@@ -19,7 +19,7 @@ export function useGameLogic() {
             setShowToast(true);
 
             if (boardID) {
-                updateGameState(boardID, 1).catch(console.error);
+                updateBoardWithGuess(boardID, 1).catch(console.error);
             }
         }
     }, [isCorrect, turn, boardID]);
