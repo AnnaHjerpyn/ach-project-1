@@ -13,21 +13,6 @@ export function useGameLogic() {
     const [gameOver, setGameOver] = useState(false);
 
     useEffect(() => {
-        async function initializeBoard() {
-            try {
-                const data = await createBoard();
-                setSolution(data.solution);
-                setBoardID(data.boardID);
-            } catch (error) {
-                setMessage(error.message);
-                setShowToast(true);
-            }
-        }
-
-        initializeBoard();
-    }, []);
-
-    useEffect(() => {
         if (isCorrect || turn >= 6) {
             setGameOver(true);
             setMessage(isCorrect ? 'You guessed the correct word!' : 'You have used all your guesses.');
