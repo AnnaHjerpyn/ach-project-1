@@ -6,7 +6,6 @@ use AnnaHjerpyn\Custom\Models\Board;
 use AnnaHjerpyn\Custom\Models\Guess;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\View\ArrayData;
 use AnnaHjerpyn\Custom\Models\WordBank;
 
 class WordBankController extends PageController
@@ -22,10 +21,10 @@ class WordBankController extends PageController
     ];
 
     private static $url_handlers = [
-        'board' => 'setBoard',
-        'checkDatabase' => 'checkDatabase',
-        '$ID' => 'getBoard',
-        'updateBoard' => 'updateBoard'
+        'board'         => 'setBoard',
+        'board/$ID'     => 'getBoard',
+        'update'  => 'updateBoard',
+        'check'   => 'checkDatabase',
     ];
 
     protected function init()
@@ -49,11 +48,11 @@ class WordBankController extends PageController
         return $response;
     }
 
-    protected function getBoard()
+    public function getBoard()
     {
 
         // Want to get the Board object based on its ID from POST request
-        $boardID = $this->getRequest()->postVar('boardID');
+        $boardID = $this->getRequest()->param('ID');
 
         // We got it :O
         $board = Board::get()->byID($boardID);
@@ -64,10 +63,12 @@ class WordBankController extends PageController
         return $response;
     }
 
-    protected function updateBoard(HTTPRequest $request)
+    public function updateBoard(HTTPRequest $request)
     {
         // Retrieve the current Board being played
-        $board = $this->getBoard();
+        $submittedData = json_decode($request->getBody(), true);
+        $boardID = $submittedData['BoardID'];
+        $board = Board::get_by_id($boardID);
 
         // Retrieve the user's guess from the request
         $userGuess = $this->getUserGuess($request);
@@ -98,13 +99,12 @@ class WordBankController extends PageController
         return $response;
     }
 
-    protected function deleteBoard()
+    public function deleteBoard()
     {
         // Retrieve the Board
         $board = $this->getBoard();
 
         // Does this function actually delete it ??
-        $board->delete();
     }
 
     protected function getUserGuess(HTTPRequest $request)
@@ -117,7 +117,7 @@ class WordBankController extends PageController
         return $submittedWord;
     }
 
-    protected function getRandomSolutionWord()
+    public function getRandomSolutionWord()
     {
         // Fetch the minimum and maximum IDs
         $minID = 263; // TODO: this should be 1 but the DB starts at 263 :o

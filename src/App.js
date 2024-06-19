@@ -17,16 +17,13 @@ function App() {
     useEffect(() => {
         async function fetchBoard() {
             // The query string of the current URL
-            const params = new URLSearchParams(location.search);
+            let boardID = sessionStorage.getItem('boardID');
             // Gets the boardID from the parameters
-            let boardID = params.get('boardID');
-
             console.log("Current boardID from URL:", boardID);
-
             // If there isn't one... then we make a new board
             if (!boardID) {
                 // No boardID in URL, create a new board
-                const response = await fetch('/word-bank/board', {
+                const response = await fetch('/home/board', {
                     method: 'POST'
                 });
                 if (!response.ok) {
@@ -34,15 +31,15 @@ function App() {
                     return;
                 }
                 const data = await response.json();
+                sessionStorage.setItem('boardID', data.boardID);
                 console.log("New board created with ID:", data.boardID);
                 // Set the solution and board id
                 setSolution(data.solution);
                 // Instead of setting the state and then navigating, directly navigate with the new ID
-                navigate(`word-bank/board/?boardID=${data.boardID}`, {replace: true});
                 setBoardID(data.boardID);  // Update state after navigation
             } else {  // Means there is an existing board
                 // Fetch existing board
-                const response = await fetch(`/word-bank/board/${boardID}`);
+                const response = await fetch(`/home/getBoard/${boardID}`);
                 if (!response.ok) {
                     console.error('Failed to fetch board');
                     return;

@@ -1,3 +1,4 @@
+# app/_config/routes.yml
 ---
 Name: approutes
 After:
@@ -6,6 +7,4 @@ After:
 ---
 SilverStripe\Control\Director:
   rules:
-    'word-bank': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
-    'word-bank/$Action': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
-    'word-bank/$Action/$ID': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
+    'home': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
