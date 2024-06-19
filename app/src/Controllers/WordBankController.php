@@ -51,14 +51,17 @@ class WordBankController extends PageController
 
     protected function getBoard()
     {
-        // Want to get the Board object based on its ID
-        $boardID = $this->getRequest()->param('ID');
+
+        // Want to get the Board object based on its ID from POST request
+        $boardID = $this->getRequest()->postVar('boardID');
 
         // We got it :O
         $board = Board::get()->byID($boardID);
+        $correctWord = $board->CorrectWord;
 
-        // Now return that Board object !!
-        return $board;
+        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
+        $response->setBody(json_encode(['solution' => $correctWord, 'boardID' => $board->ID]));
+        return $response;
     }
 
     protected function updateBoard(HTTPRequest $request)
