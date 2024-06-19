@@ -3,11 +3,13 @@ import Grid from "./Grid";
 import Keyboard from "./Keyboard";
 import ToastMessage from "./ToastMessage";
 import {useGameLogic} from '../functions/useGameLogic';
+import {boar} from "yarn/lib/cli";
 
-function Board() {
+function Board({boardID}) {
+
     const {
-        boardID, guesses, currentGuess, turn, isCorrect, usedKeys, handleKeyInput, message, showToast
-    } = useGameLogic();
+        guesses, currentGuess, turn, isCorrect, usedKeys, handleKeyInput, message, showToast
+    } = useGameLogic(boardID);
 
     return (
         <>

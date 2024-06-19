@@ -2,9 +2,8 @@ import {useEffect, useState} from 'react';
 import {checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 
-export function useGameLogic() {
+export function useGameLogic(boardID) {
     const [solution, setSolution] = useState("");
-    const [boardID, setBoardID] = useState(null);
     const {
         currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess
     } = getGuess(solution);
@@ -28,10 +27,8 @@ export function useGameLogic() {
         async function handleDatabaseCheck() {
             try {
                 const data = await checkDatabase(currentGuess, boardID);
-                if (data.isValidWord) {
-                    const formatted = formatGuess(currentGuess, solution);
-                    addNewGuess(formatted);
-                    await updateBoardWithGuess(boardID, formatted);
+                if (!data.isCorrect) {
+                    await updateBoardWithGuess(boardID, currentGuess);
                 } else {
                     setMessage('Word is not in the list.');
                     setShowToast(true);
