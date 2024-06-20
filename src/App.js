@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import '../themes/ach-custom/css/src/Components/_app.scss';
 import {createRoot} from "react-dom/client";
-import {useLocation, redirect, useNavigate} from 'react-router-dom';
 import Board from "../themes/ach-custom/javascript/components/Board";
 import ThemeToggle from "./ThemeToggle";
 import {ThemeProvider} from "./ThemeContext";
-import {Toast} from "react-bootstrap";
-import ToastMessage from "../themes/ach-custom/javascript/components/ToastMessage";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -14,10 +11,12 @@ function App() {
     const [solution, setSolution] = useState("");
     const [boardID, setBoardID] = useState("");
     const [gameState, setGameState] = useState(false);
-    const location = useLocation();
-    const navigate = useNavigate();
 
     useEffect(() => {
+        function newGame(boardID) {
+
+        }
+
         async function fetchBoard() {
             // The query string of the current URL
             let boardID = sessionStorage.getItem('boardID');
@@ -60,21 +59,8 @@ function App() {
                 setBoardID(data.boardID);
             }
         }
-
-        function newGame(boardID) {
-            // Then call the fetchBoard function
-            boardID++;
-            fetchBoard();
-        }
-
-
-        fetchBoard();
-    }, [location.search, navigate]);
-
-
-
-
-
+        fetchBoard()
+    }, []);
 
     return (
         <ThemeProvider>
