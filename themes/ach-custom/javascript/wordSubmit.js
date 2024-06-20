@@ -18,7 +18,7 @@ export async function checkDatabase(currentGuess, boardID) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Word: currentGuess, BoardID: boardID })
+        body: JSON.stringify({Word: currentGuess, BoardID: boardID})
     });
     const data = await response.json();
     if (!response.ok) {
@@ -27,17 +27,25 @@ export async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-export async function updateBoardWithGuess(boardID, guess) {
-    const response = await fetch(`/home/update`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ newGuess: guess })
-    });
-    if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Failed to update board.');
+// wordSubmit.js
+
+export async function updateBoardWithGuess(boardID, newGuess) {
+    try {
+        const response = await fetch(`/home/update`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({boardID, newGuess})
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update board.');
+        }
+
+        return await response.json(); // or handle response as needed
+    } catch (error) {
+        throw new Error(error.message);
     }
 }
 
