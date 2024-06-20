@@ -17,6 +17,10 @@ class Guess extends DataObject
         'Board' => Board::class,
     ];
 
+    private static $summary_fields = [
+        'Guess' => 'Guess',
+    ];
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

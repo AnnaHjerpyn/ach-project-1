@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import {useState, useCallback} from 'react';
 
 const getGuess = (solution) => {
     const [turn, setTurn] = useState(0);
@@ -11,7 +11,7 @@ const getGuess = (solution) => {
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
         let formattedGuess = [...currentGuess].map((l) => {
-            return { key: l, color: 'grey' };
+            return {key: l, color: 'grey'};
         });
 
         // find any green letters
@@ -33,42 +33,44 @@ const getGuess = (solution) => {
         return formattedGuess;
     }, [currentGuess, solution]);
 
-    const addNewGuess = useCallback((formattedGuess) => {
+    const addNewGuess = useCallback(() => {
+        const formattedGuess = formatGuess();
+
         if (currentGuess === solution) {
             setIsCorrect(true);
         }
+
         setGuesses((prevGuesses) => {
             let newGuesses = [...prevGuesses];
             newGuesses[turn] = formattedGuess;
             return newGuesses;
         });
-        setHistory((prevHistory) => {
-            return [...prevHistory, currentGuess];
-        });
-        setTurn((prevTurn) => {
-            return prevTurn + 1;
-        });
+
+        setHistory((prevHistory) => [...prevHistory, currentGuess]);
+        setTurn((prevTurn) => prevTurn + 1);
+
         setUsedKeys((prevUsedKeys) => {
+            let newUsedKeys = {...prevUsedKeys};
             formattedGuess.forEach((l) => {
-                const currentColor = prevUsedKeys[l.key];
+                const currentColor = newUsedKeys[l.key];
 
                 if (l.color === 'green') {
-                    prevUsedKeys[l.key] = 'green';
+                    newUsedKeys[l.key] = 'green';
                     return;
                 }
                 if (l.color === 'yellow' && currentColor !== 'green') {
-                    prevUsedKeys[l.key] = 'yellow';
+                    newUsedKeys[l.key] = 'yellow';
                     return;
                 }
                 if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
-                    prevUsedKeys[l.key] = 'grey';
+                    newUsedKeys[l.key] = 'grey';
                 }
             });
-
-            return prevUsedKeys;
+            return newUsedKeys;
         });
+
         setCurrentGuess('');
-    }, [currentGuess, turn, solution]);
+    }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback((key) => {
         if (key === 'Enter') {
@@ -84,8 +86,7 @@ const getGuess = (solution) => {
                 console.log('No more than 5 letters');
                 return;
             }
-            const formatted = formatGuess();
-            addNewGuess(formatted);
+            addNewGuess();
         } else if (key === 'Backspace') {
             setCurrentGuess((prev) => prev.slice(0, -1));
         } else if (/^[A-Za-z]$/.test(key)) {
@@ -93,13 +94,13 @@ const getGuess = (solution) => {
                 setCurrentGuess((prev) => prev + key);
             }
         }
-    }, [turn, currentGuess, history, formatGuess, addNewGuess]);
+    }, [turn, currentGuess, history, addNewGuess]);
 
     const handleKeyup = useCallback((event) => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return { turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput };
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess};
 };
 
 export default getGuess;

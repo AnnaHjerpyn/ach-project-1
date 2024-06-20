@@ -18,7 +18,7 @@ export async function checkDatabase(currentGuess, boardID) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Word: currentGuess, BoardID: boardID })
+        body: JSON.stringify({Word: currentGuess, BoardID: boardID})
     });
     const data = await response.json();
     if (!response.ok) {
@@ -27,17 +27,39 @@ export async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-export async function updateBoardWithGuess(boardID, guess) {
-    const response = await fetch(`/home/update`, {
-        method: 'PUT',
+export async function fetchGuesses(boardID) {
+    const response = await fetch('/home/getGuesses', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ newGuess: guess })
+        body: JSON.stringify({BoardID: boardID})
     });
+    const data = await response.json();
+    console.log("Guesses:", data);
     if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Failed to update board.');
+        throw new Error(data.message || 'Failed to check.');
+    }
+    return data;
+}
+
+export async function updateBoardWithGuess(boardID, newGuess) {
+    try {
+        const response = await fetch(`/home/update`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({boardID, newGuess})
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update board.');
+        }
+
+        return await response.json(); // or handle response as needed
+    } catch (error) {
+        throw new Error(error.message);
     }
 }
 
