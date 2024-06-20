@@ -27,8 +27,6 @@ export async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-// wordSubmit.js
-
 export async function updateBoardWithGuess(boardID, newGuess) {
     try {
         const response = await fetch(`/home/update`, {

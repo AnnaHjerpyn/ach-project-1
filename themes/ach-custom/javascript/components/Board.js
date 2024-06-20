@@ -13,6 +13,7 @@ function Board({boardID}) {
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [isValidWord, setValidWord] = useState("");
 
     // Fetch solution when boardID changes
     useEffect(() => {
@@ -36,23 +37,18 @@ function Board({boardID}) {
         async function updateBoard() {
             try {
                 // Check if the game is over
-                if (isCorrect || turn >= 6) {
+                if (isCorrect) {
                     setGameOver(true);
                     setMessage(isCorrect ? 'You guessed the correct word!' : 'You have used all your guesses.');
                     setShowToast(true);
-
-                    // Update board with final guess
-                    if (boardID && currentGuess) {
-                        await updateBoardWithGuess(boardID, currentGuess);
-                    }
                 } else if (currentGuess.length === 5) {
                     // Check if the current guess length is 5
                     try {
                         const data = await checkDatabase(currentGuess, boardID);
-                        if (data.valid) {
+                        console.log(data.isValidWord);
+                        if (data.isValidWord) {
                             // Update local state with the new guess
                             addNewGuess();
-
                             // Update board with valid guess status
                             await updateBoardWithGuess(boardID, {guess: currentGuess, status: 'valid'});
                         } else {
@@ -73,8 +69,6 @@ function Board({boardID}) {
                 setShowToast(true);
             }
         }
-
-        updateBoard();
 
         // Event listener for Enter key
         function handleEnterKey(event) {

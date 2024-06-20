@@ -5,12 +5,15 @@ import {useLocation, redirect, useNavigate} from 'react-router-dom';
 import Board from "../themes/ach-custom/javascript/components/Board";
 import ThemeToggle from "./ThemeToggle";
 import {ThemeProvider} from "./ThemeContext";
+import {Toast} from "react-bootstrap";
+import ToastMessage from "../themes/ach-custom/javascript/components/ToastMessage";
 
 const root = createRoot(document.getElementById("root"));
 
 function App() {
     const [solution, setSolution] = useState("");
     const [boardID, setBoardID] = useState("");
+    const [gameState, setGameState] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -46,6 +49,11 @@ function App() {
                 }
                 const data = await response.json();
                 console.log("Fetched board data:", data);
+                // Check if it's already finished before we repopulate
+                if (data.finished) {
+                    // TODO: Needs to handle doing a NEW game
+                    newGame(data.boardID);
+                }
                 // Set the Board's solution word
                 setSolution(data.solution);
                 // Set the Board's ID
@@ -53,8 +61,20 @@ function App() {
             }
         }
 
+        function newGame(boardID) {
+            // Then call the fetchBoard function
+            boardID++;
+            fetchBoard();
+        }
+
+
         fetchBoard();
     }, [location.search, navigate]);
+
+
+
+
+
 
     return (
         <ThemeProvider>

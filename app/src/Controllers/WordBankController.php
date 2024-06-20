@@ -57,9 +57,10 @@ class WordBankController extends PageController
         // We got it :O
         $board = Board::get()->byID($boardID);
         $correctWord = $board->CorrectWord;
+        $gameState = $board->GameState;
 
         $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $correctWord, 'boardID' => $board->ID]));
+        $response->setBody(json_encode(['solution' => $correctWord, 'boardID' => $board->ID, 'finished'=> $gameState]));
         return $response;
     }
 
@@ -67,18 +68,24 @@ class WordBankController extends PageController
     {
         // Retrieve the current Board being played
         $submittedData = json_decode($request->getBody(), true);
-        $boardID = $submittedData['BoardID'];
+        $boardID = $submittedData['boardID'];
+        // Sets Board object
         $board = Board::get_by_id($boardID);
-
         // Retrieve the user's guess from the request
-        $userGuess = $this->getUserGuess($request);
+        $userGuess = $submittedData['newGuess'];
 
         // Checks to see if the Board has less than 6 guesses
-        if ($board->getGuesses()->count() < 6) {
+        if ($board->getGuesses() < 6) {
             // Creates a new Guess object
             $newGuess = new Guess();
             $newGuess->Guess = $userGuess;
             $newGuess->BoardID = $board->ID;
+
+            // Want to check if the new guess is the correct word
+            if ($newGuess === $board->CorrectWord){
+                $board->GameState = 1;
+                $board->write();
+            }
 
             // Save the Guess to the DB
             $newGuess->write();
