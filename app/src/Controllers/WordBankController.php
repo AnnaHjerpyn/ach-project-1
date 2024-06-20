@@ -21,10 +21,10 @@ class WordBankController extends PageController
     ];
 
     private static $url_handlers = [
-        'board'         => 'setBoard',
-        'board/$ID'     => 'getBoard',
-        'update'  => 'updateBoard',
-        'check'   => 'checkDatabase',
+        'board' => 'setBoard',
+        'board/$ID' => 'getBoard',
+        'update' => 'updateBoard',
+        'check' => 'checkDatabase',
     ];
 
     protected function init()
@@ -86,18 +86,25 @@ class WordBankController extends PageController
             // Save the Guess to the Board's Guesses
             $board->Guesses()->add($newGuess);
         } else { // This means the Board has more than 6 guesses
-            // Output a Modal that allows user to restart
-            // TODO: I'll add the Modal here later <3
 
             // Set the Board's game state to finished
             $board->GameState = 1;
+            $board->write();
+
+            // Output a Modal that allows user to restart
+            // TODO: I'll add the Modal here later <3
         }
 
-        // Return the updated board as JSON response
-        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode($board->toMap()));
-        return $response;
+        // Return a response to the client
+        $response = [
+            'status' => 'success',
+            'message' => 'Board updated successfully.',
+            'board' => $board
+        ];
+
+        return json_encode($response);
     }
+
 
     public function deleteBoard()
     {
