@@ -17,7 +17,8 @@ class WordBankController extends PageController
         'checkDatabase',
         'setBoard',
         'getBoard',
-        'updateBoard'
+        'updateBoard',
+        'getGuesses'
     ];
 
     private static $url_handlers = [
@@ -25,6 +26,7 @@ class WordBankController extends PageController
         'board/$ID' => 'getBoard',
         'update' => 'updateBoard',
         'check' => 'checkDatabase',
+        'getGuesses' => 'getGuesses'
     ];
 
     protected function init()
@@ -121,14 +123,22 @@ class WordBankController extends PageController
         // Does this function actually delete it ??
     }
 
-    protected function getUserGuess(HTTPRequest $request)
+    public function getGuesses(HTTPRequest $request)
     {
-        // Process the POST request data
+        // Retrieve the current Board being played
         $submittedData = json_decode($request->getBody(), true);
-        $submittedWord = strtolower($submittedData['Word']);
+        $boardID = $submittedData['boardID'];
 
-        // Return the submitted word -- current guess
-        return $submittedWord;
+        // Fetch guesses associated with the board
+        $guesses = Guess::get()->filter('BoardID', $boardID);
+
+        // Prepare response data
+        $response = [
+            'guesses' => $guesses->toArray()
+        ];
+
+        $this->getResponse()->addHeader('Content-Type', 'application/json');
+        return json_encode($response);
     }
 
     public function getRandomSolutionWord()

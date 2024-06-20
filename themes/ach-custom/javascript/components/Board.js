@@ -13,7 +13,6 @@ function Board({boardID}) {
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
-    const [isValidWord, setValidWord] = useState("");
 
     // Fetch solution when boardID changes
     useEffect(() => {
@@ -32,38 +31,39 @@ function Board({boardID}) {
         }
     }, [boardID]);
 
-    // Update board logic based on game state changes
     useEffect(() => {
         async function updateBoard() {
             try {
                 // Check if the game is over
                 if (isCorrect) {
                     setGameOver(true);
-                    setMessage(isCorrect ? 'You guessed the correct word!' : 'You have used all your guesses.');
+                    setMessage('You guessed the correct word!');
                     setShowToast(true);
                 } else if (currentGuess.length === 5) {
                     // Check if the current guess length is 5
-                    try {
-                        const data = await checkDatabase(currentGuess, boardID);
-                        console.log(data.isValidWord);
-                        if (data.isValidWord) {
-                            // Update local state with the new guess
-                            addNewGuess();
-                            // Update board with valid guess status
-                            await updateBoardWithGuess(boardID, {guess: currentGuess, status: 'valid'});
-                        } else {
-                            // Handle invalid word case
-                            setMessage('Word is not in the list.');
-                            setShowToast(true);
+                    let updatedGuesses = guesses; // Initialize updated guesses
+
+                    // Check if there are existing guesses to add
+                    if (updatedGuesses > 0) {
+                        // Loop through existing guesses and add them
+                        for (let i = 0; i < updatedGuesses; i++) {
+                            await updateBoardWithGuess(boardID, {guess: guesses[i], status: 'valid'});
                         }
-                    } catch (error) {
-                        // Handle database check error
-                        setMessage(error.message);
+                    }
+
+                    // Now proceed with the normal update logic
+                    const data = await checkDatabase(currentGuess, boardID);
+                    if (data.isValidWord) {
+                        // Update board with valid guess status
+                        await updateBoardWithGuess(boardID, {guess: currentGuess, status: 'valid'});
+                    } else {
+                        // Handle invalid word case
+                        setMessage('Word is not in the list.');
                         setShowToast(true);
                     }
                 }
             } catch (error) {
-                // Handle updateBoard error
+                // Handle errors
                 console.error('Failed to update board:', error);
                 setMessage('Failed to update board.');
                 setShowToast(true);
@@ -81,7 +81,8 @@ function Board({boardID}) {
         return () => {
             window.removeEventListener('keydown', handleEnterKey);
         };
-    }, [isCorrect, turn, boardID, currentGuess, addNewGuess, gameOver]);
+    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver]);
+
 
     // Event listener for keyup
     useEffect(() => {
