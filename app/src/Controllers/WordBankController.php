@@ -95,7 +95,7 @@ class WordBankController extends PageController
             $newGuess->BoardID = $board->ID;
 
             // Want to check if the new guess is the correct word
-            if ($newGuess === $board->CorrectWord){
+            if ($newGuess->Guess === $board->CorrectWord){
                 $board->GameState = 1;
                 $board->write();
             }

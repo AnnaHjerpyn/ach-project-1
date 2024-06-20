@@ -21,9 +21,10 @@ function Board({boardID}) {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
                 setSolution(data.solution);
-                if (data.guessCount > 0) {
-                    setGuesses(data.guesses); // Populating the guesses IF THEY EXIST
-                }
+                // TODO: do I populate the guesses here
+                // for (let i = 0; i < data.guessCount; i++) {
+                //     setGuesses(data.guesses);
+                // }
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -38,17 +39,16 @@ function Board({boardID}) {
         async function updateBoard() {
             try {
                 // Check if the game is over
-                if (isCorrect) {
+                if (isCorrect || turn >= 6) {
                     setGameOver(true);
                     setMessage('You guessed the correct word!');
                     setShowToast(true);
                 } else if (currentGuess.length === 5) {
-
                     // Now proceed with the normal update logic
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
                         // Update board with valid guess status
-                        await updateBoardWithGuess(boardID, {guess: currentGuess, status: 'valid'});
+                        await updateBoardWithGuess(boardID, currentGuess);
                     } else {
                         // Handle invalid word case
                         setMessage('Word is not in the list.');
