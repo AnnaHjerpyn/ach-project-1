@@ -27,21 +27,21 @@ export async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-export async function fetchGuesses(boardID) {
-    const response = await fetch('/home/getGuesses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({BoardID: boardID})
-    });
-    const data = await response.json();
-    console.log("Guesses:", data);
-    if (!response.ok) {
-        throw new Error(data.message || 'Failed to check.');
-    }
-    return data;
-}
+// export async function fetchGuesses(boardID) {
+//     const response = await fetch('/home/getGuesses', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({BoardID: boardID})
+//     });
+//     const data = await response.json();
+//     console.log("Guesses:", data);
+//     if (!response.ok) {
+//         throw new Error(data.message || 'Failed to check.');
+//     }
+//     return data;
+// }
 
 export async function updateBoardWithGuess(boardID, newGuess) {
     try {

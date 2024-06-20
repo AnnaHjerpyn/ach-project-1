@@ -100,7 +100,7 @@ const getGuess = (solution) => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess};
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess, setGuesses};
 };
 
 export default getGuess;

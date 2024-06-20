@@ -8,7 +8,7 @@ import getGuess from '../functions/getGuess';
 function Board({boardID}) {
     const [solution, setSolution] = useState("");
     const {
-        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess
+        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, setGuesses
     } = getGuess(solution);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
@@ -16,20 +16,23 @@ function Board({boardID}) {
 
     // Fetch solution when boardID changes
     useEffect(() => {
-        async function fetchSolution() {
+        async function fetchBoardData() {
             try {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
                 setSolution(data.solution);
+                if (data.guessCount > 0) {
+                    setGuesses(data.guesses); // Populating the guesses IF THEY EXIST
+                }
             } catch (error) {
-                console.error('Failed to fetch solution:', error);
+                console.error('Failed to fetch board data:', error);
             }
         }
 
         if (boardID) {
-            fetchSolution();
+            fetchBoardData();
         }
-    }, [boardID]);
+    }, [boardID, setGuesses]);
 
     useEffect(() => {
         async function updateBoard() {
@@ -40,16 +43,6 @@ function Board({boardID}) {
                     setMessage('You guessed the correct word!');
                     setShowToast(true);
                 } else if (currentGuess.length === 5) {
-                    // Check if the current guess length is 5
-                    let updatedGuesses = guesses; // Initialize updated guesses
-
-                    // Check if there are existing guesses to add
-                    if (updatedGuesses > 0) {
-                        // Loop through existing guesses and add them
-                        for (let i = 0; i < updatedGuesses; i++) {
-                            await updateBoardWithGuess(boardID, {guess: guesses[i], status: 'valid'});
-                        }
-                    }
 
                     // Now proceed with the normal update logic
                     const data = await checkDatabase(currentGuess, boardID);

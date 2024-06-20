@@ -18,7 +18,6 @@ class WordBankController extends PageController
         'setBoard',
         'getBoard',
         'updateBoard',
-        'getGuesses'
     ];
 
     private static $url_handlers = [
@@ -26,7 +25,6 @@ class WordBankController extends PageController
         'board/$ID' => 'getBoard',
         'update' => 'updateBoard',
         'check' => 'checkDatabase',
-        'getGuesses' => 'getGuesses'
     ];
 
     protected function init()
@@ -52,19 +50,32 @@ class WordBankController extends PageController
 
     public function getBoard()
     {
-
-        // Want to get the Board object based on its ID from POST request
+        // Get the Board object based on its ID from the URL
         $boardID = $this->getRequest()->param('ID');
-
-        // We got it :O
         $board = Board::get()->byID($boardID);
-        $correctWord = $board->CorrectWord;
-        $gameState = $board->GameState;
 
-        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $correctWord, 'boardID' => $board->ID, 'finished'=> $gameState]));
-        return $response;
+        // Fetch guesses associated with the board
+        $guesses = $board->Guesses();
+        $guessesArray = [];
+        if ($guesses->count() > 0) {
+            foreach ($guesses as $guess) {
+                $guessesArray[] = $guess->Guess;
+            }
+        }
+
+        // Prepare response data
+        $response = [
+            'solution' => $board->CorrectWord,
+            'boardID' => $board->ID,
+            'finished' => $board->GameState,
+            'guessCount' => count($guessesArray),
+            'guesses' => $guessesArray
+        ];
+
+        $this->getResponse()->addHeader('Content-Type', 'application/json');
+        return json_encode($response);
     }
+
 
     public function updateBoard(HTTPRequest $request)
     {
@@ -121,24 +132,6 @@ class WordBankController extends PageController
         $board = $this->getBoard();
 
         // Does this function actually delete it ??
-    }
-
-    public function getGuesses(HTTPRequest $request)
-    {
-        // Retrieve the current Board being played
-        $submittedData = json_decode($request->getBody(), true);
-        $boardID = $submittedData['boardID'];
-
-        // Fetch guesses associated with the board
-        $guesses = Guess::get()->filter('BoardID', $boardID);
-
-        // Prepare response data
-        $response = [
-            'guesses' => $guesses->toArray()
-        ];
-
-        $this->getResponse()->addHeader('Content-Type', 'application/json');
-        return json_encode($response);
     }
 
     public function getRandomSolutionWord()
