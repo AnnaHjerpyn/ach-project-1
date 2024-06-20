@@ -8,8 +8,8 @@ import getGuess from '../functions/getGuess';
 function Board({boardID}) {
     const [solution, setSolution] = useState("");
     const {
-        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, setGuesses
-    } = getGuess(solution);
+        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess
+    } = getGuess(solution, boardID);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
@@ -21,10 +21,11 @@ function Board({boardID}) {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
                 setSolution(data.solution);
-                // TODO: do I populate the guesses here
-                // for (let i = 0; i < data.guessCount; i++) {
-                //     setGuesses(data.guesses);
-                // }
+                // TODO: Do I populate the guesses here
+                for (let i = 0; i < data.guessCount; i++) {
+                    data.guessCount;
+
+                }
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -33,7 +34,7 @@ function Board({boardID}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses]);
+    }, [boardID]);
 
     useEffect(() => {
         async function updateBoard() {
