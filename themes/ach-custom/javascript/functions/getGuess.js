@@ -8,7 +8,6 @@ const getGuess = (solution, boardID) => {
     const [history, setHistory] = useState([]); // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
-    const [previousGuess] = useState("");
 
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
@@ -107,7 +106,7 @@ const getGuess = (solution, boardID) => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess, previousGuess };
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess, formatGuess };
 };
 
 export default getGuess;

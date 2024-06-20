@@ -8,7 +8,7 @@ import getGuess from '../functions/getGuess';
 function Board({boardID}) {
     const [solution, setSolution] = useState("");
     const {
-        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess
+        currentGuess, guesses, setGuesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess, formatGuess
     } = getGuess(solution, boardID);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
@@ -21,11 +21,17 @@ function Board({boardID}) {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
                 setSolution(data.solution);
-                // TODO: Do I populate the guesses here
-                for (let i = 0; i < data.guessCount; i++) {
-                    data.guessCount;
 
+                // // TODO: Do I populate the guesses here
+                // for (let i = 0; i < data.guessCount; i++) {
+                //     let oldGuess = data.guesses[i];
+                //     console.log(oldGuess);
+                // }
+                let oldGuesses = [...Array(6)];
+                for (let i = 0; i < data.guessCount; i++) {
+                    oldGuesses[i] = data.guesses[i];
                 }
+                setGuesses(oldGuesses);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -52,7 +58,7 @@ function Board({boardID}) {
                         await updateBoardWithGuess(boardID, currentGuess);
                     } else {
                         // Handle invalid word case
-                        setMessage('Word is not in the list.');
+                        setMessage('Word is not in list');
                         setShowToast(true);
                     }
                 }
