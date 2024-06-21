@@ -57,9 +57,12 @@ class WordBankController extends PageController
         // Fetch guesses associated with the board
         $guesses = $board->Guesses();
         $guessesArray = [];
+        $usedKeys = [];
+
         if ($guesses->count() > 0) {
             foreach ($guesses as $guess) {
                 $guessesArray[] = $guess->Guess;
+                $this->updateUsedKeys($usedKeys, $guess->Guess, $board->CorrectWord);
             }
         }
 
@@ -69,13 +72,46 @@ class WordBankController extends PageController
             'boardID' => $board->ID,
             'finished' => $board->GameState,
             'guessCount' => count($guessesArray),
-            'guesses' => $guessesArray
+            'guesses' => $guessesArray,
+            'usedKeys' => $usedKeys
         ];
 
         $this->getResponse()->addHeader('Content-Type', 'application/json');
         return json_encode($response);
     }
 
+    private function updateUsedKeys(&$usedKeys, $guess, $correctWord)
+    {
+        $correctWordArray = str_split($correctWord);
+        $guessArray = str_split($guess);
+
+        // First pass to find 'green' keys
+        foreach ($guessArray as $i => $letter) {
+            if ($correctWordArray[$i] === $letter) {
+                $usedKeys[$letter] = 'green';
+                $correctWordArray[$i] = null; // Nullify the matched letter
+            }
+        }
+
+        // Second pass to find 'yellow' and 'grey' keys
+        foreach ($guessArray as $i => $letter) {
+            if (!isset($usedKeys[$letter])) {
+                if (in_array($letter, $correctWordArray)) {
+                    $usedKeys[$letter] = 'yellow';
+                    $correctWordArray[array_search($letter, $correctWordArray)] = null; // Nullify the matched letter
+                } else {
+                    $usedKeys[$letter] = 'grey';
+                }
+            } else if ($usedKeys[$letter] !== 'green') {
+                if (in_array($letter, $correctWordArray)) {
+                    $usedKeys[$letter] = 'yellow';
+                    $correctWordArray[array_search($letter, $correctWordArray)] = null; // Nullify the matched letter
+                } else {
+                    $usedKeys[$letter] = 'grey';
+                }
+            }
+        }
+    }
 
     public function updateBoard(HTTPRequest $request)
     {
@@ -95,7 +131,7 @@ class WordBankController extends PageController
             $newGuess->BoardID = $board->ID;
 
             // Want to check if the new guess is the correct word
-            if ($newGuess->Guess === $board->CorrectWord){
+            if ($newGuess->Guess === $board->CorrectWord) {
                 $board->GameState = 1;
                 $board->write();
             }

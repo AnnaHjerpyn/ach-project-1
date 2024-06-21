@@ -106,7 +106,22 @@ const getGuess = (solution, boardID) => {
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
-    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup, handleKeyInput, addNewGuess, formatGuess };
+    return {
+        turn,
+        currentGuess,
+        guesses,
+        isCorrect,
+        usedKeys,
+        handleKeyup,
+        handleKeyInput,
+        addNewGuess,
+        formatGuess,
+        setGuesses,
+        setHistory,
+        setTurn,
+        setIsCorrect,
+        setUsedKeys
+    };
 };
 
 export default getGuess;

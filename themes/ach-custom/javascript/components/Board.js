@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
-import {checkDatabase, updateBoardWithGuess} from '../wordSubmit';
+import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 
-function Board({boardID}) {
+function Board({ boardID }) {
     const [solution, setSolution] = useState("");
     const {
-        currentGuess, guesses, setGuesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess, formatGuess
+        currentGuess, guesses, setGuesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess, formatGuess, setHistory, setTurn, setIsCorrect, setUsedKeys
     } = getGuess(solution, boardID);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
-    // Fetch solution when boardID changes
+    // Fetch solution and previous guesses when boardID changes
     useEffect(() => {
         async function fetchBoardData() {
             try {
@@ -22,16 +22,25 @@ function Board({boardID}) {
                 const data = await response.json();
                 setSolution(data.solution);
 
-                // // TODO: Do I populate the guesses here
+                // Populate the guesses here
+                let oldGuesses = [...Array(6)].map(() => Array(5).fill(''));
                 // for (let i = 0; i < data.guessCount; i++) {
-                //     let oldGuess = data.guesses[i];
-                //     console.log(oldGuess);
+                //     oldGuesses[i] = data.guesses[i].split('').map((char) => ({ key: char, color: 'grey' })); // Ensure each guess is an array of letters
                 // }
-                let oldGuesses = [...Array(6)];
-                for (let i = 0; i < data.guessCount; i++) {
-                    oldGuesses[i] = data.guesses[i];
+                for (let i = 0; i < data.guesses.length; i++) {
+                    oldGuesses[i] = data.guesses[i].split('').map((char) => ({
+                        key: char,
+                        color: usedKeys[char]
+                    }));
                 }
+                console.log(oldGuesses);
                 setGuesses(oldGuesses);
+
+                // Set history, turn, and used keys
+                setHistory(data.guesses || []);
+                setTurn(data.guessCount || 0);
+                setIsCorrect(data.finished || false);
+                setUsedKeys(data.usedKeys || {});
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -40,7 +49,7 @@ function Board({boardID}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID]);
+    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys]);
 
     useEffect(() => {
         async function updateBoard() {
@@ -83,7 +92,6 @@ function Board({boardID}) {
         };
     }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver]);
 
-
     // Event listener for keyup
     useEffect(() => {
         window.addEventListener('keyup', handleKeyup);
@@ -93,10 +101,10 @@ function Board({boardID}) {
     return (
         <>
             <div className="board-container">
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn}/>
+                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
             </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-            {showToast && <ToastMessage message={message}/>}
+            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} />
+            {showToast && <ToastMessage message={message} />}
         </>
     );
 }
