@@ -13,10 +13,6 @@ function App() {
     const [gameState, setGameState] = useState(false);
 
     useEffect(() => {
-        function newGame(boardID) {
-
-        }
-
         async function fetchBoard() {
             // The query string of the current URL
             let boardID = sessionStorage.getItem('boardID');
@@ -58,6 +54,12 @@ function App() {
                 // Set the Board's ID
                 setBoardID(data.boardID);
             }
+        }
+        function newGame(boardID) {
+            sessionStorage.removeItem('boardID');
+            setBoardID('');
+            setSolution('');
+            fetchBoard();
         }
         fetchBoard()
     }, []);

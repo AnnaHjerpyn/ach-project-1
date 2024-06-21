@@ -6,25 +6,56 @@ import {checkDatabase, updateBoardWithGuess} from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 
 function Board({boardID}) {
-    const [solution, setSolution] = useState("");
+    const [solution, setSolution] = useState('');
     const {
-        currentGuess, guesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, setGuesses
-    } = getGuess(solution);
-    const [message, setMessage] = useState("");
+        currentGuess,
+        guesses,
+        setGuesses,
+        turn,
+        isCorrect,
+        handleKeyup,
+        usedKeys,
+        handleKeyInput,
+        setHistory,
+        setTurn,
+        setIsCorrect,
+        setUsedKeys,
+    } = getGuess(solution, boardID);
+    const [message, setMessage] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
 
-    // Fetch solution when boardID changes
+    // Fetch solution and previous guesses when boardID changes
     useEffect(() => {
         async function fetchBoardData() {
             try {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
                 setSolution(data.solution);
-                // TODO: do I populate the guesses here
-                // for (let i = 0; i < data.guessCount; i++) {
-                //     setGuesses(data.guesses);
-                // }
+
+                // Populate the guesses here
+                let oldGuesses = [...Array(6)].map(() => Array(5).fill(''));
+                // Mapping that for Grid <3
+                for (let i = 0; i < data.guesses.length; i++) {
+                    oldGuesses[i] = data.guesses[i].split('').map((char) => {
+                        const color = data.usedKeys[char];
+                        return {
+                            key: char, color: color,
+                        };
+                    });
+                }
+
+                setGuesses(oldGuesses);
+
+                // Set history, turn, and used keys
+                setHistory(data.guesses || []);
+                setTurn(data.guessCount || 0);
+                setIsCorrect(data.finished || false);
+                setUsedKeys(data.usedKeys || {});
+
+                // Example logic to determine if word is valid
+                setIsValidWord(data.isValidWord || false);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -33,7 +64,7 @@ function Board({boardID}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses]);
+    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys]);
 
     useEffect(() => {
         async function updateBoard() {
@@ -47,12 +78,15 @@ function Board({boardID}) {
                     // Now proceed with the normal update logic
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
+                        // Set valid word to true
+                        setIsValidWord(true);
                         // Update board with valid guess status
                         await updateBoardWithGuess(boardID, currentGuess);
                     } else {
                         // Handle invalid word case
-                        setMessage('Word is not in the list.');
+                        setMessage('Word is not in list');
                         setShowToast(true);
+                        setIsValidWord(false); // Set isValidWord to false for invalid word
                     }
                 }
             } catch (error) {
@@ -76,22 +110,19 @@ function Board({boardID}) {
         };
     }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver]);
 
-
     // Event listener for keyup
     useEffect(() => {
         window.addEventListener('keyup', handleKeyup);
         return () => window.removeEventListener('keyup', handleKeyup);
     }, [handleKeyup]);
 
-    return (
-        <>
-            <div className="board-container">
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn}/>
-            </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-            {showToast && <ToastMessage message={message}/>}
-        </>
-    );
+    return (<>
+        <div className="board-container">
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}/>
+        </div>
+        <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
+        {showToast && <ToastMessage message={message}/>}
+    </>);
 }
 
 export default Board;
