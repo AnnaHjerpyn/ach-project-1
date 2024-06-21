@@ -7,6 +7,8 @@ import getGuess from '../functions/getGuess';
 
 function Board({boardID}) {
     const [solution, setSolution] = useState('');
+    const [gameOver, setGameOver] = useState(false);
+
     const {
         currentGuess,
         guesses,
@@ -20,11 +22,13 @@ function Board({boardID}) {
         setTurn,
         setIsCorrect,
         setUsedKeys,
+        setIsValidWord,
+        isValidWord,
+        message,
+        showToast,
+        setMessage,
+        setShowToast
     } = getGuess(solution, boardID);
-    const [message, setMessage] = useState('');
-    const [showToast, setShowToast] = useState(false);
-    const [gameOver, setGameOver] = useState(false);
-    const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
 
     // Fetch solution and previous guesses when boardID changes
     useEffect(() => {
@@ -53,9 +57,7 @@ function Board({boardID}) {
                 setTurn(data.guessCount || 0);
                 setIsCorrect(data.finished || false);
                 setUsedKeys(data.usedKeys || {});
-
-                // Example logic to determine if word is valid
-                setIsValidWord(data.isValidWord || false);
+                setIsValidWord(true);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -64,7 +66,7 @@ function Board({boardID}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys]);
+    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys, setIsValidWord, setMessage, setShowToast]);
 
     useEffect(() => {
         async function updateBoard() {

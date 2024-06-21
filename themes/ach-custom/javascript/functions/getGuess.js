@@ -8,6 +8,9 @@ const getGuess = (solution, boardID) => {
     const [history, setHistory] = useState([]); // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
+    const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
+    const [message, setMessage] = useState('');
+    const [showToast, setShowToast] = useState(false);
 
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
@@ -74,24 +77,37 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback(async (key) => {
-        const data = await checkDatabase(currentGuess, boardID);
+        setIsValidWord(true); // Reset isValidWord to true before checking
+
         if (key === 'Enter') {
             if (turn > 5) {
-                console.log('Already guessed 6 times.');
+                setIsValidWord(false);
+                setMessage('Already guessed 6 times.'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
             if (history.includes(currentGuess)) {
-                console.log('Word has already been used');
+                setIsValidWord(false);
+                setMessage('Word has already been used'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
             if (currentGuess.length !== 5) {
-                console.log('No more than 5 letters');
+                setIsValidWord(false);
+                setMessage('Not enough letters'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
+
+            const data = await checkDatabase(currentGuess, boardID);
+
             if (!data.isValidWord) {
-                console.log('Word is not in list');
+                setIsValidWord(false); // Set isValidWord to false for invalid word
+                setMessage('Word is not in list'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
+
             addNewGuess();
         } else if (key === 'Backspace') {
             setCurrentGuess((prev) => prev.slice(0, -1));
@@ -100,7 +116,7 @@ const getGuess = (solution, boardID) => {
                 setCurrentGuess((prev) => prev + key);
             }
         }
-    }, [turn, currentGuess, history, addNewGuess]);
+    }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast]);
 
     const handleKeyup = useCallback((event) => {
         handleKeyInput(event.key);
@@ -120,7 +136,13 @@ const getGuess = (solution, boardID) => {
         setHistory,
         setTurn,
         setIsCorrect,
-        setUsedKeys
+        setUsedKeys,
+        setIsValidWord,
+        isValidWord,
+        message,
+        setMessage,
+        showToast,
+        setShowToast
     };
 };
 

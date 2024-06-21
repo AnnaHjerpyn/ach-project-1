@@ -97,25 +97,30 @@
 }
 
 @keyframes shake {
-    0% {
-        transform: translateX(0);
+    10%,
+    90% {
+        transform: translateX(-1px);
     }
-    25% {
-        transform: translateX(-5px);
+
+    20%,
+    80% {
+        transform: translateX(2px);
     }
-    50% {
-        transform: translateX(5px);
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-4px);
     }
-    75% {
-        transform: translateX(-5px);
-    }
-    100% {
-        transform: translateX(0);
+
+    40%,
+    60% {
+        transform: translateX(4px);
     }
 }
 
-.row-container.current.invalid-word > div {
-    animation: shake 0.5s ease-in-out;
+.row-container.invalid-word {
+    animation: shake 600ms ease-in-out;
 }
 
 body[data-theme='dark'] .row-container > div {
