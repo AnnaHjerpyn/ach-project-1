@@ -66,6 +66,13 @@ class WordBankController extends PageController
             }
         }
 
+        // Prepare game statistics
+        $stats = [
+            'correctWord' => $board->CorrectWord,
+            'totalGuesses' => $board->Guesses()->count(),
+            'correctGuesses' => $board->Guesses()->filter('Guess', $board->CorrectWord)->count(),
+        ];
+
         // Prepare response data
         $response = [
             'solution' => $board->CorrectWord,
@@ -73,7 +80,8 @@ class WordBankController extends PageController
             'finished' => $board->GameState,
             'guessCount' => count($guessesArray),
             'guesses' => $guessesArray,
-            'usedKeys' => $usedKeys
+            'usedKeys' => $usedKeys,
+            'stats' => $stats
         ];
 
         $this->getResponse()->addHeader('Content-Type', 'application/json');
