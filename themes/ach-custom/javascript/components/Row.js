@@ -1,11 +1,10 @@
 import React from 'react';
 import '../../css/src/Components/_row.scss';
 
-function Row({guess, currentGuess}) {
-
+function Row({guess, currentGuess, isValidWord}) {
     if (guess) {
         return (
-            <div className="row-container past">
+            <div className={`row-container past`}>
                 {guess.map((l, i) => (
                     <div key={i} className={l.color}>{l.key}</div>
                 ))}
@@ -17,7 +16,7 @@ function Row({guess, currentGuess}) {
         let letters = currentGuess.split('');
 
         return (
-            <div className="row-container current">
+            <div className={`row-container current ${isValidWord ? '' : 'invalid-word'}`}>
                 {letters.map((letter, i) => (
                     <div key={i} className="filled">{letter}</div>
                 ))}

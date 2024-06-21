@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
-import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
+import {checkDatabase, updateBoardWithGuess} from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 
-function Board({ boardID }) {
-    const [solution, setSolution] = useState("");
+function Board({boardID}) {
+    const [solution, setSolution] = useState('');
     const {
-        currentGuess, guesses, setGuesses, turn, isCorrect, handleKeyup, usedKeys, handleKeyInput, addNewGuess, formatGuess, setHistory, setTurn, setIsCorrect, setUsedKeys
+        currentGuess,
+        guesses,
+        setGuesses,
+        turn,
+        isCorrect,
+        handleKeyup,
+        usedKeys,
+        handleKeyInput,
+        setHistory,
+        setTurn,
+        setIsCorrect,
+        setUsedKeys,
     } = getGuess(solution, boardID);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
 
     // Fetch solution and previous guesses when boardID changes
     useEffect(() => {
@@ -29,13 +41,11 @@ function Board({ boardID }) {
                     oldGuesses[i] = data.guesses[i].split('').map((char) => {
                         const color = data.usedKeys[char];
                         return {
-                            key: char,
-                            color: color
+                            key: char, color: color,
                         };
                     });
                 }
 
-                console.log(oldGuesses);
                 setGuesses(oldGuesses);
 
                 // Set history, turn, and used keys
@@ -43,6 +53,9 @@ function Board({ boardID }) {
                 setTurn(data.guessCount || 0);
                 setIsCorrect(data.finished || false);
                 setUsedKeys(data.usedKeys || {});
+
+                // Example logic to determine if word is valid
+                setIsValidWord(data.isValidWord || false);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -65,12 +78,15 @@ function Board({ boardID }) {
                     // Now proceed with the normal update logic
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
+                        // Set valid word to true
+                        setIsValidWord(true);
                         // Update board with valid guess status
                         await updateBoardWithGuess(boardID, currentGuess);
                     } else {
                         // Handle invalid word case
                         setMessage('Word is not in list');
                         setShowToast(true);
+                        setIsValidWord(false); // Set isValidWord to false for invalid word
                     }
                 }
             } catch (error) {
@@ -100,15 +116,13 @@ function Board({ boardID }) {
         return () => window.removeEventListener('keyup', handleKeyup);
     }, [handleKeyup]);
 
-    return (
-        <>
-            <div className="board-container">
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
-            </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} />
-            {showToast && <ToastMessage message={message} />}
-        </>
-    );
+    return (<>
+        <div className="board-container">
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}/>
+        </div>
+        <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
+        {showToast && <ToastMessage message={message}/>}
+    </>);
 }
 
 export default Board;
