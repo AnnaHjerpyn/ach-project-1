@@ -16,7 +16,6 @@ function Row({guess, currentGuess, isValidWord}) {
 
     if (currentGuess) {
         let letters = currentGuess.split('');
-        console.log('isValidWord in Row component:', isValidWord);
 
         return (
             <div className={`row-container current ${isValidWord ? '' : 'invalid-word'}`}>

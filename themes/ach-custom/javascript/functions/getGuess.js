@@ -81,22 +81,27 @@ const getGuess = (solution, boardID) => {
 
         if (key === 'Enter') {
             if (turn > 5) {
-                console.log('Already guessed 6 times.');
+                setIsValidWord(false);
+                setMessage('Already guessed 6 times.'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
             if (history.includes(currentGuess)) {
-                console.log('Word has already been used');
+                setIsValidWord(false);
+                setMessage('Word has already been used'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
             if (currentGuess.length !== 5) {
-                console.log('No more than 5 letters');
+                setIsValidWord(false);
+                setMessage('Not enough letters'); // Set toast message
+                setShowToast(true); // Display the toast
                 return;
             }
 
             const data = await checkDatabase(currentGuess, boardID);
 
             if (!data.isValidWord) {
-                console.log('Word is not in list');
                 setIsValidWord(false); // Set isValidWord to false for invalid word
                 setMessage('Word is not in list'); // Set toast message
                 setShowToast(true); // Display the toast
