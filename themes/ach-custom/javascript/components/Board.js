@@ -24,15 +24,17 @@ function Board({ boardID }) {
 
                 // Populate the guesses here
                 let oldGuesses = [...Array(6)].map(() => Array(5).fill(''));
-                // for (let i = 0; i < data.guessCount; i++) {
-                //     oldGuesses[i] = data.guesses[i].split('').map((char) => ({ key: char, color: 'grey' })); // Ensure each guess is an array of letters
-                // }
+                // Mapping that for Grid <3
                 for (let i = 0; i < data.guesses.length; i++) {
-                    oldGuesses[i] = data.guesses[i].split('').map((char) => ({
-                        key: char,
-                        color: usedKeys[char]
-                    }));
+                    oldGuesses[i] = data.guesses[i].split('').map((char) => {
+                        const color = data.usedKeys[char];
+                        return {
+                            key: char,
+                            color: color
+                        };
+                    });
                 }
+
                 console.log(oldGuesses);
                 setGuesses(oldGuesses);
 
