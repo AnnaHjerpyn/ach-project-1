@@ -53,9 +53,7 @@ function Board({boardID}) {
                 setTurn(data.guessCount || 0);
                 setIsCorrect(data.finished || false);
                 setUsedKeys(data.usedKeys || {});
-
-                // Example logic to determine if word is valid
-                setIsValidWord(data.isValidWord || false);
+                setIsValidWord(true);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
