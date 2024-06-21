@@ -1,76 +1,84 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../themes/ach-custom/css/src/Components/_app.scss';
-import {createRoot} from "react-dom/client";
-import Board from "../themes/ach-custom/javascript/components/Board";
-import ThemeToggle from "./ThemeToggle";
-import {ThemeProvider} from "./ThemeContext";
+import { createRoot } from 'react-dom/client';
+import Board from '../themes/ach-custom/javascript/components/Board';
+import ThemeToggle from './ThemeToggle';
+import { ThemeProvider } from './ThemeContext';
+import ModalStats from '../themes/ach-custom/javascript/components/ModalStats';
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById('root'));
 
 function App() {
-    const [solution, setSolution] = useState("");
-    const [boardID, setBoardID] = useState("");
-    const [gameState, setGameState] = useState(false);
+    const [solution, setSolution] = useState('');
+    const [boardID, setBoardID] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [gameStats, setGameStats] = useState({});
 
     useEffect(() => {
         async function fetchBoard() {
-            // The query string of the current URL
             let boardID = sessionStorage.getItem('boardID');
-            // Gets the boardID from the parameters
-            console.log("Current boardID from URL:", boardID);
-            // If there isn't one... then we make a new board
+            console.log('Current boardID from URL:', boardID);
+
             if (!boardID) {
-                // No boardID in URL, create a new board
                 const response = await fetch('/home/board', {
-                    method: 'POST'
+                    method: 'POST',
                 });
                 if (!response.ok) {
                     console.error('Failed to create a new board');
+                    // Handle error state or feedback to the user
                     return;
                 }
                 const data = await response.json();
                 sessionStorage.setItem('boardID', data.boardID);
-                console.log("New board created with ID:", data.boardID);
-                // Set the solution and board id
+                console.log('New board created with ID:', data.boardID);
                 setSolution(data.solution);
-                // Instead of setting the state and then navigating, directly navigate with the new ID
-                setBoardID(data.boardID);  // Update state after navigation
-            } else {  // Means there is an existing board
-                // Fetch existing board
+                setBoardID(data.boardID);
+            } else {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 if (!response.ok) {
                     console.error('Failed to fetch board');
+                    // Handle error state or feedback to the user
                     return;
                 }
                 const data = await response.json();
-                console.log("Fetched board data:", data);
-                // Check if it's already finished before we repopulate
+                console.log('Fetched board data:', data);
                 if (data.finished) {
-                    // TODO: Needs to handle doing a NEW game
-                    newGame(data.boardID);
+                    setGameStats({
+                        correctWord: data.correctWord,
+                        totalGuesses: data.totalGuesses,
+                        correctGuesses: data.correctGuesses,
+                    });
+                    setShowModal(true);
+                    // TODO: Handle starting a new game if needed
+                    //newGame(data.boardID);
                 }
-                // Set the Board's solution word
                 setSolution(data.solution);
-                // Set the Board's ID
                 setBoardID(data.boardID);
             }
         }
+
         function newGame(boardID) {
             sessionStorage.removeItem('boardID');
             setBoardID('');
             setSolution('');
             fetchBoard();
         }
-        fetchBoard()
+
+        fetchBoard();
     }, []);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <ThemeProvider>
             <div className="App">
                 <h1>Wordle</h1>
-                <ThemeToggle/>
+                <ThemeToggle />
                 <h1>Board ID: {boardID}</h1>
-                <Board solution={solution} boardID={boardID}/>
+                <Board solution={solution} boardID={boardID} />
+                {showModal && <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} />}
             </div>
         </ThemeProvider>
     );
