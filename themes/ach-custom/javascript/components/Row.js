@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../css/src/Components/_row.scss';
 
-function Row({guess, currentGuess, isValidWord, isCorrect}) {
+function Row({guess, currentGuess, isValidWord}) {
 
 
     if (guess) {
         return (
-            <div className={`row-container past ${isCorrect ? 'win' : ''}`}>
+            <div className={`row-container past`}>
                 {guess.map((l, i) => (
                     <div key={i} className={l.color}>{l.key}</div>
                 ))}
@@ -30,7 +30,7 @@ function Row({guess, currentGuess, isValidWord, isCorrect}) {
     }
 
     return (
-        <div className="row-container">
+        <div className={`row-container ${isValidWord ? '' : 'invalid-word'}`}>
             <div></div>
             <div></div>
             <div></div>
