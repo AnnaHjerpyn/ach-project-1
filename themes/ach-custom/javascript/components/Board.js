@@ -120,7 +120,7 @@ function Board({boardID}) {
 
     return (<>
         <div className="board-container">
-            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}/>
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord} isCorrect = {isCorrect}/>
         </div>
         <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
         {showToast && <ToastMessage message={message}/>}
