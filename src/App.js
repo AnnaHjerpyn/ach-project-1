@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import '../themes/ach-custom/css/src/Components/_app.scss';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Board from '../themes/ach-custom/javascript/components/Board';
 import ThemeToggle from './ThemeToggle';
-import { ThemeProvider } from './ThemeContext';
+import {ThemeProvider} from './ThemeContext';
 import ModalStats from '../themes/ach-custom/javascript/components/ModalStats';
 
 const root = createRoot(document.getElementById('root'));
@@ -50,7 +50,7 @@ function App() {
                     });
                     setShowModal(true);
                     // TODO: Handle starting a new game if needed
-                    //newGame(data.boardID);
+                    newGame(data.boardID);
                 }
                 setSolution(data.solution);
                 setBoardID(data.boardID);
@@ -74,11 +74,15 @@ function App() {
     return (
         <ThemeProvider>
             <div className="App">
-                <h1>Wordle</h1>
-                <ThemeToggle />
-                <h1>Board ID: {boardID}</h1>
-                <Board solution={solution} boardID={boardID} />
-                {showModal && <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} />}
+                <nav className="navbar navbar-expand-sm fixed-top">
+                    <div className="container-fluid text-center">
+                        <div className="spacer"></div>
+                        <h1>Wordle</h1>
+                        <ThemeToggle/>
+                    </div>
+                </nav>
+                <Board solution={solution} boardID={boardID}/>
+                {showModal && <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal}/>}
             </div>
         </ThemeProvider>
     );

@@ -14,23 +14,62 @@ body {
 }
 
 .App {
+
     background-color: var(--color-background);
     min-height: 100vh;
     display: flex;
     margin: 0 auto;
+    padding: 3rem 12px 2rem 12px;
+    text-align: center;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
     overflow-y: hidden;
 
-    h1 {
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        color: var(--color-tone-1);
+        border-bottom: 1px solid var(--color-tone-4);
+        padding: 1rem 30px;
+        height: auto;
+        transition: .5s;
+
+        .spacer {
+            width: 32px;
+        }
+
+        h1 {
+            font-family: Futura, sans-serif;
+            font-weight: 700;
+            color: var(--color-text);
+            font-size: 28px;
+            letter-spacing: 0.01em;
+            text-align: center;
+            pointer-events: none;
+            position: relative;
+        }
+
+        @media screen and (max-width: 768px) {
+            padding: 1rem 0;
+        }
+
+        @media screen and (max-width: 575px) {
+            width: 100%;
+            display: inline-block;
+        }
+    }
+
+    h2 {
         font-family: Futura, sans-serif;
-        font-weight: 700;
+        font-weight: 600;
         color: var(--color-text);
-        font-size: 28px;
+        font-size: 24px;
         letter-spacing: 0.01em;
-        text-align: left;
         left: 0;
         right: 0;
         pointer-events: none;

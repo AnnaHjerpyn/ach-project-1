@@ -30,7 +30,7 @@ function Row({guess, currentGuess, isValidWord}) {
     }
 
     return (
-        <div className="row-container">
+        <div className={`row-container ${isValidWord ? '' : 'invalid-word'}`}>
             <div></div>
             <div></div>
             <div></div>
