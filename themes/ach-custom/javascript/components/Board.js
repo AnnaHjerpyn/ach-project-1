@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
@@ -9,10 +9,7 @@ import getGuess from '../functions/getGuess';
 function Board({boardID, onRestart}) {
     const [solution, setSolution] = useState('');
     const [gameOver, setGameOver] = useState(false);
-    const [showModal, setShowModal] = useState(false);
     const [gameStats, setGameStats] = useState({});
-    const [message, setMessage] = useState('');
-    const [showToast, setShowToast] = useState(false);
 
     const {
         currentGuess,
@@ -29,10 +26,16 @@ function Board({boardID, onRestart}) {
         setUsedKeys,
         setIsValidWord,
         isValidWord,
+        message,
+        showToast,
+        setMessage,
+        setShowToast,
+        showModal,
+        setShowModal,
     } = getGuess(solution, boardID);
 
     useEffect(() => {
-        const fetchBoardData = async () => {
+        async function fetchBoardData() {
             try {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
@@ -53,50 +56,46 @@ function Board({boardID, onRestart}) {
                 setIsValidWord(true);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
-                setMessage('Failed to load board data.');
-                setShowToast(true);
             }
-        };
+        }
 
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID]);
-
-    const updateBoard = useCallback(async () => {
-        try {
-            if (isCorrect || turn >= 6) {
-                setGameOver(true);
-                setShowModal(true);
-                setGameStats({
-                    correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
-                });
-                setMessage(isCorrect ? 'Congratulations!' : `${solution}`);
-                setShowToast(true);
-            } else if (currentGuess.length === 5) {
-                const data = await checkDatabase(currentGuess, boardID);
-                if (data.isValidWord) {
-                    setIsValidWord(true);
-                    await updateBoardWithGuess(boardID, currentGuess);
-                } else {
-                    setMessage('Word is not in list');
-                    setShowToast(true);
-                    setIsValidWord(false);
-                }
-            }
-        } catch (error) {
-            console.error('Failed to update board:', error);
-            setMessage('Failed to update board.');
-            setShowToast(true);
-        }
-    }, [boardID, currentGuess, isCorrect, turn, solution]);
+    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys, setIsValidWord]);
 
     useEffect(() => {
-        const handleEnterKey = (event) => {
+        async function updateBoard() {
+            try {
+                if (isCorrect || turn >= 6) {
+                    setGameOver(true);
+                    setShowModal(true);
+                    setGameStats({
+                        correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
+                    });
+                } else if (currentGuess.length === 5) {
+                    const data = await checkDatabase(currentGuess, boardID);
+                    if (data.isValidWord) {
+                        setIsValidWord(true);
+                        await updateBoardWithGuess(boardID, currentGuess);
+                    } else {
+                        setMessage('Word is not in list');
+                        setShowToast(true);
+                        setIsValidWord(false);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to update board:', error);
+                setMessage('Failed to update board.');
+                setShowToast(true);
+            }
+        }
+
+        function handleEnterKey(event) {
             if (event.key === 'Enter' && !gameOver) {
                 updateBoard();
             }
-        };
+        }
 
         if (!gameOver) {
             window.addEventListener('keydown', handleEnterKey);
@@ -107,7 +106,7 @@ function Board({boardID, onRestart}) {
             window.removeEventListener('keydown', handleEnterKey);
             window.removeEventListener('keyup', handleKeyup);
         };
-    }, [gameOver, updateBoard, handleKeyup]);
+    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -115,19 +114,14 @@ function Board({boardID, onRestart}) {
     };
 
     return (<>
-            <div className="board-container">
-                <Grid
-                    guesses={guesses}
-                    currentGuess={currentGuess}
-                    turn={turn}
-                    isValidWord={isValidWord}
-                    isCorrect={isCorrect}
-                />
-            </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-            {showToast && <ToastMessage message={message}/>}
-            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
-        </>);
+        <div className="board-container">
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}
+                  isCorrect={isCorrect}/>
+        </div>
+        <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
+        {showToast && <ToastMessage message={message}/>}
+        <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
+    </>);
 }
 
 export default Board;

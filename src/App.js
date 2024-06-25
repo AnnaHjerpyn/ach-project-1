@@ -52,14 +52,6 @@ function App() {
         await fetchBoard();
     };
 
-    const handleRestartClick = () => {
-        if (solution !== '') {
-            setShowRestartModal(true);
-        } else {
-            handleRestart();
-        }
-    };
-
     useEffect(() => {
         fetchBoard();
     }, []);
@@ -67,6 +59,15 @@ function App() {
     return (
         <ThemeProvider>
             <div className="App">
+                <nav className="navbar navbar-expand-sm fixed-top">
+                    <div className="container-fluid">
+                        <div className="spacer"></div>
+                        <h1>Wordle</h1>
+                        <ThemeToggle />
+                    </div>
+                </nav>
+                <Board boardID={boardID} onRestart={handleRestart} />
+
                 {showRestartModal && (
                     <WelcomeModal
                         message="Great job on the puzzle! Do you want to start a new game?"
@@ -74,14 +75,6 @@ function App() {
                         onCancel={() => setShowRestartModal(false)}
                     />
                 )}
-                <nav className="navbar navbar-expand-sm fixed-top">
-                    <div className="container-fluid">
-                        <div className="spacer"></div>
-                        <h1>Wordle</h1>
-                        <ThemeToggle/>
-                    </div>
-                </nav>
-                <Board boardID={boardID} onRestart={handleRestartClick}/>
             </div>
         </ThemeProvider>
     );
