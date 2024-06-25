@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import Board from '../themes/ach-custom/javascript/components/Board';
 import ThemeToggle from './ThemeToggle';
 import { ThemeProvider } from './ThemeContext';
-import RestartModal from "../themes/ach-custom/javascript/components/RestartModal";
+import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModal";
 
 const root = createRoot(document.getElementById('root'));
 
@@ -52,14 +52,6 @@ function App() {
         await fetchBoard();
     };
 
-    const handleRestartClick = () => {
-        if (solution !== '') {
-            setShowRestartModal(true);
-        } else {
-            handleRestart();
-        }
-    };
-
     useEffect(() => {
         fetchBoard();
     }, []);
@@ -74,11 +66,11 @@ function App() {
                         <ThemeToggle />
                     </div>
                 </nav>
-                <Board boardID={boardID} onRestart={handleRestartClick} />
+                <Board boardID={boardID} onRestart={handleRestart} />
 
                 {showRestartModal && (
-                    <RestartModal
-                        message="Do you want to start a new game?"
+                    <WelcomeModal
+                        message="Great job on the puzzle! Do you want to start a new game?"
                         onConfirm={handleRestart}
                         onCancel={() => setShowRestartModal(false)}
                     />

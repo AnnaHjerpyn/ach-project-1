@@ -9,8 +9,9 @@ const getGuess = (solution, boardID) => {
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
-    const [message, setMessage] = useState('');
-    const [showToast, setShowToast] = useState(false);
+    const [message, setMessage] = useState(''); // Sets the toast's message for user
+    const [showToast, setShowToast] = useState(false); // Handles showing the toast message
+    const [showModal, setShowModal] = useState(false); // Show Modal based on if the guess is correct
 
     const formatGuess = useCallback(() => {
         let solutionArray = [...solution];
@@ -42,6 +43,9 @@ const getGuess = (solution, boardID) => {
 
         if (currentGuess === solution) {
             setIsCorrect(true);
+            setShowModal(true);
+            setMessage('Nice');
+            setShowToast(true);
         }
 
         setGuesses((prevGuesses) => {
@@ -80,6 +84,7 @@ const getGuess = (solution, boardID) => {
         setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
+            console.log(turn);
             if (turn > 5) {
                 setIsValidWord(false);
                 setMessage('Already guessed 6 times.'); // Set toast message
@@ -142,7 +147,9 @@ const getGuess = (solution, boardID) => {
         message,
         setMessage,
         showToast,
-        setShowToast
+        setShowToast,
+        setShowModal,
+        showModal
     };
 };
 

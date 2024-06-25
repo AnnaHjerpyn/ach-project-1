@@ -1,0 +1,136 @@
+.contentWelcome {
+    position: relative;
+    color: black;
+    max-width: 100%;
+    width: 100%;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #e3e3e1;
+}
+
+.contentWelcomeContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 50px 42px 0;
+}
+
+.contentWelcomeMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.title {
+    font-size: 36px;
+    line-height: 38px;
+    font-family: 'Futura', sans-serif;
+    font-weight: bold;
+    margin-bottom: 12px;
+    position: relative;
+    text-align: center;
+
+    @media (min-width: 760px) {
+        font-size: 44px;
+        line-height: 1.045em;
+    }
+
+    @media (min-width: 992px) {
+        font-size: 50px;
+        line-height: 52px;
+    }
+
+    &.small {
+        font-size: 1.125em;
+        line-height: 1.111;
+    }
+}
+
+.subtitle {
+    font-size: 28px;
+    line-height: 28px;
+    margin-bottom: 28px;
+    font-family: 'Futura', sans-serif;
+    text-align: center;
+    font-weight: 400;
+
+    @media (min-width: 760px) {
+        max-width: 300px;
+        font-size: 32px;
+        line-height: 36px;
+    }
+
+    @media (min-width: 992px) {
+        max-width: 375px;
+        font-size: 38px;
+        line-height: 44px;
+        margin-bottom: 36px;
+    }
+
+    .bold {
+        font-family: 'Futura', sans-serif;
+    }
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 24px;
+
+    @media (min-width: 760px) {
+        margin-bottom: 28px;
+        flex-direction: row;
+    }
+
+    .button {
+        position: relative;
+        border: none;
+        height: 3em;
+        border-radius: 1.5em;
+        align-content: center;
+        letter-spacing: 0.05em;
+        font-size: 16px;
+        font-family: 'Futura', sans-serif;
+        line-height: 28px;
+        cursor: pointer;
+        padding: 0 2em;
+        background: black;
+        color: white;
+        margin: 0 10px 8px;
+        font-weight: 400;
+
+        @media (max-width: 760px) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 155px;
+        }
+
+        @media (min-width: 760px) {
+            width: 180px;
+        }
+
+        &.large {
+            width: 210px;
+            padding: 0 10px;
+        }
+
+        &.secondary {
+            background: none;
+            color: black;
+            border: 1px solid;
+            letter-spacing: 0.01em;
+        }
+    }
+
+}
