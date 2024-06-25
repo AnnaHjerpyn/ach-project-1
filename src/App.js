@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import Board from '../themes/ach-custom/javascript/components/Board';
 import ThemeToggle from './ThemeToggle';
 import { ThemeProvider } from './ThemeContext';
-import RestartModal from "../themes/ach-custom/javascript/components/RestartModal";
+import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModal";
 
 const root = createRoot(document.getElementById('root'));
 
@@ -67,22 +67,21 @@ function App() {
     return (
         <ThemeProvider>
             <div className="App">
-                <nav className="navbar navbar-expand-sm fixed-top">
-                    <div className="container-fluid">
-                        <div className="spacer"></div>
-                        <h1>Wordle</h1>
-                        <ThemeToggle />
-                    </div>
-                </nav>
-                <Board boardID={boardID} onRestart={handleRestartClick} />
-
                 {showRestartModal && (
-                    <RestartModal
-                        message="Do you want to start a new game?"
+                    <WelcomeModal
+                        message="Great job on the puzzle! Do you want to start a new game?"
                         onConfirm={handleRestart}
                         onCancel={() => setShowRestartModal(false)}
                     />
                 )}
+                <nav className="navbar navbar-expand-sm fixed-top">
+                    <div className="container-fluid">
+                        <div className="spacer"></div>
+                        <h1>Wordle</h1>
+                        <ThemeToggle/>
+                    </div>
+                </nav>
+                <Board boardID={boardID} onRestart={handleRestartClick}/>
             </div>
         </ThemeProvider>
     );
