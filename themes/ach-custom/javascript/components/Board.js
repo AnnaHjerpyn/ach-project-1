@@ -70,7 +70,10 @@ function Board({boardID, onRestart}) {
             try {
                 if (isCorrect || turn >= 6) {
                     setGameOver(true);
+                    setIsCorrect(false);
                     setShowModal(true);
+                    setMessage(solution);
+                    setShowToast(true);
                     setGameStats({
                         correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
                     });
