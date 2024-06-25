@@ -117,15 +117,17 @@ function Board({boardID, onRestart}) {
         onRestart();
     };
 
-    return (<>
-        <div className="board-container">
-            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}
-                  isCorrect={isCorrect}/>
-        </div>
-        <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-        {showToast && <ToastMessage message={message}/>}
-        <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
-    </>);
+    return (
+        <>
+            <div className="board-container">
+                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}
+                      isCorrect={isCorrect}/>
+            </div>
+            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
+            {showToast && <ToastMessage message={message}/>}
+            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
+        </>
+    );
 }
 
 export default Board;

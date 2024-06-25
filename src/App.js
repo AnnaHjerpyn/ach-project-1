@@ -22,7 +22,6 @@ function App() {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem('boardID', data.boardID);
-                console.log('New board created with ID:', data.boardID);
                 setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {

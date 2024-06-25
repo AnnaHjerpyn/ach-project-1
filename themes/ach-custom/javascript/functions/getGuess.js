@@ -2,6 +2,7 @@ import {useState, useCallback} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
 const getGuess = (solution, boardID) => {
+    const [inKeypad, setKeypad] = useState(false);
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
@@ -117,7 +118,7 @@ const getGuess = (solution, boardID) => {
                 setMessage('Word is not in list'); // Set toast message
                 setShowToast(true); // Display the toast
                 return;
-            } else if (data.isValidWord) {
+            } else if (data.isValidWord && !inKeypad) {
                 setIsValidWord(true);
                 await updateBoardWithGuess(boardID, currentGuess);
             }
@@ -133,6 +134,7 @@ const getGuess = (solution, boardID) => {
     }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast]);
 
     const handleKeyup = useCallback((event) => {
+        setKeypad(true);
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
