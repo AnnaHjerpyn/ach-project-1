@@ -2,7 +2,6 @@ import React from 'react';
 import '../../css/src/Components/_row.scss';
 
 function Row({ guess, currentGuess, isValidWord, isCorrect }) {
-    console.log("isCorrectWord:", isCorrect);
 
     if (guess) {
         return (

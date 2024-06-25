@@ -1,7 +1,8 @@
 import {useState, useCallback} from 'react';
-import {checkDatabase} from "../wordSubmit";
+import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
 const getGuess = (solution, boardID) => {
+    const [inKeypad, setKeypad] = useState(false);
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
@@ -48,6 +49,13 @@ const getGuess = (solution, boardID) => {
             setShowToast(true);
         }
 
+        if (turn === 5 && !isCorrect){
+            setIsCorrect(false);
+            setShowModal(true);
+            setMessage(solution);
+            setShowToast(true);
+        }
+
         setGuesses((prevGuesses) => {
             let newGuesses = [...prevGuesses];
             newGuesses[turn] = formattedGuess;
@@ -81,10 +89,9 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback(async (key) => {
-        setIsValidWord(true); // Reset isValidWord to true before checking
+        //setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
-            console.log(turn);
             if (turn > 5) {
                 setIsValidWord(false);
                 setMessage('Already guessed 6 times.'); // Set toast message
@@ -111,6 +118,9 @@ const getGuess = (solution, boardID) => {
                 setMessage('Word is not in list'); // Set toast message
                 setShowToast(true); // Display the toast
                 return;
+            } else if (data.isValidWord && !inKeypad) {
+                setIsValidWord(true);
+                await updateBoardWithGuess(boardID, currentGuess);
             }
 
             addNewGuess();
@@ -124,6 +134,7 @@ const getGuess = (solution, boardID) => {
     }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast]);
 
     const handleKeyup = useCallback((event) => {
+        setKeypad(true);
         handleKeyInput(event.key);
     }, [handleKeyInput]);
 
