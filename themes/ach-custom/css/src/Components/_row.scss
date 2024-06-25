@@ -82,7 +82,21 @@
     }
 }
 
-@keyframes Bounce {
+@keyframes bounce {
+    0% {
+        transform: scale(0.8);
+        border-color: #ddd;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        border-color: rgb(135, 138, 140);
+    }
+}
+
+@keyframes correct-bounce {
     0%,
     20% {
         transform: translateY(0);
@@ -131,9 +145,8 @@
     animation: shake 600ms ease-in-out;
 }
 
-.row-container.win {
-    animation-name: Bounce;
-    animation-duration: 1000ms;
+.row-container.current.win > div.filled {
+    animation: correct-bounce 1000ms ease-in-out;
 }
 
 body[data-theme='dark'] .row-container > div {

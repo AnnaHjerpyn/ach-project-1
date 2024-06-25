@@ -5,6 +5,7 @@
     "@types/react-transition-group": "^4.4.10",
     "dotenv": "^16.4.5",
     "mysql": "^2.18.1",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
