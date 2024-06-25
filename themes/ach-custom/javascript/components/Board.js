@@ -78,7 +78,6 @@ function Board({boardID, onRestart}) {
                         correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
                     });
                 } else if (currentGuess.length === 5) {
-                    console.log(currentGuess);
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
                         setIsValidWord(true);
@@ -97,7 +96,6 @@ function Board({boardID, onRestart}) {
         }
 
         function handleEnterKey(event) {
-            console.log("Am I hitting here");
             if (event.key === 'Enter' && !gameOver) {
                 updateBoard();
             }

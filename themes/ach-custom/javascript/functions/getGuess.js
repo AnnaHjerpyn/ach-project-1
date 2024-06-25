@@ -88,13 +88,7 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback(async (key) => {
-        setIsValidWord(true); // Reset isValidWord to true before checking
-        console.log(currentGuess);
-        const data = await checkDatabase(currentGuess, boardID);
-        if (data.isValidWord) {
-            setIsValidWord(true);
-            await updateBoardWithGuess(boardID, currentGuess);
-        }
+        //setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
             if (turn > 5) {
@@ -123,7 +117,11 @@ const getGuess = (solution, boardID) => {
                 setMessage('Word is not in list'); // Set toast message
                 setShowToast(true); // Display the toast
                 return;
+            } else if (data.isValidWord) {
+                setIsValidWord(true);
+                await updateBoardWithGuess(boardID, currentGuess);
             }
+
             addNewGuess();
         } else if (key === 'Backspace') {
             setCurrentGuess((prev) => prev.slice(0, -1));
