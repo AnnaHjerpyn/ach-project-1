@@ -69,6 +69,7 @@ function Board({boardID, onRestart}) {
         async function updateBoard() {
             try {
                 if (isCorrect || turn > 5) {
+                    // I don't even know if this effectively does anything
                     setGameOver(true);
                     setShowModal(true);
                     setMessage(solution);
@@ -77,6 +78,7 @@ function Board({boardID, onRestart}) {
                         correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
                     });
                 } else if (currentGuess.length === 5) {
+                    console.log(currentGuess);
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
                         setIsValidWord(true);
@@ -95,6 +97,7 @@ function Board({boardID, onRestart}) {
         }
 
         function handleEnterKey(event) {
+            console.log("Am I hitting here");
             if (event.key === 'Enter' && !gameOver) {
                 updateBoard();
             }

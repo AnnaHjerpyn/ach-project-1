@@ -1,5 +1,5 @@
 import {useState, useCallback} from 'react';
-import {checkDatabase} from "../wordSubmit";
+import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
 const getGuess = (solution, boardID) => {
     const [turn, setTurn] = useState(0);
@@ -89,6 +89,12 @@ const getGuess = (solution, boardID) => {
 
     const handleKeyInput = useCallback(async (key) => {
         setIsValidWord(true); // Reset isValidWord to true before checking
+        console.log(currentGuess);
+        const data = await checkDatabase(currentGuess, boardID);
+        if (data.isValidWord) {
+            setIsValidWord(true);
+            await updateBoardWithGuess(boardID, currentGuess);
+        }
 
         if (key === 'Enter') {
             if (turn > 5) {
@@ -118,7 +124,6 @@ const getGuess = (solution, boardID) => {
                 setShowToast(true); // Display the toast
                 return;
             }
-
             addNewGuess();
         } else if (key === 'Backspace') {
             setCurrentGuess((prev) => prev.slice(0, -1));
