@@ -68,9 +68,8 @@ function Board({boardID, onRestart}) {
     useEffect(() => {
         async function updateBoard() {
             try {
-                if (isCorrect || turn >= 6) {
+                if (isCorrect || turn > 5) {
                     setGameOver(true);
-                    setIsCorrect(false);
                     setShowModal(true);
                     setMessage(solution);
                     setShowToast(true);

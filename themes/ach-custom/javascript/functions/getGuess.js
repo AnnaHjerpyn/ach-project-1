@@ -48,6 +48,13 @@ const getGuess = (solution, boardID) => {
             setShowToast(true);
         }
 
+        if (turn === 5 && !isCorrect){
+            setIsCorrect(false);
+            setShowModal(true);
+            setMessage(solution);
+            setShowToast(true);
+        }
+
         setGuesses((prevGuesses) => {
             let newGuesses = [...prevGuesses];
             newGuesses[turn] = formattedGuess;
@@ -84,7 +91,6 @@ const getGuess = (solution, boardID) => {
         setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
-            console.log(turn);
             if (turn > 5) {
                 setIsValidWord(false);
                 setMessage('Already guessed 6 times.'); // Set toast message
