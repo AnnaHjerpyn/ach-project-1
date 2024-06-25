@@ -54,6 +54,7 @@ function Board({boardID, onRestart}) {
                 setTurn(data.guessCount || 0);
                 setUsedKeys(data.usedKeys || {});
                 setIsValidWord(true);
+                setIsCorrect(false); // Maybe need to reset it here?
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }

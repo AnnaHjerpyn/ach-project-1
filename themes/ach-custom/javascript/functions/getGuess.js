@@ -44,7 +44,7 @@ const getGuess = (solution, boardID) => {
         if (currentGuess === solution) {
             setIsCorrect(true);
             setShowModal(true);
-            setMessage('Congratulations!');
+            setMessage('Nice');
             setShowToast(true);
         }
 

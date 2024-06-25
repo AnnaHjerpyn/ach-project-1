@@ -19,7 +19,7 @@ const ModalStats = ({isOpen, onClose, onRestart, stats}) => {
                 {/*<div className="guess-distribution">*/}
 
                 {/*</div>*/}
-                <button className="restart-button" onClick={onRestart}>
+                <button className="shareButton" onClick={onRestart}>
                     Restart
                 </button>
             </div>
