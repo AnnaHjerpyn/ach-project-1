@@ -145,7 +145,7 @@
     animation: shake 600ms ease-in-out;
 }
 
-.row-container.current.win > div.filled {
+.row-container.win > div.filled {
     animation: correct-bounce 1000ms ease-in-out;
 }
 

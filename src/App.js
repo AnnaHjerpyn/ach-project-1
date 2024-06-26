@@ -12,10 +12,12 @@ function App() {
     const [solution, setSolution] = useState('');
     const [boardID, setBoardID] = useState('');
     const [showRestartModal, setShowRestartModal] = useState(false);
+    const [gameState, setGameState] = useState(null);
+    const [welcomeMessage, setWelcomeMessage] = useState('Great job on the puzzle! Do you want to start a new game?');
+    const [buttonText, setButtonText] = useState('Restart Game');
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
-        console.log('Current boardID from URL:', boardID);
 
         if (!boardID) {
             const response = await fetch('/home/board', { method: 'POST' });
@@ -45,6 +47,7 @@ function App() {
 
     const handleRestart = async () => {
         sessionStorage.removeItem('boardID');
+        sessionStorage.removeItem('gameState');
         setSolution('');
         setBoardID('');
         setShowRestartModal(false);
@@ -53,6 +56,14 @@ function App() {
 
     useEffect(() => {
         fetchBoard();
+        const savedGameState = sessionStorage.getItem('gameState');
+        if (savedGameState) {
+            const gameStateObj = JSON.parse(savedGameState);
+            setGameState(gameStateObj);
+            setWelcomeMessage(`Welcome back! You have used ${gameStateObj.guesses.length} out of 6 guesses.`);
+            setButtonText('Continue');
+            setShowRestartModal(true);
+        }
     }, []);
 
     return (
@@ -69,9 +80,10 @@ function App() {
 
                 {showRestartModal && (
                     <WelcomeModal
-                        message="Great job on the puzzle! Do you want to start a new game?"
+                        message={welcomeMessage}
                         onConfirm={handleRestart}
                         onCancel={() => setShowRestartModal(false)}
+                        buttonText={buttonText}
                     />
                 )}
             </div>

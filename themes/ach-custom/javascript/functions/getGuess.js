@@ -1,13 +1,12 @@
 import {useState, useCallback} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
-const getGuess = (solution, boardID) => {
+const getGuess = (solution, boardID, isCorrect) => {
     const [inKeypad, setKeypad] = useState(false);
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
     const [history, setHistory] = useState([]); // each guess is a string
-    const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
     const [message, setMessage] = useState(''); // Sets the toast's message for user
@@ -43,14 +42,10 @@ const getGuess = (solution, boardID) => {
         const formattedGuess = formatGuess();
 
         if (currentGuess === solution) {
-            setIsCorrect(true);
             setShowModal(true);
-            setMessage('Nice');
-            setShowToast(true);
         }
 
         if (turn === 5 && !isCorrect){
-            setIsCorrect(false);
             setShowModal(true);
             setMessage(solution);
             setShowToast(true);
@@ -89,7 +84,6 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback(async (key) => {
-        //setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
             if (turn > 5) {
@@ -151,7 +145,6 @@ const getGuess = (solution, boardID) => {
         setGuesses,
         setHistory,
         setTurn,
-        setIsCorrect,
         setUsedKeys,
         setIsValidWord,
         isValidWord,
