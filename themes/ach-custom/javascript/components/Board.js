@@ -10,19 +10,18 @@ function Board({boardID, onRestart}) {
     const [solution, setSolution] = useState('');
     const [gameOver, setGameOver] = useState(false);
     const [gameStats, setGameStats] = useState({});
+    const [isCorrect, setIsCorrect] = useState(false);
 
     const {
         currentGuess,
         guesses,
         setGuesses,
         turn,
-        isCorrect,
         handleKeyup,
         usedKeys,
         handleKeyInput,
         setHistory,
         setTurn,
-        setIsCorrect,
         setUsedKeys,
         setIsValidWord,
         isValidWord,
@@ -32,7 +31,7 @@ function Board({boardID, onRestart}) {
         setShowToast,
         showModal,
         setShowModal,
-    } = getGuess(solution, boardID);
+    } = getGuess(solution, boardID, isCorrect);
 
     useEffect(() => {
         async function fetchBoardData() {
@@ -67,8 +66,11 @@ function Board({boardID, onRestart}) {
     useEffect(() => {
         async function updateBoard() {
             try {
+                if (currentGuess === solution) {
+                    setIsCorrect(true);
+                    console.log(isCorrect);
+                }
                 if (isCorrect || turn > 5) {
-                    // I don't even know if this effectively does anything
                     setGameOver(true);
                     setShowModal(true);
                     setMessage(solution);
@@ -76,7 +78,8 @@ function Board({boardID, onRestart}) {
                     setGameStats({
                         correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
                     });
-                } else if (currentGuess.length === 5) {
+                }
+                if (currentGuess.length === 5) {
                     const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
                         setIsValidWord(true);

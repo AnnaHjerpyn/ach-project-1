@@ -18,7 +18,6 @@ function App() {
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
-        console.log('Current boardID from URL:', boardID);
 
         if (!boardID) {
             const response = await fetch('/home/board', { method: 'POST' });

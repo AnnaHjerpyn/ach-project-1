@@ -1,13 +1,12 @@
 import {useState, useCallback} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
-const getGuess = (solution, boardID) => {
+const getGuess = (solution, boardID, isCorrect) => {
     const [inKeypad, setKeypad] = useState(false);
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
     const [history, setHistory] = useState([]); // each guess is a string
-    const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
     const [message, setMessage] = useState(''); // Sets the toast's message for user
@@ -42,6 +41,10 @@ const getGuess = (solution, boardID) => {
     const addNewGuess = useCallback(() => {
         const formattedGuess = formatGuess();
 
+        if (currentGuess === solution) {
+            setShowModal(true);
+        }
+
         if (turn === 5 && !isCorrect){
             setShowModal(true);
             setMessage(solution);
@@ -53,11 +56,6 @@ const getGuess = (solution, boardID) => {
             newGuesses[turn] = formattedGuess;
             return newGuesses;
         });
-
-        if (currentGuess === solution) {
-            setIsCorrect(true);
-            setShowModal(true);
-        }
 
         setHistory((prevHistory) => [...prevHistory, currentGuess]);
         setTurn((prevTurn) => prevTurn + 1);
@@ -86,7 +84,6 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, turn, solution, formatGuess]);
 
     const handleKeyInput = useCallback(async (key) => {
-        //setIsValidWord(true); // Reset isValidWord to true before checking
 
         if (key === 'Enter') {
             if (turn > 5) {
@@ -148,7 +145,6 @@ const getGuess = (solution, boardID) => {
         setGuesses,
         setHistory,
         setTurn,
-        setIsCorrect,
         setUsedKeys,
         setIsValidWord,
         isValidWord,
