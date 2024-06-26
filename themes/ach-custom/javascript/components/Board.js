@@ -54,7 +54,6 @@ function Board({boardID, onRestart}) {
                 setTurn(data.guessCount || 0);
                 setUsedKeys(data.usedKeys || {});
                 setIsValidWord(true);
-                setIsCorrect(false); // Maybe need to reset it here?
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -63,7 +62,7 @@ function Board({boardID, onRestart}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses, setHistory, setTurn, setIsCorrect, setUsedKeys, setIsValidWord]);
+    }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord]);
 
     useEffect(() => {
         async function updateBoard() {

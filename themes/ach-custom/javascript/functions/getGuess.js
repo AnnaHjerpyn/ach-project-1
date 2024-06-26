@@ -42,15 +42,7 @@ const getGuess = (solution, boardID) => {
     const addNewGuess = useCallback(() => {
         const formattedGuess = formatGuess();
 
-        if (currentGuess === solution) {
-            setIsCorrect(true);
-            setShowModal(true);
-            setMessage('Nice');
-            setShowToast(true);
-        }
-
         if (turn === 5 && !isCorrect){
-            setIsCorrect(false);
             setShowModal(true);
             setMessage(solution);
             setShowToast(true);
@@ -61,6 +53,11 @@ const getGuess = (solution, boardID) => {
             newGuesses[turn] = formattedGuess;
             return newGuesses;
         });
+
+        if (currentGuess === solution) {
+            setIsCorrect(true);
+            setShowModal(true);
+        }
 
         setHistory((prevHistory) => [...prevHistory, currentGuess]);
         setTurn((prevTurn) => prevTurn + 1);
