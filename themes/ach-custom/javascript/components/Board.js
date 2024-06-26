@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
 import ModalStats from './ModalStats';
-import {checkDatabase, updateBoardWithGuess} from '../wordSubmit';
+import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
-import {useDebounce} from "../functions/useDebounce";
+import useDebounce from '../functions/useDebounce';
 
-function Board({boardID, onRestart}) {
+function Board({ boardID, onRestart }) {
     const [solution, setSolution] = useState('');
     const [gameOver, setGameOver] = useState(false);
     const [gameStats, setGameStats] = useState({});
@@ -34,6 +34,8 @@ function Board({boardID, onRestart}) {
         setShowModal,
     } = getGuess(solution, boardID, isCorrect);
 
+    const debouncedGuess = useDebounce(currentGuess, 50);
+
     useEffect(() => {
         async function fetchBoardData() {
             try {
@@ -45,7 +47,7 @@ function Board({boardID, onRestart}) {
                 for (let i = 0; i < data.guesses.length; i++) {
                     oldGuesses[i] = data.guesses[i].split('').map((char) => {
                         const color = data.usedKeys[char];
-                        return {key: char, color: color};
+                        return { key: char, color: color };
                     });
                 }
 
@@ -68,7 +70,7 @@ function Board({boardID, onRestart}) {
     useEffect(() => {
         async function updateBoard() {
             try {
-                if (currentGuess === solution) {
+                if (debouncedGuess === solution) {
                     setIsCorrect(true);
                     console.log(isCorrect);
                 }
@@ -78,14 +80,16 @@ function Board({boardID, onRestart}) {
                     setMessage(solution);
                     setShowToast(true);
                     setGameStats({
-                        correctWord: solution, totalGuesses: turn + 1, correctGuesses: isCorrect ? 1 : 0,
+                        correctWord: solution,
+                        totalGuesses: turn + 1,
+                        correctGuesses: isCorrect ? 1 : 0,
                     });
                 }
-                if (currentGuess.length === 5) {
-                    const data = await checkDatabase(currentGuess, boardID);
+                if (debouncedGuess.length === 5) {
+                    const data = await checkDatabase(debouncedGuess, boardID);
                     if (data.isValidWord) {
                         setIsValidWord(true);
-                        await updateBoardWithGuess(boardID, currentGuess);
+                        await updateBoardWithGuess(boardID, debouncedGuess);
                     } else {
                         setMessage('Word is not in list');
                         setShowToast(true);
@@ -105,7 +109,6 @@ function Board({boardID, onRestart}) {
             }
         }
 
-
         if (!gameOver) {
             window.addEventListener('keydown', handleEnterKey);
             window.addEventListener('keyup', handleKeyup);
@@ -115,7 +118,7 @@ function Board({boardID, onRestart}) {
             window.removeEventListener('keydown', handleEnterKey);
             window.removeEventListener('keyup', handleKeyup);
         };
-    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
+    }, [isCorrect, turn, boardID, debouncedGuess, guesses, gameOver, handleKeyup]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -125,12 +128,12 @@ function Board({boardID, onRestart}) {
     return (
         <>
             <div className="board-container">
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} isValidWord={isValidWord}
-                      isCorrect={isCorrect}/>
+                <Grid guesses={guesses} currentGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
+                      isCorrect={isCorrect} />
             </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput}/>
-            {showToast && <ToastMessage message={message}/>}
-            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
+            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} />
+            {showToast && <ToastMessage message={message} />}
+            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal} />
         </>
     );
 }
