@@ -6,7 +6,12 @@ function Grid({ guesses, currentGuess, turn, isValidWord, isCorrect }) {
         <div>
             {guesses.map((g, i) => {
                 if (turn === i) {
-                    return <Row key={i} currentGuess={currentGuess} isValidWord={isValidWord} isCorrect={isCorrect} />;
+                    return <Row
+                        key={i}
+                        currentGuess={currentGuess}
+                        isValidWord={isValidWord}
+                        isWinningRow={isCorrect}
+                    />;
                 }
                 return <Row key={i} guess={g} isValidWord={isValidWord} isCorrect={isCorrect} />;
             })}
