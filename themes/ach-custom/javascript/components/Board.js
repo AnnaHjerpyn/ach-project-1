@@ -5,6 +5,7 @@ import ToastMessage from './ToastMessage';
 import ModalStats from './ModalStats';
 import {checkDatabase, updateBoardWithGuess} from '../wordSubmit';
 import getGuess from '../functions/getGuess';
+import {useDebounce} from "../functions/useDebounce";
 
 function Board({boardID, onRestart}) {
     const [solution, setSolution] = useState('');
@@ -53,6 +54,7 @@ function Board({boardID, onRestart}) {
                 setTurn(data.guessCount || 0);
                 setUsedKeys(data.usedKeys || {});
                 setIsValidWord(true);
+                setIsCorrect(false);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -61,7 +63,7 @@ function Board({boardID, onRestart}) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord]);
+    }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord, setIsCorrect]);
 
     useEffect(() => {
         async function updateBoard() {
@@ -102,6 +104,7 @@ function Board({boardID, onRestart}) {
                 updateBoard();
             }
         }
+
 
         if (!gameOver) {
             window.addEventListener('keydown', handleEnterKey);
