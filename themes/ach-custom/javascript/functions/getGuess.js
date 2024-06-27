@@ -1,9 +1,12 @@
 import {useState, useCallback} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
-const getGuess = (solution, boardID, isCorrect) => {
+const getGuess = (solution, boardID) => {
+
     const [inKeypad, setKeypad] = useState(false);
+    const [gameOver, setGameOver] = useState(false);
     const [turn, setTurn] = useState(0);
+    const [isCorrect, setIsCorrect] = useState(false);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
     const [history, setHistory] = useState([]); // each guess is a string
@@ -41,10 +44,6 @@ const getGuess = (solution, boardID, isCorrect) => {
     const addNewGuess = useCallback(() => {
         const formattedGuess = formatGuess();
 
-        if (currentGuess === solution) {
-            setShowModal(true);
-        }
-
         if (turn === 5 && !isCorrect){
             setShowModal(true);
             setMessage(solution);
@@ -59,6 +58,13 @@ const getGuess = (solution, boardID, isCorrect) => {
 
         setHistory((prevHistory) => [...prevHistory, currentGuess]);
         setTurn((prevTurn) => prevTurn + 1);
+
+        if (currentGuess === solution) {
+            setIsCorrect(true);
+            setTimeout(() => setShowModal(true), 2500)
+            setGameOver(true);
+            return;
+        }
 
         setUsedKeys((prevUsedKeys) => {
             let newUsedKeys = {...prevUsedKeys};
@@ -136,6 +142,7 @@ const getGuess = (solution, boardID, isCorrect) => {
         turn,
         currentGuess,
         guesses,
+        setIsCorrect,
         isCorrect,
         usedKeys,
         handleKeyup,
@@ -153,7 +160,8 @@ const getGuess = (solution, boardID, isCorrect) => {
         showToast,
         setShowToast,
         setShowModal,
-        showModal
+        showModal,
+        gameOver,
     };
 };
 

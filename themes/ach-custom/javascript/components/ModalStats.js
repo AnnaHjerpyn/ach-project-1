@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import '../../css/src/Components/_modal.scss';
 import { useTheme } from '../../../../src/ThemeContext';
+import icon from "../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png";
 
-const ModalStats = ({ isOpen, onClose, onRestart, stats }) => {
+const ModalStats = ({ isOpen, onClose, onRestart }) => {
     const { isDarkMode } = useTheme();
 
     if (!isOpen) return null;
@@ -13,22 +14,9 @@ const ModalStats = ({ isOpen, onClose, onRestart, stats }) => {
                 <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
                     &times;
                 </button>
-                <h2>Congratulations</h2>
-                {/* <div className="stats">
-                    <p>Correct Word: {stats.correctWord}</p>
-                    <p>Total Guesses: {stats.totalGuesses}</p>
-                    <p>Correct Guesses: {stats.correctGuesses}</p>
-                </div>
-                <div className="guess-distribution">
-                    {stats.guesses.map((guess, index) => (
-                        <div key={index} className="guess-bar">
-                            <span className="guess-label">{index + 1}</span>
-                            <div className="guess-fill" style={{ width: `${guess}%` }}>
-                                <span className="guess-count">{guess}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div> */}
+                {/*<img src={icon} alt="Icon" className="icon"/>*}*/}
+                <h2>Wordle</h2>
+                <p>Guess Distribution</p>
                 <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
                     Restart
                 </button>

@@ -13,7 +13,6 @@
 
 .modal-content {
     position: relative;
-    border-radius: 8px;
     border: 1px solid var(--color-tone-6);
     background-color: var(--modal-content-bg, #fff);
     color: var(--color-tone-1, #000);
@@ -26,6 +25,19 @@
     padding: 20px;
     box-sizing: border-box;
 }
+
+.icon {
+    top: 0;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 16px;
+    display: block;
+    text-align: center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 
 .modal-content h2 {
     margin: 0 0 20px;
