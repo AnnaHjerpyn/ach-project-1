@@ -1,22 +1,17 @@
 import React from 'react';
 import Row from './Row';
 
-function Grid({ guesses, currentGuess, turn, isValidWord, isCorrect }) {
-    return (
-        <div>
+function Grid({guesses, debouncedGuess, turn, isValidWord, isCorrect, currentGuess}) {
+    return (<div>
             {guesses.map((g, i) => {
                 if (turn === i) {
                     return <Row
-                        key={i}
-                        currentGuess={currentGuess}
-                        isValidWord={isValidWord}
-                        isWinningRow={isCorrect}
+                        key={i} debouncedGuess={debouncedGuess} isValidWord={isValidWord} isWinningRow={isCorrect} currentGuess={currentGuess}
                     />;
                 }
-                return <Row key={i} guess={g} isValidWord={isValidWord} isCorrect={isCorrect} />;
+                return <Row key={i} guess={g} isValidWord={isValidWord} isCorrect={isCorrect} currentGuess={currentGuess}/>;
             })}
-        </div>
-    );
+        </div>);
 }
 
 export default Grid;

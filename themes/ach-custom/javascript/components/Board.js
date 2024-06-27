@@ -12,6 +12,7 @@ function Board({ boardID, onRestart }) {
     const [gameOver, setGameOver] = useState(false);
     const [gameStats, setGameStats] = useState({});
     const [isCorrect, setIsCorrect] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false); // State to track modal open/close
 
     const {
         currentGuess,
@@ -34,7 +35,7 @@ function Board({ boardID, onRestart }) {
         setShowModal,
     } = getGuess(solution, boardID, isCorrect);
 
-    const debouncedGuess = useDebounce(currentGuess, 50);
+    const debouncedGuess = useDebounce(currentGuess, 100);
 
     useEffect(() => {
         async function fetchBoardData() {
@@ -70,7 +71,7 @@ function Board({ boardID, onRestart }) {
     useEffect(() => {
         async function updateBoard() {
             try {
-                if (debouncedGuess === solution) {
+                if (currentGuess === solution) {
                     setIsCorrect(true);
                     console.log(isCorrect);
                 }
@@ -84,12 +85,13 @@ function Board({ boardID, onRestart }) {
                         totalGuesses: turn + 1,
                         correctGuesses: isCorrect ? 1 : 0,
                     });
+                    setModalOpen(true); // Set modalOpen to true when modal appears
                 }
-                if (debouncedGuess.length === 5) {
-                    const data = await checkDatabase(debouncedGuess, boardID);
+                if (currentGuess.length === 5) {
+                    const data = await checkDatabase(currentGuess, boardID);
                     if (data.isValidWord) {
                         setIsValidWord(true);
-                        await updateBoardWithGuess(boardID, debouncedGuess);
+                        await updateBoardWithGuess(boardID, currentGuess);
                     } else {
                         setMessage('Word is not in list');
                         setShowToast(true);
@@ -118,18 +120,37 @@ function Board({ boardID, onRestart }) {
             window.removeEventListener('keydown', handleEnterKey);
             window.removeEventListener('keyup', handleKeyup);
         };
-    }, [isCorrect, turn, boardID, debouncedGuess, guesses, gameOver, handleKeyup]);
+    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
     const closeModal = () => {
         setShowModal(false);
+        setModalOpen(false);
         onRestart();
     };
+
+    // Disable input handling when modal is open
+    useEffect(() => {
+        const disableInput = (event) => {
+            if (modalOpen) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        };
+
+        window.addEventListener('keydown', disableInput);
+        window.addEventListener('keyup', disableInput);
+
+        return () => {
+            window.removeEventListener('keydown', disableInput);
+            window.removeEventListener('keyup', disableInput);
+        };
+    }, [modalOpen]);
 
     return (
         <>
             <div className="board-container">
-                <Grid guesses={guesses} currentGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
-                      isCorrect={isCorrect} />
+                <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
+                      isCorrect={isCorrect} currentGuess={currentGuess} />
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} />
             {showToast && <ToastMessage message={message} />}
