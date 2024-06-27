@@ -33,7 +33,6 @@ function Board({ boardID, onRestart }) {
         setShowModal,
         gameOver,
         isCorrect,
-        setIsCorrect
     } = getGuess(solution, boardID);
 
     const debouncedGuess = useDebounce(currentGuess, 100);
@@ -66,7 +65,7 @@ function Board({ boardID, onRestart }) {
         if (boardID) {
             fetchBoardData();
         }
-    }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord, setIsCorrect]);
+    }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord]);
 
     useEffect(() => {
         async function updateBoard() {
@@ -114,7 +113,6 @@ function Board({ boardID, onRestart }) {
     }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
     const closeModal = () => {
-        setIsCorrect(false);
         setShowModal(false);
         setInputDisabled(true);
     };
