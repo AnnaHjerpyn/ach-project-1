@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
 const getGuess = (solution, boardID) => {
@@ -44,7 +44,19 @@ const getGuess = (solution, boardID) => {
     const addNewGuess = useCallback(() => {
         const formattedGuess = formatGuess();
 
-        if (turn === 5 && !isCorrect){
+        if (currentGuess === solution) {
+            setIsCorrect(true);
+            setTimeout(() => setShowModal(true), 2500)
+            setGameOver(true);
+            setGuesses((prevGuesses) => {
+                let newGuesses = [...prevGuesses];
+                newGuesses[turn] = formattedGuess;
+                return newGuesses;
+            });
+            return;
+        }
+
+        if (turn === 5 && !isCorrect) {
             setShowModal(true);
             setMessage(solution);
             setShowToast(true);
@@ -58,13 +70,6 @@ const getGuess = (solution, boardID) => {
 
         setHistory((prevHistory) => [...prevHistory, currentGuess]);
         setTurn((prevTurn) => prevTurn + 1);
-
-        if (currentGuess === solution) {
-            setIsCorrect(true);
-            setTimeout(() => setShowModal(true), 2500)
-            setGameOver(true);
-            return;
-        }
 
         setUsedKeys((prevUsedKeys) => {
             let newUsedKeys = {...prevUsedKeys};
@@ -86,8 +91,10 @@ const getGuess = (solution, boardID) => {
             return newUsedKeys;
         });
 
+
+
         setCurrentGuess('');
-    }, [currentGuess, turn, solution, formatGuess]);
+    }, [currentGuess, turn, solution, formatGuess, isCorrect]);
 
     const handleKeyInput = useCallback(async (key) => {
 
