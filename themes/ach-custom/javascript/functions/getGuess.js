@@ -1,12 +1,12 @@
-import {useState, useCallback} from 'react';
-import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
+import { useState, useCallback } from 'react';
+import { checkDatabase, updateBoardWithGuess } from "../wordSubmit";
 
 const getGuess = (solution, boardID, isCorrect) => {
     const [inKeypad, setKeypad] = useState(false);
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
-    const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
-    const [history, setHistory] = useState([]); // each guess is a string
+    const [guesses, setGuesses] = useState([...Array(6)].map(() => [])); // each guess is an array of objects {key, color}
+    const [history, setHistory] = useState([]); // array of strings
     const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
     const [message, setMessage] = useState(''); // Sets the toast's message for user
@@ -14,38 +14,39 @@ const getGuess = (solution, boardID, isCorrect) => {
     const [showModal, setShowModal] = useState(false); // Show Modal based on if the guess is correct
 
     const formatGuess = useCallback(() => {
-        let solutionArray = [...solution];
-        let formattedGuess = [...currentGuess].map((l) => {
-            return {key: l, color: 'grey'};
-        });
+        let formattedGuess = [...currentGuess].map((letter, i) => {
+            let color = 'grey';
 
-        // find any green letters
-        formattedGuess.forEach((l, i) => {
-            if (solution[i] === l.key) {
-                formattedGuess[i].color = 'green';
-                solutionArray[i] = null;
+            // Check if the letter is in the correct position
+            if (letter === solution[i]) {
+                color = 'green';
+            } else if (solution.includes(letter)) {
+                // Check if the letter exists in solution but is not in the correct position
+                color = 'yellow';
             }
-        });
 
-        // find any yellow letters
-        formattedGuess.forEach((l, i) => {
-            if (solutionArray.includes(l.key) && l.color !== 'green') {
-                formattedGuess[i].color = 'yellow';
-                solutionArray[solutionArray.indexOf(l.key)] = null;
+            // Check if the letter has already been marked as green in previous turns
+            for (let j = 0; j < turn; j++) {
+                if (guesses[j][i]?.key === letter && guesses[j][i]?.color === 'green') {
+                    color = 'green';
+                    break;
+                }
             }
+
+            return { key: letter, color };
         });
 
         return formattedGuess;
-    }, [currentGuess, solution]);
+    }, [currentGuess, solution, turn, guesses]);
 
-    const addNewGuess = useCallback(() => {
+    const addNewGuess = useCallback(async () => {
         const formattedGuess = formatGuess();
 
         if (currentGuess === solution) {
             setShowModal(true);
         }
 
-        if (turn === 5 && !isCorrect){
+        if (turn === 5 && !isCorrect) {
             setShowModal(true);
             setMessage(solution);
             setShowToast(true);
@@ -61,7 +62,7 @@ const getGuess = (solution, boardID, isCorrect) => {
         setTurn((prevTurn) => prevTurn + 1);
 
         setUsedKeys((prevUsedKeys) => {
-            let newUsedKeys = {...prevUsedKeys};
+            let newUsedKeys = { ...prevUsedKeys };
             formattedGuess.forEach((l) => {
                 const currentColor = newUsedKeys[l.key];
 
@@ -81,10 +82,9 @@ const getGuess = (solution, boardID, isCorrect) => {
         });
 
         setCurrentGuess('');
-    }, [currentGuess, turn, solution, formatGuess]);
+    }, [currentGuess, turn, solution, formatGuess, isCorrect]);
 
     const handleKeyInput = useCallback(async (key) => {
-
         if (key === 'Enter') {
             if (turn > 5) {
                 setIsValidWord(false);
