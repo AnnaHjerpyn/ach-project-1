@@ -9,10 +9,7 @@ import useDebounce from '../functions/useDebounce';
 
 function Board({ boardID, onRestart }) {
     const [solution, setSolution] = useState('');
-    const [gameOver, setGameOver] = useState(false);
-    const [gameStats, setGameStats] = useState({});
-    const [isCorrect, setIsCorrect] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false); // State to track modal open/close
+    //const [isCorrect, setIsCorrect] = useState(false);
     const [inputDisabled, setInputDisabled] = useState(false); // State to disable input
 
     const {
@@ -34,7 +31,10 @@ function Board({ boardID, onRestart }) {
         setShowToast,
         showModal,
         setShowModal,
-    } = getGuess(solution, boardID, isCorrect);
+        gameOver,
+        isCorrect,
+        setIsCorrect
+    } = getGuess(solution, boardID);
 
     const debouncedGuess = useDebounce(currentGuess, 100);
 
@@ -58,7 +58,6 @@ function Board({ boardID, onRestart }) {
                 setTurn(data.guessCount || 0);
                 setUsedKeys(data.usedKeys || {});
                 setIsValidWord(true);
-                //setIsCorrect(false);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -72,22 +71,12 @@ function Board({ boardID, onRestart }) {
     useEffect(() => {
         async function updateBoard() {
             try {
-                if (currentGuess === solution) {
-                    setModalOpen(true);
-                    setIsCorrect(true);
-                }
+                // if (currentGuess === solution) {
+                //     setIsCorrect(true);
+                // }
                 if (isCorrect || turn > 5) {
-                    console.log("in update bord", isCorrect);
-                    setGameOver(true);
-                    setShowModal(true);
                     setMessage(solution);
                     setShowToast(true);
-                    setGameStats({
-                        correctWord: solution,
-                        totalGuesses: turn + 1,
-                        correctGuesses: isCorrect ? 1 : 0,
-                    });
-                    setModalOpen(true);
                 }
                 if (currentGuess.length === 5) {
                     const data = await checkDatabase(currentGuess, boardID);
@@ -124,46 +113,24 @@ function Board({ boardID, onRestart }) {
         };
     }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
-    // Disable input handling when modal is open
-    useEffect(() => {
-        const disableInput = (event) => {
-            if (modalOpen) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        };
-
-        if (modalOpen) {
-            setInputDisabled(true);
-        } else {
-            setInputDisabled(false);
-        }
-
-        window.addEventListener('keydown', disableInput);
-        window.addEventListener('keyup', disableInput);
-
-        return () => {
-            window.removeEventListener('keydown', disableInput);
-            window.removeEventListener('keyup', disableInput);
-        };
-    }, [modalOpen]);
-
     const closeModal = () => {
+        setIsCorrect(false);
         setShowModal(false);
-        setModalOpen(false);
         setInputDisabled(true);
+    };
+
+    const restartGame = () => {
         onRestart();
     };
 
     return (
         <>
             <div className="board-container">
-                <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
-                      isCorrect={isCorrect} currentGuess={currentGuess}/>
+                <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord} isCorrect={isCorrect} currentGuess={currentGuess} />
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
-            {showToast && <ToastMessage message={message}/>}
-            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
+            {showToast && <ToastMessage message={message} />}
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} />
         </>
     );
 }

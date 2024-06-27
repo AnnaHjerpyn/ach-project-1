@@ -1,25 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../../css/src/Components/_row.scss';
 
-function Row({ guess, debouncedGuess, isValidWord, isWinningRow, currentGuess }) {
-
-    const getRowClassNames = () => {
-        let classNames = 'row-container';
-
-        if (!isValidWord) {
-            classNames += ' invalid-word'; // Add invalid-word class if isValidWord is false
-        }
-        if (currentGuess) {
-            classNames += ' current'; // Add current and win classes conditionally
-        } else if (guess) {
-            classNames += ` past ${isWinningRow ? 'win' : ''}`; // Add past class if there is a guess
-        }
-
-        return classNames;
-    };
+function Row({guess, debouncedGuess, isValidWord, isWinningRow, currentGuess}) {
 
     const renderRowContent = () => {
-        if (guess) {
+        if (guess && isWinningRow) {
+            let letters = debouncedGuess.split('');
+            console.log("Rendering winning row in guess:", {currentGuess, debouncedGuess, isWinningRow});
+            return (
+                <div className="row-container current win">
+                    {letters.map((letter, i) => (
+                        <div key={i} className="filled">{letter}</div>
+                    ))}
+                    {[...Array(5 - letters.length)].map((_, i) => (
+                        <div key={i}></div>
+                    ))}
+                </div>
+            );
+        } else if (guess) {
+            console.log("Rendering past guess:", guess);
             return (
                 <div className="row-container past">
                     {guess.map((l, i) => (
@@ -29,11 +28,25 @@ function Row({ guess, debouncedGuess, isValidWord, isWinningRow, currentGuess })
             );
         }
 
-        if (currentGuess) {
+        if (currentGuess && isWinningRow) {
             let letters = debouncedGuess.split('');
+            console.log("Rendering winning row:", {currentGuess, debouncedGuess, isWinningRow});
+            return (
+                <div className="row-container current win">
+                    {letters.map((letter, i) => (
+                        <div key={i} className="filled">{letter}</div>
+                    ))}
+                    {[...Array(5 - letters.length)].map((_, i) => (
+                        <div key={i}></div>
+                    ))}
+                </div>
+            );
+        } else if (currentGuess) {
+            let letters = debouncedGuess.split('');
+            console.log("Rendering current guess row:", {currentGuess, debouncedGuess});
 
             return (
-                <div className={getRowClassNames()}>
+                <div className="row-container current">
                     {letters.map((letter, i) => (
                         <div key={i} className="filled">{letter}</div>
                     ))}
@@ -45,7 +58,7 @@ function Row({ guess, debouncedGuess, isValidWord, isWinningRow, currentGuess })
         }
 
         return (
-            <div className={getRowClassNames()}>
+            <div className="row-container">
                 <div></div>
                 <div></div>
                 <div></div>
