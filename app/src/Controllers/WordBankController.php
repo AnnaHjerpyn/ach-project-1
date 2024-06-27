@@ -154,9 +154,6 @@ class WordBankController extends PageController
             // Set the Board's game state to finished
             $board->GameState = 1;
             $board->write();
-
-            // Output a Modal that allows user to restart
-            // TODO: I'll add the Modal here later <3
         }
 
         // Return a response to the client

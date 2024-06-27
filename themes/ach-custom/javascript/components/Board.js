@@ -13,6 +13,7 @@ function Board({ boardID, onRestart }) {
     const [gameStats, setGameStats] = useState({});
     const [isCorrect, setIsCorrect] = useState(false);
     const [modalOpen, setModalOpen] = useState(false); // State to track modal open/close
+    const [inputDisabled, setInputDisabled] = useState(false); // State to disable input
 
     const {
         currentGuess,
@@ -57,7 +58,7 @@ function Board({ boardID, onRestart }) {
                 setTurn(data.guessCount || 0);
                 setUsedKeys(data.usedKeys || {});
                 setIsValidWord(true);
-                setIsCorrect(false);
+                //setIsCorrect(false);
             } catch (error) {
                 console.error('Failed to fetch board data:', error);
             }
@@ -72,10 +73,11 @@ function Board({ boardID, onRestart }) {
         async function updateBoard() {
             try {
                 if (currentGuess === solution) {
+                    setModalOpen(true);
                     setIsCorrect(true);
-                    console.log(isCorrect);
                 }
                 if (isCorrect || turn > 5) {
+                    console.log("in update bord", isCorrect);
                     setGameOver(true);
                     setShowModal(true);
                     setMessage(solution);
@@ -85,7 +87,7 @@ function Board({ boardID, onRestart }) {
                         totalGuesses: turn + 1,
                         correctGuesses: isCorrect ? 1 : 0,
                     });
-                    setModalOpen(true); // Set modalOpen to true when modal appears
+                    setModalOpen(true);
                 }
                 if (currentGuess.length === 5) {
                     const data = await checkDatabase(currentGuess, boardID);
@@ -122,12 +124,6 @@ function Board({ boardID, onRestart }) {
         };
     }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
-    const closeModal = () => {
-        setShowModal(false);
-        setModalOpen(false);
-        onRestart();
-    };
-
     // Disable input handling when modal is open
     useEffect(() => {
         const disableInput = (event) => {
@@ -136,6 +132,12 @@ function Board({ boardID, onRestart }) {
                 event.stopPropagation();
             }
         };
+
+        if (modalOpen) {
+            setInputDisabled(true);
+        } else {
+            setInputDisabled(false);
+        }
 
         window.addEventListener('keydown', disableInput);
         window.addEventListener('keyup', disableInput);
@@ -146,15 +148,22 @@ function Board({ boardID, onRestart }) {
         };
     }, [modalOpen]);
 
+    const closeModal = () => {
+        setShowModal(false);
+        setModalOpen(false);
+        setInputDisabled(true);
+        onRestart();
+    };
+
     return (
         <>
             <div className="board-container">
                 <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
-                      isCorrect={isCorrect} currentGuess={currentGuess} />
+                      isCorrect={isCorrect} currentGuess={currentGuess}/>
             </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} />
-            {showToast && <ToastMessage message={message} />}
-            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal} />
+            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
+            {showToast && <ToastMessage message={message}/>}
+            <ModalStats isOpen={showModal} stats={gameStats} onClose={closeModal} onRestart={closeModal}/>
         </>
     );
 }
