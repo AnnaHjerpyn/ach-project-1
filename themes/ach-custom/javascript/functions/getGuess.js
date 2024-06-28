@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import {useCallback, useState} from 'react';
 import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
-=======
-import { useState, useCallback } from 'react';
-import { checkDatabase, updateBoardWithGuess } from "../wordSubmit";
->>>>>>> e7404c08dd6547c63e3c5366bc2e87c40f019e94
 
 const getGuess = (solution, boardID) => {
 
@@ -51,7 +46,6 @@ const getGuess = (solution, boardID) => {
         const formattedGuess = formatGuess();
 
         if (currentGuess === solution) {
-<<<<<<< HEAD
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);
@@ -61,9 +55,6 @@ const getGuess = (solution, boardID) => {
                 return newGuesses;
             });
             return;
-=======
-            setShowModal(true);
->>>>>>> e7404c08dd6547c63e3c5366bc2e87c40f019e94
         }
 
         if (turn === 5 && !isCorrect) {
