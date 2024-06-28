@@ -23,7 +23,7 @@
 .row-container > div.green {
     --background: #6aaa64;
     --border-color: #6aaa64;
-    animation: flip 0.5s ease forwards;
+    animation: flip 0.6s ease forwards;
 }
 
 .row-container > div.grey {
@@ -35,7 +35,7 @@
 .row-container > div.yellow {
     --background: #c9b458;
     --border-color: #c9b458;
-    animation: flip 0.5s ease forwards;
+    animation: flip 0.6s ease forwards;
 }
 
 .row-container > div:nth-child(2) {
@@ -97,24 +97,44 @@
 }
 
 @keyframes correct-bounce {
-    0%,
-    20% {
+    0% {
         transform: translateY(0);
+        color: #fff;
+        background: var(--background);
+        border-color: var(--border-color);
+    }
+    10% {
+        transform: translateY(-8px);
+    }
+    20% {
+        transform: translateY(-10px);
+    }
+    30% {
+        transform: translateY(-8px);
     }
     40% {
-        transform: translateY(-30px);
+        transform: translateY(-5px);
     }
     50% {
-        transform: translateY(5px);
+        transform: translateY(-3px);
     }
     60% {
-        transform: translateY(-15px);
+        transform: translateY(-2px);
+    }
+    70% {
+        transform: translateY(-1px);
     }
     80% {
-        transform: translateY(2px);
+        transform: translateY(0);
+        color: #fff;
+        background: var(--background);
+        border-color: var(--border-color);
     }
     100% {
         transform: translateY(0);
+        color: #fff;
+        background: var(--background);
+        border-color: var(--border-color);
     }
 }
 
@@ -143,10 +163,6 @@
 
 .row-container.invalid-word {
     animation: shake 600ms ease-in-out;
-}
-
-.row-container.win {
-    animation: correct-bounce 1000ms ease-in-out;
 }
 
 body[data-theme='dark'] .row-container > div {
