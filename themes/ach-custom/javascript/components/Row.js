@@ -21,7 +21,7 @@ function Row({guess, debouncedGuess, isValidWord, isWinningRow, currentGuess}) {
             console.log("Rendering current guess row:", {currentGuess, debouncedGuess});
 
             return (
-                <div className="row-container current">
+                <div className={`row-container current ${isValidWord ? '' : 'invalid-word'} ${isWinningRow ? 'win' : ''}`}>
                     {letters.map((letter, i) => (
                         <div key={i} className="filled">{letter}</div>
                     ))}
@@ -34,10 +34,10 @@ function Row({guess, debouncedGuess, isValidWord, isWinningRow, currentGuess}) {
 
         // Render an empty row if neither guess nor current guess is present
         return (
-            <div className="row-container">
-                {[...Array(5)].map((_, i) => (
-                    <div key={i}></div>
-                ))}
+            <div
+                className={`row-container ${isValidWord ? '' : 'invalid-word'}`}>                {[...Array(5)].map((_, i) => (
+                <div key={i}></div>
+            ))}
             </div>
         );
     };
