@@ -29,8 +29,9 @@ body[data-theme='dark'] .keyboard button.yellow {
 }
 
 .keyboard {
+    font-family: Futura, sans-serif;
+    margin-top: 32px;
     height: var(--keyboard-height);
-    margin: 0 5px;
     user-select: none;
 
     .row {
@@ -45,7 +46,8 @@ body[data-theme='dark'] .keyboard button.yellow {
 
         button {
             font-size: 0.75em;
-            font-weight: bold;
+            margin: 0 2px;
+            font-weight: 600;
             border: 0;
             padding: 0;
             flex: 1;

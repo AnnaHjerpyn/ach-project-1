@@ -6,6 +6,8 @@ import ModalStats from './ModalStats';
 import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
+import '../../css/src/Components/_board.scss';
+
 
 function Board({ boardID, onRestart }) {
     const [solution, setSolution] = useState('');
