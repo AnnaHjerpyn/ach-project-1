@@ -63,8 +63,8 @@
         &.win > div.filled {
             --background: #6aaa64;
             --border-color: #6aaa64;
-            animation-name: correct-bounce;
-            animation-duration: 1000s;
+            animation-name: win-bounce;
+            animation-duration: 1s;
             animation-timing-function: ease-in-out;
         }
     }
@@ -108,7 +108,7 @@
     }
 }
 
-@keyframes correct-bounce {
+@keyframes win-bounce {
     0%,
     20% {
         transform: translateY(0);
