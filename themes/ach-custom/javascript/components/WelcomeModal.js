@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../css/src/Components/_welcome.scss';
 import icon from '../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png';
 
@@ -20,9 +20,7 @@ const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses}) => {
         setTimeout(onCancel, 1000);
     };
 
-    const renderModalContent = () => {
-
-        // Handles when the game is finished
+    useEffect(() => {
         if (finishedGame) {
             setHeader("Hi Wordler")
             setMessage("Great job on the puzzle! Do you want to play again?")
@@ -32,26 +30,23 @@ const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses}) => {
             setMessage(`You've made ${totalGuesses} of 6 guesses. Keep it up!`)
             setButtonText("Continue")
         }
+    })
 
-        return (
-            <div className={`contentWelcome ${!isVisible ? 'fade-out' : ''}`}>
-                <div className="contentWelcomeContainer">
-                    <div className="contentWelcomeMain">
-                        <img src={icon} alt="Icon" className="icon"/>
-                        <div className="title">{header}</div>
-                        <div className="subtitle">{message}</div>
-                        <div className="buttonContainer">
-                            <button className="button" onClick={handleConfirm}>{buttonText}</button>
-                            {finishedGame &&
-                                <button className="button secondary" onClick={handleCancel}>Cancel</button>}
-                        </div>
+    return (
+        <div className={`contentWelcome ${!isVisible ? 'fade-out' : ''}`}>
+            <div className="contentWelcomeContainer">
+                <div className="contentWelcomeMain">
+                    <img src={icon} alt="Icon" className="icon"/>
+                    <div className="title">{header}</div>
+                    <div className="subtitle">{message}</div>
+                    <div className="buttonContainer">
+                        <button className="button" onClick={handleConfirm}>{buttonText}</button>
+                        <button className="button secondary" onClick={handleCancel}>Cancel</button>
                     </div>
                 </div>
             </div>
-        );
-    };
-
-    return renderModalContent();
+        </div>
+    );
 };
 
 export default WelcomeModal;

@@ -11,10 +11,9 @@ const root = createRoot(document.getElementById('root'));
 function App() {
     const [solution, setSolution] = useState('');
     const [boardID, setBoardID] = useState('');
-    const [showRestartModal, setShowRestartModal] = useState(false);
-    const [gameState, setGameState] = useState(null);
-    const [welcomeMessage, setWelcomeMessage] = useState('Great job on the puzzle! Do you want to start a new game?');
-    const [buttonText, setButtonText] = useState('Restart Game');
+    const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+    const [finishedGame, setFinishedGame] = useState(false);
+    const [totalGuesses, setTotalGuesses] = useState(0);
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
@@ -34,9 +33,11 @@ function App() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Fetched board data:', data);
-                if (data.finished) { // Game is seen as solved or finished
-                    setShowRestartModal(true);
+                if (data.finished) {
+                    setFinishedGame(true);
                 }
+                setShowWelcomeModal(true);
+                setTotalGuesses(data.guesses.length);
                 setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {
@@ -50,20 +51,12 @@ function App() {
         sessionStorage.removeItem('gameState');
         setSolution('');
         setBoardID('');
-        setShowRestartModal(false);
+        setShowWelcomeModal(false);
         await fetchBoard();
     };
 
     useEffect(() => {
         fetchBoard();
-        const savedGameState = sessionStorage.getItem('gameState');
-        if (savedGameState) {
-            const gameStateObj = JSON.parse(savedGameState);
-            setGameState(gameStateObj);
-            setWelcomeMessage(`Welcome back! You have used ${gameStateObj.guesses.length} out of 6 guesses.`);
-            setButtonText('Continue');
-            setShowRestartModal(true);
-        }
     }, []);
 
     return (
@@ -78,12 +71,12 @@ function App() {
                 </nav>
                 <Board boardID={boardID} onRestart={handleRestart} />
 
-                {showRestartModal && (
+                {showWelcomeModal && (
                     <WelcomeModal
-                        message={welcomeMessage}
                         onConfirm={handleRestart}
-                        onCancel={() => setShowRestartModal(false)}
-                        buttonText={buttonText}
+                        onCancel={() => setShowWelcomeModal(false)}
+                        totalGuesses={totalGuesses}
+                        finishedGame={finishedGame}
                     />
                 )}
             </div>
