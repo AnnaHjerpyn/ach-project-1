@@ -16,7 +16,6 @@ const ModalStats = ({ isOpen, onClose, onRestart }) => {
                 </button>
                 {/*<img src={icon} alt="Icon" className="icon"/>*}*/}
                 <h2>Wordle</h2>
-                <p>Guess Distribution</p>
                 <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
                     Restart
                 </button>
