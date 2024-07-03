@@ -14,6 +14,7 @@ function App() {
     const [showWelcomeModal, setShowWelcomeModal] = useState(false);
     const [finishedGame, setFinishedGame] = useState(false);
     const [totalGuesses, setTotalGuesses] = useState(0);
+    const [gameKey, setGameKey] = useState(0);
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
@@ -48,10 +49,10 @@ function App() {
 
     const handleRestart = async () => {
         sessionStorage.removeItem('boardID');
-        sessionStorage.removeItem('gameState');
         setSolution('');
         setBoardID('');
         setShowWelcomeModal(false);
+        setGameKey(prevKey => prevKey + 1);
         await fetchBoard();
     };
 
@@ -69,7 +70,7 @@ function App() {
                         <ThemeToggle />
                     </div>
                 </nav>
-                <Board boardID={boardID} onRestart={handleRestart} />
+                <Board key={gameKey} boardID={boardID} onRestart={handleRestart} />
 
                 {showWelcomeModal && (
                     <WelcomeModal

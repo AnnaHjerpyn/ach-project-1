@@ -30,7 +30,7 @@ const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses}) => {
             setMessage(`You've made ${totalGuesses} of 6 guesses. Keep it up!`)
             setButtonText("Continue")
         }
-    })
+    }, [finishedGame, totalGuesses]);
 
     return (
         <div className={`contentWelcome ${!isVisible ? 'fade-out' : ''}`}>
