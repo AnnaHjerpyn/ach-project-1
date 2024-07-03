@@ -21,7 +21,7 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
     };
 
     useEffect(() => {
-        if (finishedGame) {
+        if (finishedGame || totalGuesses === 6) {
             setHeader('Hi Wordler');
             setMessage('Great job on the puzzle! Do you want to play again?');
             setButtonText('Restart Game');

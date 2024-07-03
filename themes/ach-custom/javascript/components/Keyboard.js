@@ -12,6 +12,7 @@ function Keyboard({usedKeys, handleKeyInput}) {
             <div className="row">
                 {topRow.map((letter) => {
                     const className = usedKeys[letter];
+                    console.log(usedKeys[letter]);
                     return (
                         <button
                             key={letter}
@@ -41,7 +42,6 @@ function Keyboard({usedKeys, handleKeyInput}) {
                 })}
                 <div style={{flex: 0.5}} className="p-0"></div>
             </div>
-
             <div className="row">
                 <button
                     key="Enter"
@@ -65,7 +65,6 @@ function Keyboard({usedKeys, handleKeyInput}) {
                         </button>
                     );
                 })}
-
                 <button
                     key="Backspace"
                     value="←"

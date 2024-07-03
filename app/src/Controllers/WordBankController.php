@@ -64,8 +64,6 @@ class WordBankController extends PageController
                 $guessesArray[] = $guess->Guess;
                 $usedKeys[] = $this->updateUsedKeys($guess->Guess, $board->CorrectWord);
             }
-
-            $usedKeys;
         }
 
         // Prepare game statistics
@@ -96,7 +94,6 @@ class WordBankController extends PageController
         $guessArray = str_split($guess);
         $usedKeys = [];
 
-        // First pass to find 'green' keys
         foreach ($guessArray as $i => $letter) {
             if ($correctWordArray[$i] === $letter) {
                 $usedKeys[] = 'green';
