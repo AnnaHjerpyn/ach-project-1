@@ -1,4 +1,4 @@
-# 🚀 Welcome to your new awesome project!
+# 🚀 Welcome to Anna's Wordle project!
 
 This project has been created using **webpack-cli**, you can now run
 
