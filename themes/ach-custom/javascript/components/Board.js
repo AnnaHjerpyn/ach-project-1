@@ -43,10 +43,13 @@ function Board({ boardID, onRestart }) {
                 const data = await response.json();
                 setSolution(data.solution);
 
-                let oldGuesses = [...Array(6)].map(() => Array(5).fill(''));
+                let oldGuesses = [...Array(6)].map(() => Array(5).fill({ key: '', color: '' }));
+                // Loop through the guesses from backend data !!
                 for (let i = 0; i < data.guesses.length; i++) {
-                    oldGuesses[i] = data.guesses[i].split('').map((char) => {
-                        const color = data.usedKeys[char];
+                    // Split each guess into characters and map to { key, color } structure
+                    oldGuesses[i] = data.guesses[i].split('').map((char, index) => {
+                        // Retrieve color from 'usedKeys' object in the data
+                        const color = data.usedKeys[i][index];
                         return { key: char, color: color };
                     });
                 }

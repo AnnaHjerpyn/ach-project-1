@@ -88,8 +88,6 @@ const getGuess = (solution, boardID) => {
             return newUsedKeys;
         });
 
-
-
         setCurrentGuess('');
     }, [currentGuess, turn, solution, formatGuess, isCorrect]);
 

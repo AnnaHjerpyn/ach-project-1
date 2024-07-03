@@ -24,7 +24,7 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
         if (finishedGame) {
             setHeader('Hi Wordler');
             setMessage('Great job on the puzzle! Do you want to play again?');
-            setButtonText('Restart');
+            setButtonText('Restart Game');
         } else {
             setHeader('Welcome Back!');
             setMessage(`You've made ${totalGuesses} of 6 guesses. Keep it up!`);
