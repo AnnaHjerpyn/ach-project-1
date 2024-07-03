@@ -8,12 +8,9 @@ import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
 
-
 function Board({ boardID, onRestart }) {
     const [solution, setSolution] = useState('');
-    //const [isCorrect, setIsCorrect] = useState(false);
-    const [inputDisabled, setInputDisabled] = useState(false); // State to disable input
-
+    const [inputDisabled, setInputDisabled] = useState(false);
     const {
         currentGuess,
         guesses,
@@ -72,9 +69,6 @@ function Board({ boardID, onRestart }) {
     useEffect(() => {
         async function updateBoard() {
             try {
-                // if (currentGuess === solution) {
-                //     setIsCorrect(true);
-                // }
                 if (isCorrect || turn > 5) {
                     setMessage(solution);
                     setShowToast(true);
