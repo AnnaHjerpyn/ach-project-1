@@ -25,10 +25,14 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
             setHeader('Hi Wordler');
             setMessage('Great job on the puzzle! Do you want to play again?');
             setButtonText('Restart Game');
-        } else {
+        } else if (!finishedGame && totalGuesses > 0){
             setHeader('Welcome Back!');
             setMessage(`You've made ${totalGuesses} of 6 guesses. Keep it up!`);
             setButtonText('Continue');
+        } else {
+            setHeader('Wordle');
+            setMessage(`Get 6 chances to guess a 5-letter word.`);
+            setButtonText('Play Game');
         }
     }, [finishedGame, totalGuesses]);
 
