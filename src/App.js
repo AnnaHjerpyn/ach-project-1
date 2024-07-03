@@ -33,7 +33,6 @@ function App() {
             const response = await fetch(`/home/getBoard/${boardID}`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Fetched board data:', data);
                 if (data.finished) {
                     setFinishedGame(true);
                 }
