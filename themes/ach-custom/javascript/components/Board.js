@@ -46,7 +46,7 @@ function Board({ boardID, onRestart }) {
                 let oldGuesses = [...Array(6)].map(() => Array(5).fill({ key: '', color: '' }));
                 // Loop through the guesses from backend data !!
                 for (let i = 0; i < data.guesses.length; i++) {
-                    // Split each guess into characters and map to { key, color } structure
+                    // Split each guess into characters and map to { letter, color } structure
                     oldGuesses[i] = data.guesses[i].split('').map((char, index) => {
                         // Retrieve color from 'usedKeys' object in the data
                         const color = data.usedKeys[i][index];
@@ -54,6 +54,7 @@ function Board({ boardID, onRestart }) {
                     });
                 }
 
+                // Initializing board data
                 setGuesses(oldGuesses);
                 setHistory(data.guesses || []);
                 setTurn(data.guessCount || 0);

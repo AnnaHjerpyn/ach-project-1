@@ -54,7 +54,7 @@ const getGuess = (solution, boardID) => {
         }
 
         if (turn === 5 && !isCorrect) {
-            setShowModal(true);
+            setTimeout(() => setShowModal(true), 2500)
             setMessage(solution);
             setShowToast(true);
         }
