@@ -62,8 +62,10 @@ class WordBankController extends PageController
         if ($guesses->count() > 0) {
             foreach ($guesses as $guess) {
                 $guessesArray[] = $guess->Guess;
-                $this->updateUsedKeys($usedKeys, $guess->Guess, $board->CorrectWord);
+                $usedKeys[] = $this->updateUsedKeys($guess->Guess, $board->CorrectWord);
             }
+
+            $usedKeys;
         }
 
         // Prepare game statistics
@@ -88,37 +90,24 @@ class WordBankController extends PageController
         return json_encode($response);
     }
 
-    private function updateUsedKeys(&$usedKeys, $guess, $correctWord)
+    private function updateUsedKeys($guess, $correctWord)
     {
         $correctWordArray = str_split($correctWord);
         $guessArray = str_split($guess);
+        $usedKeys = [];
 
         // First pass to find 'green' keys
         foreach ($guessArray as $i => $letter) {
             if ($correctWordArray[$i] === $letter) {
-                $usedKeys[$letter] = 'green';
-                $correctWordArray[$i] = null; // Nullify the matched letter
+                $usedKeys[] = 'green';
+            } else if (in_array($letter, $correctWordArray)) {
+                $usedKeys[] = 'yellow';
+            } else {
+                $usedKeys[] = 'grey';
             }
         }
 
-        // Second pass to find 'yellow' and 'grey' keys
-        foreach ($guessArray as $i => $letter) {
-            if (!isset($usedKeys[$letter])) {
-                if (in_array($letter, $correctWordArray)) {
-                    $usedKeys[$letter] = 'yellow';
-                    $correctWordArray[array_search($letter, $correctWordArray)] = null; // Nullify the matched letter
-                } else {
-                    $usedKeys[$letter] = 'grey';
-                }
-            } else if ($usedKeys[$letter] !== 'green') {
-                if (in_array($letter, $correctWordArray)) {
-                    $usedKeys[$letter] = 'yellow';
-                    $correctWordArray[array_search($letter, $correctWordArray)] = null; // Nullify the matched letter
-                } else {
-                    $usedKeys[$letter] = 'grey';
-                }
-            }
-        }
+        return $usedKeys;
     }
 
     public function updateBoard(HTTPRequest $request)
