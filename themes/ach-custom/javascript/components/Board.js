@@ -59,8 +59,10 @@ function Board({ boardID, onRestart }) {
                 data.guesses.forEach((guess, i) => {
                     guess.split('').forEach((char, index) => {
                         const color = data.usedKeys[i][index];
+                        // If a letter entry doesn't already exist with a color, add color
                         if (!transformedUsedKeys[char]) {
                             transformedUsedKeys[char] = color;
+                        // Make sure green is takes over all precedence || yellow takes precedence over the grey
                         } else if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
                             transformedUsedKeys[char] = color;
                         }
