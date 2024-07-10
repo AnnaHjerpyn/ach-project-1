@@ -59,9 +59,12 @@ function Board({ boardID, onRestart }) {
                 data.guesses.forEach((guess, i) => {
                     guess.split('').forEach((char, index) => {
                         const color = data.usedKeys[i][index];
+                        // If a letter entry doesn't already exist with a color, add color
                         if (!transformedUsedKeys[char]) {
                             transformedUsedKeys[char] = color;
-                        } else if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
+                        // Make sure green is takes over all precedence || yellow takes precedence over the grey
+                        } else
+                            if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
                             transformedUsedKeys[char] = color;
                         }
                     });
@@ -137,7 +140,7 @@ function Board({ boardID, onRestart }) {
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
             {showToast && <ToastMessage message={message} />}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} />
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
         </>
     );
 }

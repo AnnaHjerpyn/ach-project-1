@@ -12,7 +12,7 @@
 //     return data;
 // }
 
-export async function checkDatabase(currentGuess, boardID) {
+async function checkDatabase(currentGuess, boardID) {
     const response = await fetch('/home/check', {
         method: 'POST',
         headers: {
@@ -43,7 +43,7 @@ export async function checkDatabase(currentGuess, boardID) {
 //     return data;
 // }
 
-export async function updateBoardWithGuess(boardID, newGuess) {
+async function updateBoardWithGuess(boardID, newGuess) {
     try {
         const response = await fetch(`/home/update`, {
             method: 'PUT',
@@ -76,3 +76,5 @@ export async function updateBoardWithGuess(boardID, newGuess) {
 //         throw new Error(data.message || 'Failed to update game state.');
 //     }
 // }
+
+export { updateBoardWithGuess, checkDatabase };
