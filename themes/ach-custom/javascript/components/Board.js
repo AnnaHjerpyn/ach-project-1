@@ -63,7 +63,8 @@ function Board({ boardID, onRestart }) {
                         if (!transformedUsedKeys[char]) {
                             transformedUsedKeys[char] = color;
                         // Make sure green is takes over all precedence || yellow takes precedence over the grey
-                        } else if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
+                        } else
+                            if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
                             transformedUsedKeys[char] = color;
                         }
                     });
@@ -139,7 +140,7 @@ function Board({ boardID, onRestart }) {
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
             {showToast && <ToastMessage message={message} />}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} />
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
         </>
     );
 }

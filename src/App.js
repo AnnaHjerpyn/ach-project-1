@@ -6,8 +6,6 @@ import ThemeToggle from './ThemeToggle';
 import { ThemeProvider } from './ThemeContext';
 import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModal";
 
-const root = createRoot(document.getElementById('root'));
-
 function App() {
     const [solution, setSolution] = useState('');
     const [boardID, setBoardID] = useState('');
@@ -15,9 +13,11 @@ function App() {
     const [finishedGame, setFinishedGame] = useState(false);
     const [totalGuesses, setTotalGuesses] = useState(0);
     const [gameKey, setGameKey] = useState(0);
+    const [themeMode, setTheme] = useState("");
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
+        setTheme(sessionStorage.getItem('theme'));
 
         if (!boardID) {
             const response = await fetch('/home/board', { method: 'POST' });

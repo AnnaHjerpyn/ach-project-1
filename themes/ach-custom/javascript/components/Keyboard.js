@@ -12,7 +12,6 @@ function Keyboard({usedKeys, handleKeyInput}) {
             <div className="row">
                 {topRow.map((letter) => {
                     const className = usedKeys[letter];
-                    console.log(usedKeys[letter]);
                     return (
                         <button
                             key={letter}
