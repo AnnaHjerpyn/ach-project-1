@@ -164,7 +164,7 @@ class WordBankController extends PageController
     public function getRandomSolutionWord()
     {
         // Fetch the minimum and maximum IDs
-        $minID = 263; // TODO: this should be 1 but the DB starts at 263 :o
+        $minID = 2;
         $maxID = WordBank::get()->count();
 
         if ($minID === null || $maxID === null) {
