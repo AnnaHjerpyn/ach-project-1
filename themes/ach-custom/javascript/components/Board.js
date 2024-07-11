@@ -140,7 +140,7 @@ function Board({ boardID, onRestart }) {
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
             {showToast && <ToastMessage message={message} />}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect} solution={solution} />
         </>
     );
 }
