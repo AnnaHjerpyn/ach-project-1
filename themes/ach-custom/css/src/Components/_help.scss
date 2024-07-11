@@ -1,0 +1,77 @@
+.help {
+    width: 100%;
+    margin: auto;
+}
+
+.subheading {
+    font-family: Futura, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0;
+}
+
+.h2 {
+    font-family: Futura, sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: 30px;
+    text-transform: none;
+    text-align: left;
+    margin-bottom: 4px;
+    margin-top: 29px;
+    display: block;
+}
+
+.instructions {
+    font-family: Futura, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    list-style-type: disc;
+    font-weight: 500;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 20px;
+    color: var(--color-text);
+    
+    li {
+        margin-bottom: 4px;
+    }
+
+    li::marker {
+        font-size: 18px;
+    }
+}
+
+.examples {
+    font-family: Futura, sans-serif;
+
+    strong {
+        font-weight: bold;
+    }
+
+    p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 20px;
+    }
+}
+
+.example {
+    margin-top: 8px;
+    margin-bottom: 20px;
+
+    p {
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 8px;
+    }
+}
+
+.tileContainer {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+}

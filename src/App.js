@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../themes/ach-custom/css/src/Components/_app.scss';
-import { createRoot } from 'react-dom/client';
 import Board from '../themes/ach-custom/javascript/components/Board';
 import ThemeToggle from './ThemeToggle';
-import { ThemeProvider } from './ThemeContext';
+import {ThemeProvider} from './ThemeContext';
 import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModal";
+import HelpToggle from "./HelpToggle";
 
 function App() {
     const [solution, setSolution] = useState('');
@@ -20,7 +20,7 @@ function App() {
         setTheme(sessionStorage.getItem('theme'));
 
         if (!boardID) {
-            const response = await fetch('/home/board', { method: 'POST' });
+            const response = await fetch('/home/board', {method: 'POST'});
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem('boardID', data.boardID);
@@ -61,24 +61,24 @@ function App() {
 
     return (
         <ThemeProvider>
+            {showWelcomeModal && (
+                <WelcomeModal
+                    onConfirm={handleRestart}
+                    onCancel={() => setShowWelcomeModal(false)}
+                    totalGuesses={totalGuesses}
+                    finishedGame={finishedGame}
+                />
+            )}
             <div className="App">
                 <nav className="navbar navbar-expand-sm fixed-top">
                     <div className="container-fluid">
                         <div className="spacer"></div>
                         <h1>Wordle</h1>
-                        <ThemeToggle />
+                        <ThemeToggle/>
+                        <HelpToggle />
                     </div>
                 </nav>
-                <Board key={gameKey} boardID={boardID} onRestart={handleRestart} />
-
-                {showWelcomeModal && (
-                    <WelcomeModal
-                        onConfirm={handleRestart}
-                        onCancel={() => setShowWelcomeModal(false)}
-                        totalGuesses={totalGuesses}
-                        finishedGame={finishedGame}
-                    />
-                )}
+                <Board key={gameKey} boardID={boardID} onRestart={handleRestart}/>
             </div>
         </ThemeProvider>
     );
