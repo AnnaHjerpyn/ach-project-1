@@ -2,21 +2,23 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
-export const useTheme = () => useContext(ThemeContext);
-
 export const ThemeProvider = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
-    // Need to handle dark and light mode
 
     useEffect(() => {
-        // Theme exists
-        const currentTheme = isDarkMode ? 'dark' : 'light';
-        document.body.setAttribute('data-theme', currentTheme);
-        sessionStorage.setItem('theme', currentTheme);
-    }, [isDarkMode]);
+        const savedTheme = sessionStorage.getItem('theme');
+        if (savedTheme) {
+            const isDark = savedTheme === 'dark';
+            setIsDarkMode(isDark);
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+    }, []);
 
     const toggleTheme = () => {
-        setIsDarkMode(prevMode => !prevMode);
+        const newTheme = isDarkMode ? 'light' : 'dark';
+        setIsDarkMode(!isDarkMode);
+        sessionStorage.setItem('theme', newTheme);
+        document.body.setAttribute('data-theme', newTheme);
     };
 
     return (
@@ -25,3 +27,5 @@ export const ThemeProvider = ({ children }) => {
         </ThemeContext.Provider>
     );
 };
+
+export const useTheme = () => useContext(ThemeContext);
