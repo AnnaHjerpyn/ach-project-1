@@ -1,30 +1,48 @@
-import React, { useContext } from 'react';
-import '../../css/src/Components/_modal.scss';
-import { useTheme } from '../../../../src/ThemeContext';
+import React from 'react';
+import {useTheme} from '../../../../src/ThemeContext';
 import icon from "../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png";
+import '../../css/src/Components/_modal.scss';
 
-const ModalStats = ({ isOpen, onClose, onRestart, isCorrect }) => {
-    const { isDarkMode } = useTheme();
+const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
+    const {isDarkMode} = useTheme();
 
     if (!isOpen) return null;
 
-    return (
-        <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`}>
-            <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}>
-                <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
-                    &times;
-                </button>
-                {/*<img src={icon} alt="Icon" className="icon"/>*}*/}
-                <h2>Wordle</h2>
-                {isCorrect &&
-                    <h2>You guessed the word!</h2>
-                }
-                <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
-                    Restart
-                </button>
+    if (isCorrect) {
+        return (
+            <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
+                <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}
+                     data-theme={isDarkMode ? 'dark' : 'light'}>
+                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
+                        &times;
+                    </button>
+                    <img src={icon} alt="Icon" className="icon"/>
+                    <h1>Congratulations!</h1>
+                    <p>You guessed the word: {solution}</p>
+                    <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
+                        Restart
+                    </button>
+                </div>
             </div>
-        </div>
-    );
+        );
+    } else {
+        return (
+            <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
+                <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}
+                     data-theme={isDarkMode ? 'dark' : 'light'}>
+                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
+                        &times;
+                    </button>
+                    <img src={icon} alt="Icon" className="icon"/>
+                    <h1>Wordle</h1>
+                    <p>Good try! The word was {solution}</p>
+                    <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
+                        Restart
+                    </button>
+                </div>
+            </div>
+        );
+    }
 };
 
 export default ModalStats;
