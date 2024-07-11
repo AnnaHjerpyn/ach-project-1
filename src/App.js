@@ -59,29 +59,27 @@ function App() {
         fetchBoard();
     }, []);
 
-    return (
-        <ThemeProvider>
-            {showWelcomeModal && (
-                <WelcomeModal
-                    onConfirm={handleRestart}
-                    onCancel={() => setShowWelcomeModal(false)}
-                    totalGuesses={totalGuesses}
-                    finishedGame={finishedGame}
-                />
-            )}
-            <div className="App">
-                <nav className="navbar navbar-expand-sm fixed-top">
-                    <div className="container-fluid">
-                        <div className="spacer"></div>
-                        <h1>Wordle</h1>
+    return (<ThemeProvider>
+        {showWelcomeModal && (<WelcomeModal
+            onConfirm={handleRestart}
+            onCancel={() => setShowWelcomeModal(false)}
+            totalGuesses={totalGuesses}
+            finishedGame={finishedGame}
+        />)}
+        <div className="App">
+            <nav className="navbar navbar-expand-sm fixed-top">
+                <div className="container-fluid">
+                    <div className="spacer"></div>
+                    <h1>Wordle</h1>
+                    <div className="toggles">
                         <ThemeToggle/>
-                        <HelpToggle />
+                        <HelpToggle/>
                     </div>
-                </nav>
-                <Board key={gameKey} boardID={boardID} onRestart={handleRestart}/>
-            </div>
-        </ThemeProvider>
-    );
+                </div>
+            </nav>
+            <Board key={gameKey} boardID={boardID} onRestart={handleRestart}/>
+        </div>
+    </ThemeProvider>);
 }
 
 export default App;

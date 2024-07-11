@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useTheme} from './ThemeContext';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 import HTPModal from "../themes/ach-custom/javascript/components/HTPModal";
 
 
@@ -21,7 +21,7 @@ const HelpToggle = () => {
     return (
         <>
             <FontAwesomeIcon
-                icon={faInfoCircle}
+                icon={faQuestionCircle}
                 onClick={handleOpen}
                 style={{
                     cursor: 'pointer',

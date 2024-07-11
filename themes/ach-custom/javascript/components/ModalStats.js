@@ -30,7 +30,7 @@ const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
             <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
                 <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}
                      data-theme={isDarkMode ? 'dark' : 'light'}>
-                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
+                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'} onClick={onClose}>
                         &times;
                     </button>
                     <img src={icon} alt="Icon" className="icon"/>
