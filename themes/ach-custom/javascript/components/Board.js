@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
 import ModalStats from './ModalStats';
+import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
 
-function Board({boardID, onRestart}) {
+function Board({ boardID, onRestart }) {
     const [solution, setSolution] = useState('');
     const [inputDisabled, setInputDisabled] = useState(false);
     const {
@@ -42,11 +43,11 @@ function Board({boardID, onRestart}) {
                 const data = await response.json();
                 setSolution(data.solution);
 
-                let oldGuesses = [...Array(6)].map(() => Array(5).fill({key: '', color: ''}));
+                let oldGuesses = [...Array(6)].map(() => Array(5).fill({ key: '', color: '' }));
                 for (let i = 0; i < data.guesses.length; i++) {
                     oldGuesses[i] = data.guesses[i].split('').map((char, index) => {
                         const color = data.usedKeys[i][index];
-                        return {key: char, color: color};
+                        return { key: char, color: color };
                     });
                 }
 
@@ -61,8 +62,9 @@ function Board({boardID, onRestart}) {
                         // If a letter entry doesn't already exist with a color, add color
                         if (!transformedUsedKeys[char]) {
                             transformedUsedKeys[char] = color;
-                            // Make sure green is takes over all precedence || yellow takes precedence over the grey
-                        } else if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
+                        // Make sure green is takes over all precedence || yellow takes precedence over the grey
+                        } else
+                            if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
                             transformedUsedKeys[char] = color;
                         }
                     });
@@ -131,50 +133,14 @@ function Board({boardID, onRestart}) {
         onRestart();
     };
 
-    async function updateBoardWithGuess(boardID, newGuess) {
-        try {
-            const response = await fetch(`/home/update`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({boardID, newGuess})
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update board.');
-            }
-
-            return await response.json(); // or handle response as needed
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    }
-
-    async function checkDatabase(currentGuess, boardID) {
-        const response = await fetch('/home/check', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({Word: currentGuess, BoardID: boardID})
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to check.');
-        }
-        return data;
-    }
-
     return (
         <>
             <div className="board-container">
-                <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord}
-                      isCorrect={isCorrect} currentGuess={currentGuess}/>
+                <Grid guesses={guesses} debouncedGuess={debouncedGuess} turn={turn} isValidWord={isValidWord} isCorrect={isCorrect} currentGuess={currentGuess} />
             </div>
-            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled}/>
-            {showToast && <ToastMessage message={message}/>}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
+            <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
+            {showToast && <ToastMessage message={message} />}
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect} solution={solution} />
         </>
     );
 }

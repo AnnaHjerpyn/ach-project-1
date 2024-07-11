@@ -30,12 +30,12 @@ const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
             <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
                 <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}
                      data-theme={isDarkMode ? 'dark' : 'light'}>
-                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
+                    <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'} onClick={onClose}>
                         &times;
                     </button>
                     <img src={icon} alt="Icon" className="icon"/>
-                    <h1>Wordle</h1>
-                    <p>Good try! The word was {solution}</p>
+                    <h1>Almost had it!</h1>
+                    <p>The word was: {solution}</p>
                     <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
                         Restart
                     </button>

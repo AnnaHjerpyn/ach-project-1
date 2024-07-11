@@ -16,7 +16,8 @@ body {
 .App {
 
     background-color: var(--color-background);
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     margin: 0 auto;
     text-align: center;
@@ -38,7 +39,7 @@ body {
         transition: .5s;
 
         .spacer {
-            width: 32px;
+            width: 60px;
         }
 
         h1 {
