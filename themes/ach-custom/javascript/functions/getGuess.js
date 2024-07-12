@@ -103,7 +103,6 @@ const getGuess = (solution, boardID) => {
                 setIsValidWord(false);
                 setMessage('Word has already been used'); // Set toast message
                 setShowToast(true); // Display the toast
-                console.log("here");
                 return;
             }
 
