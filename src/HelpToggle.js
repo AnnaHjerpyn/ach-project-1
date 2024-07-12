@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
-import {useTheme} from './ThemeContext';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
-import HTPModal from "../themes/ach-custom/javascript/components/HTPModal";
-
+import React, { useState } from 'react';
+import { useTheme } from './ThemeContext';
+import { QuestionCircle } from 'react-bootstrap-icons';
+import HTPModal from '../themes/ach-custom/javascript/components/HTPModal';
 
 const HelpToggle = () => {
-
-    const {isDarkMode} = useTheme();
+    const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -20,8 +17,7 @@ const HelpToggle = () => {
 
     return (
         <>
-            <FontAwesomeIcon
-                icon={faQuestionCircle}
+            <QuestionCircle
                 onClick={handleOpen}
                 style={{
                     cursor: 'pointer',
@@ -31,10 +27,9 @@ const HelpToggle = () => {
                 }}
             />
 
-            <HTPModal isOpen={open} onClose={handleClose}/>
+            <HTPModal isOpen={open} onClose={handleClose} />
         </>
     );
-
 };
 
 export default HelpToggle;

@@ -61,7 +61,8 @@ function App() {
 
     return (
         <ThemeProvider>
-            {showWelcomeModal && (<WelcomeModal
+            {showWelcomeModal && (
+                <WelcomeModal
                 onConfirm={handleRestart}
                 onCancel={() => setShowWelcomeModal(false)}
                 totalGuesses={totalGuesses}
@@ -73,8 +74,8 @@ function App() {
                         <div className="spacer"></div>
                         <h1>Wordle</h1>
                         <div className="toggles">
-                            <ThemeToggle/>
                             <HelpToggle/>
+                            <ThemeToggle/>
                         </div>
                     </div>
                 </nav>
