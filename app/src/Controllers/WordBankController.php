@@ -4,9 +4,9 @@ namespace AnnaHjerpyn\Custom\Controllers;
 
 use AnnaHjerpyn\Custom\Models\Board;
 use AnnaHjerpyn\Custom\Models\Guess;
+use AnnaHjerpyn\Custom\Models\WordBank;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
-use AnnaHjerpyn\Custom\Models\WordBank;
 
 class WordBankController extends PageController
 {
@@ -51,8 +51,12 @@ class WordBankController extends PageController
     public function getBoard()
     {
         // Get the Board object based on its ID from the URL
-        $boardID = $this->getRequest()->param('ID');
+        $boardID = intval($this->getRequest()->param('ID'));
         $board = Board::get()->byID($boardID);
+
+        if (!$board) {
+            return null;
+        }
 
         // Fetch guesses associated with the board
         $guesses = $board->Guesses();
@@ -111,11 +115,31 @@ class WordBankController extends PageController
     {
         // Retrieve the current Board being played
         $submittedData = json_decode($request->getBody(), true);
-        $boardID = $submittedData['boardID'];
+        $boardID = intval($submittedData['boardID']);
         // Sets Board object
         $board = Board::get_by_id($boardID);
+
+        if (!$board) {
+            //NO BOARD?!!!?
+            return null;
+        }
+
         // Retrieve the user's guess from the request
         $userGuess = $submittedData['newGuess'];
+
+        // Check to see if user has already guessed the new guess
+        $oldGuess = Guess::get()->filter(['Guess' => $userGuess, 'BoardID' => $boardID])->first();
+        if ($oldGuess != null) {
+
+            // Return a response to the client
+            $response = [
+                'status' => 'fail',
+                'message' => 'Board updated unsuccessfully.',
+                'board' => $board
+            ];
+
+            return json_encode($response);
+        }
 
         // Checks to see if the Board has less than 6 guesses
         if ($board->getGuesses() < 6) {

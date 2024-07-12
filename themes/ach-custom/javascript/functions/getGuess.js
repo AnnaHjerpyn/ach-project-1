@@ -1,4 +1,5 @@
 import {useCallback, useState} from 'react';
+import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
 
 const getGuess = (solution, boardID) => {
 
@@ -102,8 +103,10 @@ const getGuess = (solution, boardID) => {
                 setIsValidWord(false);
                 setMessage('Word has already been used'); // Set toast message
                 setShowToast(true); // Display the toast
+                console.log("here");
                 return;
             }
+
             if (currentGuess.length !== 5) {
                 setIsValidWord(false);
                 setMessage('Not enough letters'); // Set toast message
@@ -137,41 +140,6 @@ const getGuess = (solution, boardID) => {
         setKeypad(true);
         handleKeyInput(event.key);
     }, [handleKeyInput]);
-
-    async function updateBoardWithGuess(boardID, newGuess) {
-        try {
-            const response = await fetch(`/home/update`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({boardID, newGuess})
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update board.');
-            }
-
-            return await response.json(); // or handle response as needed
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    }
-
-    async function checkDatabase(currentGuess, boardID) {
-        const response = await fetch('/home/check', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({Word: currentGuess, BoardID: boardID})
-        });
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to check.');
-        }
-        return data;
-    }
 
     return {
         turn,
