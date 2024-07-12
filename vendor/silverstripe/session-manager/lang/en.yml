@@ -1,0 +1,27 @@
+en:
+  SilverStripe\SessionManager\Controllers\LoginSessionController:
+    INVALID_REQUEST: 'Invalid request'
+    REMOVE_SUCCESS: 'Successfully removed session.'
+    SESSION_COULD_NOT_BE_FOUND_OR_NO_LONGER_ACTIVE: 'This session could not be found or is no longer active.'
+    YOUR_SESSION_HAS_EXPIRED: 'Your session has expired'
+  SilverStripe\SessionManager\Extensions\MemberExtension:
+    LEARN_MORE: 'Learn more'
+    LOGIN_SESSIONS: 'Login sessions'
+    has_many_LoginSessions: 'Login sessions'
+  SilverStripe\SessionManager\Extensions\RememberLoginHashExtension:
+    has_one_LoginSession: 'Login session'
+  SilverStripe\SessionManager\Jobs\GarbageCollectionJob:
+    TITLE: 'Session manager garbage collection'
+  SilverStripe\SessionManager\Models\LoginSession:
+    BROWSER_ON_OS: '{browser} on {os}.'
+    PLURALNAME: 'Login Sessions'
+    PLURALS:
+      one: 'A Login Session'
+      other: '{count} Login Sessions'
+    SINGULARNAME: 'Login Session'
+    belongs_to_LoginHash: 'Login hash'
+    db_IPAddress: 'IP address'
+    db_LastAccessed: 'Last accessed'
+    db_Persistent: Persistent
+    db_UserAgent: 'User agent'
+    has_one_Member: Member

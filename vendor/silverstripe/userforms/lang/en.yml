@@ -1,0 +1,419 @@
+en:
+  SilverStripe\CMS\Model\SiteTree:
+    TABMAIN: Main
+  SilverStripe\UserForms:
+    ADDEMAILRECIPIENT: 'Add Email Recipient'
+    CLEARBUTTON: Clear
+    CONFIGURATION: Configuration
+    DISABLEAUTHENICATEDFINISHACTION: 'Disable Authentication on finish action'
+    DISABLECSRFSECURITYTOKEN: 'Disable CSRF Token'
+    DISPLAYERRORMESSAGESATTOP: 'Display error messages above the form?'
+    ENABLELIVEVALIDATION: 'Enable live validation'
+    NORECIPIENTS: 'Warning: You have not configured any recipients. Form submissions may be missed.'
+    ONCOMPLETELABEL: 'Show on completion'
+    RECIPIENTS: Recipients
+    SAVESUBMISSIONS: 'Disable Saving Submissions to Server'
+    SHOWCLEARFORM: 'Show Clear Form Button'
+    SUBMISSIONS: Submissions
+    SUBMITBUTTON: Submit
+    TEXTONCLEAR: 'Text on clear button:'
+    TEXTONSUBMIT: 'Text on submit button:'
+  SilverStripe\UserForms\Control\UserDefinedFormAdmin:
+    CANCEL: Cancel
+    CONFIRM_FOLDER_LABEL_A: 'Files that your users upload should be stored carefully to reduce the risk of exposing sensitive data. Ensure the folder you select can only be viewed by appropriate parties. Folder permissions can be managed within the Files area.'
+    CONFIRM_FOLDER_LABEL_B: 'The folder selected will become the default for this form. This can be changed on an individual basis in the <i>File upload field.</i>'
+    FOLDER_OPTIONS_EXISTING: 'Use an existing folder'
+    FOLDER_OPTIONS_NEW: 'Create a new folder (recommended)'
+    FOLDER_OPTIONS_TITLE: 'Form folder options'
+    FORM_ACTION_CONFIRM: 'Save and continue'
+    INVALID_REQUEST: 'This request was invalid.'
+    MENUTITLE: SilverStripe\UserForms\Control\UserDefinedForm
+  SilverStripe\UserForms\Extension\UserFormFieldEditorExtension:
+    ADD_FIELD: 'Add Field'
+    ADD_FIELD_GROUP: 'Add Field Group'
+    ADD_PAGE_BREAK: 'Add Page Break'
+    FORMFIELDS: 'Form Fields'
+    has_many_Fields: Fields
+  SilverStripe\UserForms\Extension\UserFormFileExtension:
+    belongs_to_SubmittedFileField: 'Submitted file field'
+    db_UserFormUpload: 'User form upload'
+  SilverStripe\UserForms\Extension\UserFormValidator:
+    CONDITIONAL_REQUIRED: "Required field '{name}' cannot be placed within a conditional page"
+    NO_PAGE: "Field '{name}' found before any pages"
+    UNEXPECTED_BREAK: "Unexpected page break '{name}' inside nested field '{group}'"
+    UNEXPECTED_GROUP_END: "'{name}' found without a matching group"
+    WRONG_GROUP_END: "'{name}' found closes the wrong group '{group}'"
+  SilverStripe\UserForms\Form\UserFormsGridFieldFilterHeader:
+    FILTER: Filter
+    FILTERSUBMISSIONS: 'Filter Submissions..'
+    FROM: From
+    RESET: Reset
+    TILL: Till
+    WHEREVALUEIS: 'where value is..'
+  SilverStripe\UserForms\Model\EditableCustomRule:
+    PLURALNAME: 'Editable Custom Rules'
+    PLURALS:
+      one: 'An Editable Custom Rule'
+      other: '{count} Editable Custom Rules'
+    SINGULARNAME: 'Editable Custom Rule'
+    db_ConditionOption: 'Condition option'
+    db_Display: Display
+    db_FieldValue: 'Field value'
+    db_Version: Version
+    has_one_ConditionField: 'Condition field'
+    has_one_Parent: Parent
+  SilverStripe\UserForms\Model\EditableFormField:
+    CHECKEDBYDEFAULT: 'Checked by Default?'
+    CUSTOMERROR: 'Custom Error Message'
+    CUSTOMOPTIONS: Options
+    CUSTOMRULES: 'Custom Rules'
+    DEFAULT: 'Default value'
+    DEFAULTTOTODAY: 'Default to Today?'
+    DISPLAYIF: 'Toggle visibility when'
+    EXTRACLASS_MULTIPLE: 'Separate each CSS class with a single space'
+    EXTRACLASS_SELECT: 'Select from the list of allowed styles'
+    EXTRACLASS_TITLE: 'Extra Styling/Layout'
+    EXTRACLASS_Title: 'Extra CSS classes'
+    FIELDISREQUIRED: '{name} is required'
+    GROUP: Group
+    INITIALVISIBILITY: 'Initial visibility'
+    MERGEFIELDNAME: 'Merge field'
+    NAME: Name
+    'NO': 'No'
+    PLACEHOLDER: Placeholder
+    PLURALNAME: 'Editable Form Fields'
+    PLURALS:
+      one: 'An Editable Form Field'
+      other: '{count} Editable Form Fields'
+    REQUIRED: 'Is this field Required?'
+    REQUIRED_DESCRIPTION: "Please note that conditional fields can't be required"
+    RIGHTTITLE: 'Right title'
+    SHOWINSUMMARY: 'Show in summary gridfield'
+    SINGULARNAME: 'Editable Form Field'
+    TITLE: Title
+    TYPE: Type
+    TYPE_EMPTY: 'Select field type'
+    VALIDATION: Validation
+    'YES': 'Yes'
+    db_CustomErrorMessage: 'Custom error message'
+    db_Default: Default
+    db_DisplayRulesConjunction: 'Display rules conjunction'
+    db_ExtraClass: 'Extra class'
+    db_Name: Name
+    db_Placeholder: Placeholder
+    db_Required: Required
+    db_RightTitle: 'Right title'
+    db_ShowInSummary: 'Show in summary'
+    db_ShowOnLoad: 'Show on load'
+    db_Sort: Sort
+    db_Title: Title
+    db_Version: Version
+    has_many_DisplayRules: 'Display rules'
+    has_one_Parent: Parent
+  SilverStripe\UserForms\Model\EditableFormField\EditableCheckbox:
+    PLURALNAME: Checkboxes
+    PLURALS:
+      one: 'A Checkbox Field'
+      other: '{count} Checkboxes'
+    SINGULARNAME: 'Checkbox Field'
+    db_CheckedDefault: 'Checked default'
+  SilverStripe\UserForms\Model\EditableFormField\EditableCheckboxGroupField:
+    PLURALNAME: 'Checkbox Groups'
+    PLURALS:
+      one: 'A Checkbox Group'
+      other: '{count} Checkbox Groups'
+    SINGULARNAME: 'Checkbox Group'
+  SilverStripe\UserForms\Model\EditableFormField\EditableCountryDropdownField:
+    DEFAULT: 'Default value'
+    EMPTY_STRING: 'Empty String'
+    PLURALNAME: 'Country Dropdowns'
+    PLURALS:
+      one: 'A Country Dropdown'
+      other: '{count} Country Dropdowns'
+    SINGULARNAME: 'Country Dropdown'
+    USE_EMPTY_STRING: 'Set default empty string'
+    db_EmptyString: 'Empty string'
+    db_UseEmptyString: 'Use empty string'
+  SilverStripe\UserForms\Model\EditableFormField\EditableDateField:
+    PLURALNAME: 'Date Fields'
+    PLURALS:
+      one: 'A Date Field'
+      other: '{count} Date Fields'
+    SINGULARNAME: 'Date Field'
+    db_DefaultToToday: 'Default to today'
+  SilverStripe\UserForms\Model\EditableFormField\EditableDropdown:
+    PLURALNAME: Dropdowns
+    PLURALS:
+      one: 'A Dropdown Field'
+      other: '{count} Dropdowns'
+    SINGULARNAME: 'Dropdown Field'
+    db_EmptyString: 'Empty string'
+    db_UseEmptyString: 'Use empty string'
+  SilverStripe\UserForms\Model\EditableFormField\EditableEmailField:
+    PLURALNAME: 'Email Fields'
+    PLURALS:
+      one: 'An Email Field'
+      other: '{count} Email Fields'
+    SINGULARNAME: 'Email Field'
+  SilverStripe\UserForms\Model\EditableFormField\EditableFieldGroup:
+    PLURALNAME: 'Editable Field Groups'
+    PLURALS:
+      one: 'An Editable Field Group'
+      other: '{count} Editable Field Groups'
+    SINGULARNAME: 'Editable Field Group'
+    has_one_End: End
+  SilverStripe\UserForms\Model\EditableFormField\EditableFieldGroupEnd:
+    FIELD_GROUP_END: '{group} end'
+    FIELD_GROUP_START: 'Group {group}'
+    PLURALNAME: 'Editable Field Group Ends'
+    PLURALS:
+      one: 'An Editable Field Group End'
+      other: '{count} Editable Field Group Ends'
+    SINGULARNAME: 'Editable Field Group End'
+    belongs_to_Group: Group
+  SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
+    ANYONE: 'Unrestricted access, uploads will be visible to anyone'
+    INHERIT: 'Visibility for this folder is inherited from the parent folder'
+    LOGGED_IN: 'Restricted access, uploads will be visible to logged-in users'
+    ONLY_GROUPS: 'Restricted access, uploads will be visible to the following groups:'
+    PLURALNAME: 'File Upload Fields'
+    PLURALS:
+      one: 'A File Upload Field'
+      other: '{count} File Upload Fields'
+    SELECTUPLOADFOLDER: 'Select upload folder'
+    SINGULARNAME: 'File Upload Field'
+    db_FolderConfirmed: 'Folder confirmed'
+    db_MaxFileSizeMB: 'Max file size MB'
+    has_one_Folder: Folder
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormHeading:
+    LEVEL: 'Select Heading Level'
+    PLURALNAME: Headings
+    PLURALS:
+      one: 'A Heading'
+      other: '{count} Headings'
+    SINGULARNAME: Heading
+    db_HideFromReports: 'Hide from reports'
+    db_Level: Level
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormStep:
+    PLURALNAME: 'Page Breaks'
+    PLURALS:
+      one: 'A Page Break'
+      other: '{count} Page Breaks'
+    SINGULARNAME: 'Page Break'
+    STEP_NEXT: Next
+    STEP_PREV: Prev
+    STEP_TITLE: 'Page {page}'
+    TITLE_FIRST: 'First Page'
+  SilverStripe\UserForms\Model\EditableFormField\EditableLiteralField:
+    CONTENT: HTML
+    HIDEFROMREPORT: 'Hide from reports?'
+    HIDELABEL: "Hide 'Title' label on frontend?"
+    PLURALNAME: 'HTML Blocks'
+    PLURALS:
+      one: 'A HTML Block'
+      other: '{count} HTML Blocks'
+    SINGULARNAME: 'HTML Block'
+    db_Content: Content
+    db_HideFromReports: 'Hide from reports'
+    db_HideLabel: 'Hide label'
+  SilverStripe\UserForms\Model\EditableFormField\EditableMemberListField:
+    PLURALNAME: 'Member List Fields'
+    PLURALS:
+      one: 'A Member List Field'
+      other: '{count} Member List Fields'
+    SINGULARNAME: 'Member List Field'
+    has_one_Group: Group
+  SilverStripe\UserForms\Model\EditableFormField\EditableMultipleOptionField:
+    DEFAULT: 'Selected by default?'
+    OPTIONSTAB: Options
+    PLURALNAME: 'Editable Multiple Option Fields'
+    PLURALS:
+      one: 'An Editable Multiple Option Field'
+      other: '{count} Editable Multiple Option Fields'
+    SINGULARNAME: 'Editable Multiple Option Field'
+    TITLE: Title
+    VALUE: Value
+    has_many_Options: Options
+  SilverStripe\UserForms\Model\EditableFormField\EditableNumericField:
+    ORDER_WARNING: 'Minimum length should be less than the maximum length.'
+    PLURALNAME: 'Numeric Fields'
+    PLURALS:
+      one: 'A Numeric Field'
+      other: '{count} Numeric Fields'
+    RANGE: 'Allowed numeric range'
+    RANGE_TO: to
+    SINGULARNAME: 'Numeric Field'
+    db_MaxValue: 'Max value'
+    db_MinValue: 'Min value'
+  SilverStripe\UserForms\Model\EditableFormField\EditableOption:
+    PLURALNAME: 'Editable Options'
+    PLURALS:
+      one: 'An Editable Option'
+      other: '{count} Editable Options'
+    SINGULARNAME: 'Editable Option'
+    db_Default: Default
+    db_Name: Name
+    db_Sort: Sort
+    db_Title: Title
+    db_Value: Value
+    db_Version: Version
+    has_one_Parent: Parent
+  SilverStripe\UserForms\Model\EditableFormField\EditableRadioField:
+    PLURALNAME: 'Radio Groups'
+    PLURALS:
+      one: 'A Radio Group'
+      other: '{count} Radio Groups'
+    SINGULARNAME: 'Radio Group'
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    AUTOCOMPLETE: Autocomplete
+    AUTOCOMPLETE_DESCRIPTION: 'Supported browsers will attempt to populate this field automatically with the users information, use to set the value populated'
+    MAX_LENGTH: 'Maximum text length'
+    MINMAXLENGTHCHECK: 'Minimum length should be less than the Maximum length.'
+    MIN_LENGTH: 'Minimum text length'
+    NUMBERROWS: 'Number of rows'
+    NUMBERROWS_DESCRIPTION: 'Fields with more than one row will be generated as a textarea'
+    PLURALNAME: 'Text Fields'
+    PLURALS:
+      one: 'A Text Field'
+      other: '{count} Text Fields'
+    RANGE_TO: to
+    SINGULARNAME: 'Text Field'
+    TEXTLENGTH: 'Allowed text length'
+    db_Autocomplete: Autocomplete
+    db_MaxLength: 'Max length'
+    db_MinLength: 'Min length'
+    db_Rows: Rows
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    CUSTOMRULESTAB: 'Custom Rules'
+    EMAILCONTENTTAB: 'Email Content'
+    EMAILDETAILSTAB: 'Email Details'
+    EMAILFROMREQUIRED: '"Email From" address is required'
+    EMAILTOREQUIRED: '"Send email to" address or field is required'
+    PLURALNAME: 'Email Recipients'
+    PLURALS:
+      one: 'An Email Recipient'
+      other: '{count} Email Recipients'
+    SINGULARNAME: 'Email Recipient'
+    db_CustomRulesCondition: 'Custom rules condition'
+    db_EmailAddress: 'Email address'
+    db_EmailBody: 'Email body'
+    db_EmailBodyHtml: 'Email body html'
+    db_EmailFrom: 'Email from'
+    db_EmailReplyTo: 'Email reply to'
+    db_EmailSubject: 'Email subject'
+    db_EmailTemplate: 'Email template'
+    db_HideFormData: 'Hide form data'
+    db_HideInvisibleFields: 'Hide invisible fields'
+    db_SendPlain: 'Send plain'
+    has_many_CustomRules: 'Custom rules'
+    has_one_Form: Form
+    has_one_SendEmailFromField: 'Send email from field'
+    has_one_SendEmailSubjectField: 'Send email subject field'
+    has_one_SendEmailToField: 'Send email to field'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipientCondition:
+    PLURALNAME: 'Email Recipient Conditions'
+    PLURALS:
+      one: 'An Email Recipient Condition'
+      other: '{count} Email Recipient Conditions'
+    SINGULARNAME: 'Email Recipient Condition'
+    db_ConditionOption: 'Condition option'
+    db_ConditionValue: 'Condition value'
+    has_one_ConditionField: 'Condition field'
+    has_one_Parent: Parent
+  SilverStripe\UserForms\Model\Submission\SubmittedFileField:
+    DOWNLOADFILE: 'Download File'
+    INSUFFICIENTRIGHTS: "You don't have the right permissions to download this file"
+    PLURALNAME: 'Submitted File Fields'
+    PLURALS:
+      one: 'A Submitted File Field'
+      other: '{count} Submitted File Fields'
+    SINGULARNAME: 'Submitted File Field'
+    YOUMUSTBELOGGEDIN: 'You must be logged in to view this file'
+    has_one_UploadedFile: 'Uploaded file'
+  SilverStripe\UserForms\Model\Submission\SubmittedForm:
+    PLURALNAME: 'Submitted Forms'
+    PLURALS:
+      one: 'A Submitted Form'
+      other: '{count} Submitted Forms'
+    SINGULARNAME: 'Submitted Form'
+    SUBMITTER: Submitter
+    has_many_Values: Values
+    has_one_Parent: Parent
+    has_one_SubmittedBy: 'Submitted by'
+  SilverStripe\UserForms\Model\Submission\SubmittedFormField:
+    PLURALNAME: 'Submitted Form Fields'
+    PLURALS:
+      one: 'A Submitted Form Field'
+      other: '{count} Submitted Form Fields'
+    SINGULARNAME: 'Submitted Form Field'
+    db_Displayed: Displayed
+    db_Name: Name
+    db_Title: Title
+    db_Value: Value
+    has_one_Parent: Parent
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    ADDEMAILRECIPIENT: 'Add Email Recipient'
+    CLEARBUTTON: Clear
+    CONFIGURATION: Configuration
+    DESCRIPTION: 'Adds a customizable form.'
+    DISABLEAUTHENICATEDFINISHACTION: 'Disable Authentication on finish action'
+    DISABLECSRFSECURITYTOKEN: 'Disable CSRF Token'
+    DISPLAYERRORMESSAGESATTOP: 'Display error messages above the form?'
+    EMAILADDRESS: Email
+    EMAILBODY: Body
+    EMAILBODYHTML: Body
+    EMAILFROM: From
+    EMAILSUBJECT: 'Email subject'
+    EMAILTEMPLATE: 'Email template'
+    EMAIL_RECIPIENT_UNSAVED_FORM: 'You will be able to select from valid form fields after saving this record.'
+    ENABLELIVEVALIDATION: 'Enable live validation'
+    EmailFromContent: 'The from address allows you to set who the email comes from. On most servers this will need to be set to an email address on the same domain name as your site. For example on yoursite.com the from address may need to be something@yoursite.com. You can however, set any email address you wish as the reply to address.'
+    FROMADDRESS: 'Send email from'
+    HIDEFORMDATA: 'Hide form data from email?'
+    HIDEINVISIBLEFIELDS: 'Hide invisible fields from email?'
+    NORECIPIENTS: 'Warning: You have not configured any recipients. Form submissions may be missed.'
+    ONCOMPLETELABEL: 'Show on completion'
+    ONCOMPLETEMESSAGE: "Thanks, we've received your submission."
+    ORSELECTAFIELDTOUSEASFROM: '.. or select a field to use as reply to address'
+    ORSELECTAFIELDTOUSEASTO: '.. or select a field to use as the to address'
+    PLURALNAME: 'Base Pages'
+    PLURALS:
+      one: 'An User Defined Form'
+      other: '{count} Base Pages'
+    PREVIEW_EMAIL: 'Preview email'
+    PREVIEW_EMAIL_DESCRIPTION: 'Note: Unsaved changes will not appear in the preview.'
+    PREVIEW_EMAIL_UNAVAILABLE: 'You can preview this email once you have saved the Recipient.'
+    RECIPIENTS: Recipients
+    REPLYADDRESS: 'Email for reply to'
+    REPLYADDRESS_DESCRIPTION: "The email address which the recipient is able to 'reply' to."
+    RulesDescription: 'Emails will only be sent to the recipient if the custom rules are met. If no rules are defined, this recipient will receive notifications for every submission.'
+    SAVESUBMISSIONS: 'Disable Saving Submissions to Server'
+    SELECTAFIELDTOSETSUBJECT: '.. or select a field to use as the subject'
+    SENDEMAILTO: 'Send email to'
+    SENDEMAILTO_DESCRIPTION: 'You may enter multiple email addresses as a comma separated list.'
+    SENDIF: 'Send condition'
+    SENDIFAND: 'All conditions are true'
+    SENDIFOR: 'Any conditions are true'
+    SENDPLAIN: 'Send email as plain text? (HTML will be stripped)'
+    SHOWCLEARFORM: 'Show Clear Form Button'
+    SINGULARNAME: 'User Defined Form'
+    SUBMISSIONS: Submissions
+    SUBMITBUTTON: Submit
+    TEXTONCLEAR: 'Text on clear button:'
+    TEXTONSUBMIT: 'Text on submit button:'
+    TYPEREPLY: 'Type reply address'
+    TYPESUBJECT: 'Type subject'
+    TYPETO: 'Type to address'
+    UnrestrictedFileUploadWarning: 'Access to the current upload folder "{path}" is not restricted. Uploaded files will be publicly accessible if the exact URL is known.'
+    db_ClearButtonText: 'Clear button text'
+    db_DisableAuthenicatedFinishAction: 'Disable authenicated finish action'
+    db_DisableCsrfSecurityToken: 'Disable csrf security token'
+    db_DisableSaveSubmissions: 'Disable save submissions'
+    db_DisplayErrorMessagesAtTop: 'Display error messages at top'
+    db_EnableLiveValidation: 'Enable live validation'
+    db_OnCompleteMessage: 'On complete message'
+    db_ShowClearButton: 'Show clear button'
+    db_SubmitButtonText: 'Submit button text'
+    has_many_EmailRecipients: 'Email recipients'
+    has_many_Fields: Fields
+    has_many_Submissions: Submissions

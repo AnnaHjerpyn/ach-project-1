@@ -1,0 +1,74 @@
+sl:
+  DNADesign\Elemental\Controllers\ElementalAreaController:
+    MENUTITLE: 'Uredi stran'
+  DNADesign\Elemental\Extensions\ElementalPageExtension:
+    has_one_ElementalArea: Blok
+  DNADesign\Elemental\Forms\TextCheckboxGroupField:
+    DISPLAYED: Prikazano
+    NOT_DISPLAYED: Skrito
+    ShowTitleLabel: Prikazan
+    Title: Naslov
+    TitleLabel: 'Naslov (označite)'
+  DNADesign\Elemental\Models\BaseElement:
+    BlockType: Gradnik
+    CUSTOM_STYLES: 'Izberite stil ...'
+    ExtraCssClassesLabel: 'Dodatni razredi CSS'
+    ExtraCssClassesPlaceholder: 'class_ena, class_dve, ...'
+    MainTabLabel: Vsebina
+    PLURALNAME: gradniki
+    PLURALS:
+      few: '{count} gradnikov'
+      one: Gradnik
+      other: '{count} gradnikov'
+      two: '{count} gradnika'
+    SINGULARNAME: Gradnik
+    STYLE: 'Stilna različica'
+    SettingsTabLabel: Nastavitve
+    db_ExtraClass: 'Dodatna opredelitev (razred)'
+    db_ShowTitle: 'Prikaži naslov'
+    db_Sort: Razvrsti
+    db_Style: Slog
+    db_Title: Naslov
+    db_Version: Različica
+    has_one_Parent: Nadrejen
+    has_one_TopPage: 'Vrhnja stran'
+  DNADesign\Elemental\Models\ElementContent:
+    BlockType: Besedilo
+    ContentLabel: Oznaka
+    PLURALNAME: Besedila
+    PLURALS:
+      few: '{count} besedil'
+      one: Besedilo
+      other: '{count} besedil'
+      two: '{count} besedili'
+    SINGULARNAME: Besedilo
+    db_HTML: 'Koda HTML'
+  DNADesign\Elemental\Models\ElementalArea:
+    PLURALNAME: Bloki
+    PLURALS:
+      few: '{count} blokov'
+      one: Blok
+      other: '{count} blokov'
+      two: '{count} bloka'
+    SINGULARNAME: Blok
+    db_OwnerClassName: 'Opredelitev (razred) lastnika'
+    db_Version: Različica
+    has_many_Elements: Gradniki
+    has_one_TopPage: 'Vrhnja stran'
+  DNADesign\Elemental\Reports\ElementTypeReport:
+    Title: 'Tipi gradnikov'
+    Total: Skupaj
+    Type: 'Tip gradnika'
+  DNADesign\Elemental\Reports\ElementsInUseReport:
+    None: 'Ni uporabljen'
+    Page: Stran
+    ReportTitle: 'Gradniki v uporabi'
+    Summary: Povzetek
+    Title: Naslov
+    Type: 'Tip gradnika'
+  DNADesign\Elemental\TopPage\DataExtension:
+    has_one_TopPage: 'Vrhnja stran'
+  DNADesign\Elemental\TopPage\FluentExtension:
+    db_TopPageLocale: 'Lokalizacija vrhnje strani '
+  SilverStripe\CMS\Controllers\CMSPageHistoryController:
+    PREVIEW: Predogled

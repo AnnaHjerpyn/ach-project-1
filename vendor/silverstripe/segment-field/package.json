@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "build": "yarn && yarn lint && rm -rf client/dist/* && NODE_ENV=production webpack --mode production --bail --progress",
+    "dev": "NODE_ENV=development webpack --progress",
+    "watch": "NODE_ENV=development webpack --watch --progress",
+    "css": "WEBPACK_CHILD=css npm run build",
+    "lint": "eslint client/src && sass-lint client/src",
+    "lint-js": "eslint client/src",
+    "lint-js-fix": "eslint client/src --fix",
+    "lint-sass": "sass-lint client/src",
+    "test": "true"
+  },
+  "engines": {
+    "node": "^18.x"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@silverstripe/eslint-config": "^1.1.0",
+    "@silverstripe/webpack-config": "^2.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "resolutions": {
+    "colors": "1.4.0"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

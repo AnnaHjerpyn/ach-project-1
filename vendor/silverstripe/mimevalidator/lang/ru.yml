@@ -1,0 +1,3 @@
+ru:
+  SilverStripe\MimeValidator\MimeUploadValidator:
+    FAILEDMIMECHECK: 'Проверка типа MIME провалена: {message}'

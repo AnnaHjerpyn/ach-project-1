@@ -1,0 +1,14 @@
+en_GB:
+  SilverStripe\UserForms\Model\EditableFormField:
+    REQUIRED: 'Required?'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailSubject: 'Email Subject'
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    DESCRIPTION: 'Adds a customisable form.'
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'

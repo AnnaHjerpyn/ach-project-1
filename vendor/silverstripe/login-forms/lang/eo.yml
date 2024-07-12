@@ -1,0 +1,5 @@
+eo:
+  SilverStripe\LoginForms:
+    BackToHomePage: 'Reiri al la hejmpaĝo'
+    LOGIN: Ensaluti
+    SilverstripeDesc: ' Identiga simbolo de Silverstripe CMS'

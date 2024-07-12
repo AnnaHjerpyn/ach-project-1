@@ -1,0 +1,62 @@
+et_EE:
+  SilverStripe\CMS\Model\SiteTree:
+    TABMAIN: Avaleht
+  SilverStripe\UserForms:
+    ONCOMPLETELABEL: 'Näita lõpetamisel'
+    SUBMISSIONS: Kaastööd
+    TEXTONSUBMIT: 'Kiri saatmise nupul:'
+  SilverStripe\UserForms\Control\UserDefinedFormAdmin:
+    CANCEL: Loobu
+  SilverStripe\UserForms\Form\UserFormsGridFieldFilterHeader:
+    FILTER: Filtreeri
+    RESET: Lähtesta
+  SilverStripe\UserForms\Model\EditableFormField:
+    GROUP: Grupp
+    NAME: Nimi
+    'NO': Ei
+    REQUIRED: 'See väli on vormis vajalik ja seda ei saa kustutada'
+    TITLE: Pealkiri
+    'YES': Jah
+    db_Name: Nimi
+    db_Title: Pealkiri
+  SilverStripe\UserForms\Model\EditableFormField\EditableFieldGroupEnd:
+    belongs_to_Group: Grupp
+  SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
+    has_one_Folder: Kaust
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormStep:
+    STEP_NEXT: Eelmine
+    STEP_PREV: Eelmine
+  SilverStripe\UserForms\Model\EditableFormField\EditableLiteralField:
+    db_Content: Sisu
+  SilverStripe\UserForms\Model\EditableFormField\EditableMemberListField:
+    has_one_Group: Grupp
+  SilverStripe\UserForms\Model\EditableFormField\EditableMultipleOptionField:
+    TITLE: Pealkiri
+  SilverStripe\UserForms\Model\EditableFormField\EditableNumericField:
+    RANGE_TO: kuni
+  SilverStripe\UserForms\Model\EditableFormField\EditableOption:
+    db_Name: Nimi
+    db_Title: Pealkiri
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'Arv ridu'
+    RANGE_TO: kuni
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailAddress: 'E-posti aadressi'
+    db_EmailSubject: 'Email Subject'
+    has_one_Form: Vorm
+  SilverStripe\UserForms\Model\Submission\SubmittedFormField:
+    db_Name: Nimi
+    db_Title: Pealkiri
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    ONCOMPLETELABEL: 'Näita lõpetamisel'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'
+    SUBMISSIONS: Kaastööd
+    TEXTONSUBMIT: 'Kiri saatmise nupul:'
+    has_many_Submissions: Kaastööd

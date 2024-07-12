@@ -1,0 +1,6 @@
+tr_TR:
+  SilverStripe\SessionManager\Controllers\LoginSessionController:
+    REMOVE_SUCCESS: 'Oturum başarıyla kaldırıldı.'
+    YOUR_SESSION_HAS_EXPIRED: 'Oturumunuz sona erdi'
+  SilverStripe\SessionManager\Extensions\MemberExtension:
+    LEARN_MORE: 'Dahada öğrenin'

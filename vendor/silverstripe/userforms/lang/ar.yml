@@ -1,0 +1,166 @@
+ar:
+  SilverStripe\CMS\Model\SiteTree:
+    TABMAIN: الرئيسة
+  SilverStripe\UserForms:
+    ADDEMAILRECIPIENT: 'أضف متلقي البريد الإلكتروني'
+    CONFIGURATION: المواصفات
+    ENABLELIVEVALIDATION: 'تفعيل المصادقة الآنية'
+    ONCOMPLETELABEL: 'اعرض عند الاكتمال'
+    SAVESUBMISSIONS: 'قم بتعطيل حفظ التقديمات إلى الخادم'
+    SHOWCLEARFORM: 'زر عرض النموذج ممسوحاً'
+    SUBMISSIONS: التقديمات
+    SUBMITBUTTON: تقديم
+    TEXTONSUBMIT: 'زر النص المتعلق بالتقديم:'
+  SilverStripe\UserForms\Control\UserDefinedFormAdmin:
+    CANCEL: الغاء
+  SilverStripe\UserForms\Form\UserFormsGridFieldFilterHeader:
+    FILTER: مرشح
+    FILTERSUBMISSIONS: 'تصفية التقديمات..'
+    FROM: من
+    RESET: 'إعادة تعيين'
+    WHEREVALUEIS: 'حيث القيمة هي..'
+  SilverStripe\UserForms\Model\EditableCustomRule:
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\EditableFormField:
+    CHECKEDBYDEFAULT: 'افتراضيا مُعَلّم'
+    CUSTOMERROR: 'نص خطأ مخصص'
+    CUSTOMOPTIONS: الخيارات
+    CUSTOMRULES: 'القواعد المخصصة'
+    DEFAULTTOTODAY: 'الفرضي لهذا اليوم؟'
+    EXTRACLASS_TITLE: 'تصميم/تخطيط إضافي'
+    FIELDISREQUIRED: '{name} ضروري'
+    GROUP: مجموعة
+    NAME: الاسم
+    'NO': لا
+    PLURALNAME: 'حقول استمارة قابلة للتحرير'
+    REQUIRED: 'هل هذا الحقل ضروري؟'
+    RIGHTTITLE: 'عنوان اليمين'
+    SINGULARNAME: 'حقل استمارة قابل للتحرير'
+    TITLE: عنوان
+    TYPE: النوع
+    VALIDATION: المصادقة
+    'YES': نعم
+    db_Name: الاسم
+    db_RightTitle: 'عنوان اليمين'
+    db_Title: عنوان
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\EditableFormField\EditableCheckbox:
+    PLURALNAME: 'مربعات لوضع إشارة'
+    SINGULARNAME: 'حقل ذات مربع لوضع إشارة'
+  SilverStripe\UserForms\Model\EditableFormField\EditableCheckboxGroupField:
+    PLURALNAME: 'مجموعات ذات مربعات لوضع إشارة'
+    SINGULARNAME: 'مجموعة مربعات لوضع إشارة'
+  SilverStripe\UserForms\Model\EditableFormField\EditableCountryDropdownField:
+    PLURALNAME: 'القائمة المنسدلة للروابط البلاد'
+    SINGULARNAME: 'القائمة المنسدلة للروابط البلاد'
+  SilverStripe\UserForms\Model\EditableFormField\EditableDateField:
+    PLURALNAME: 'حقول التاريخ'
+    SINGULARNAME: 'حقل التاريخ'
+  SilverStripe\UserForms\Model\EditableFormField\EditableDropdown:
+    PLURALNAME: 'القائمات المنسدلة للروابط'
+    SINGULARNAME: 'حقل القائمة المنسدلة'
+  SilverStripe\UserForms\Model\EditableFormField\EditableEmailField:
+    PLURALNAME: 'حقول البريد الإلكتروني'
+    SINGULARNAME: 'خانة البريد الإلكتروني'
+  SilverStripe\UserForms\Model\EditableFormField\EditableFieldGroupEnd:
+    belongs_to_Group: مجموعة
+  SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
+    PLURALNAME: 'حقول تحميل الملف'
+    SINGULARNAME: 'حقل تحميل الملف'
+    has_one_Folder: مجلد
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormHeading:
+    LEVEL: 'حدد مستوى العنوان'
+    PLURALNAME: عناوين
+    SINGULARNAME: عنوان
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormStep:
+    STEP_NEXT: التالي
+    STEP_PREV: السابق
+  SilverStripe\UserForms\Model\EditableFormField\EditableLiteralField:
+    HIDEFROMREPORT: 'إخقاء تقارير النموذج؟'
+    PLURALNAME: 'بلوكات HTML'
+    SINGULARNAME: 'بلوك HTML'
+    db_Content: المحتوى
+  SilverStripe\UserForms\Model\EditableFormField\EditableMemberListField:
+    PLURALNAME: 'حقول قائمة الأعضاء'
+    SINGULARNAME: 'حقل قائمة الأعضاء'
+    has_one_Group: مجموعة
+  SilverStripe\UserForms\Model\EditableFormField\EditableMultipleOptionField:
+    OPTIONSTAB: الخيارات
+    PLURALNAME: 'حقول الخيارات المتعددة القابلة للتعديل'
+    SINGULARNAME: 'حقل الخيارات المتعددة القابل للتعديل'
+    TITLE: عنوان
+    VALUE: القيمة
+    has_many_Options: الخيارات
+  SilverStripe\UserForms\Model\EditableFormField\EditableNumericField:
+    RANGE_TO: إلى
+  SilverStripe\UserForms\Model\EditableFormField\EditableOption:
+    PLURALNAME: 'الخيارات القابلة للتحرير'
+    SINGULARNAME: 'خيار قابل للتحرير'
+    db_Name: الاسم
+    db_Title: عنوان
+    db_Value: القيمة
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\EditableFormField\EditableRadioField:
+    PLURALNAME: 'حقول حلقية radio'
+    SINGULARNAME: 'حقل حلقي Radio'
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'عدد الصفوف'
+    PLURALNAME: 'حقول نصية'
+    RANGE_TO: إلى
+    SINGULARNAME: 'حقل نصي'
+    TEXTLENGTH: 'طول النص'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    CUSTOMRULESTAB: 'القواعد المخصصة'
+    PLURALNAME: 'نموذج مستلمي البريد الإلكتروني يحدده المستخدم'
+    SINGULARNAME: 'نموذج مستلم البريد الإلكتروني يحدده المستخدم'
+    db_EmailAddress: 'بريد إلكتروني'
+    db_EmailFrom: 'البريد الالكترونى من'
+    db_EmailSubject: 'موضوع البريد الإلكتروني'
+    db_EmailTemplate: 'نموذج البريد الالكترونى'
+    has_one_Form: نموذج
+  SilverStripe\UserForms\Model\Recipient\EmailRecipientCondition:
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\Submission\SubmittedFileField:
+    DOWNLOADFILE: 'تحميل الملف'
+    PLURALNAME: 'حقول الملف التي قدمت'
+    SINGULARNAME: 'حقل الملف الذي قدّم'
+  SilverStripe\UserForms\Model\Submission\SubmittedForm:
+    PLURALNAME: 'الاستمارات التي قدّمت'
+    SINGULARNAME: 'الاستمارة التي قدّمت'
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\Submission\SubmittedFormField:
+    PLURALNAME: 'حقول الاستمارة التي تمّ تقديمها'
+    SINGULARNAME: 'حقل الاستمارة الذي تمّ تقديمه'
+    db_Name: الاسم
+    db_Title: عنوان
+    db_Value: القيمة
+    has_one_Parent: والد
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    ADDEMAILRECIPIENT: 'أضف متلقي البريد الإلكتروني'
+    CONFIGURATION: المواصفات
+    DESCRIPTION: 'يضيف استمارة مخصصة.'
+    EMAILADDRESS: 'البريد الإلكتروني'
+    EMAILBODY: هيئة
+    EMAILBODYHTML: هيئة
+    EMAILFROM: من
+    EMAILSUBJECT: 'موضوع البريد الإلكتروني'
+    EMAILTEMPLATE: 'نموذج البريد الالكترونى'
+    ENABLELIVEVALIDATION: 'تفعيل المصادقة الآنية'
+    EmailFromContent: 'عنوان خانة المرسل يسمح لك بتعيين من الذي يأتي منه البريد الالكتروني. في معظم الخوادم هذا سوف يحتاج إلى أن يعين إلى عنوان بريد إلكتروني على نفس اسم مجال موقع الويب الخاص بك. على سبيل المثال على yoursite.com عنوان خانة المرسل قد يحتاج إلى أن يكون something@yoursite.com. يمكنك مع ذلك، تعيين أي عنوان بريد إلكتروني ترغب كعنوان للرد.'
+    FROMADDRESS: 'ارسل بريد إلكتروني من'
+    HIDEFORMDATA: 'إخفاء بيانات النموذج من البريد الإلكتروني؟'
+    ONCOMPLETELABEL: 'اعرض عند الاكتمال'
+    ORSELECTAFIELDTOUSEASFROM: '.. أو تحديد حقل لاستخدامه كعنوان للرد'
+    ORSELECTAFIELDTOUSEASTO: '.. أو تحديد حقل لاستخدامه على أنه عنوان المرسل إليه'
+    PLURALNAME: 'الصفحات الأساسية'
+    REPLYADDRESS: 'بريد إلكتروني للرد علي'
+    SAVESUBMISSIONS: 'قم بتعطيل حفظ التقديمات إلى الخادم'
+    SENDEMAILTO: 'ارسل بريد إلكتروني إلى'
+    SENDPLAIN: 'إرسال البريد الإلكتروني كنص عادي؟ (سيتم تجريد كود الHTML)'
+    SHOWCLEARFORM: 'زر عرض النموذج ممسوحاً'
+    SINGULARNAME: 'نموذج يحدده المستخدم'
+    SUBMISSIONS: التقديمات
+    SUBMITBUTTON: تقديم
+    TEXTONSUBMIT: 'زر النص المتعلق بالتقديم:'
+    db_EnableLiveValidation: 'تفعيل المصادقة الآنية'
+    has_many_Submissions: التقديمات

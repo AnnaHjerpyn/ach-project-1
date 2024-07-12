@@ -1,0 +1,11 @@
+{
+    "SessionManager.ACTIVITY_TOOLTIP_TEXT": "Ingelogd {signedIn}, laatst actief {lastActive}",
+    "SessionManager.AUTHENTICATED": "ingelogd {createdElapsed}...",
+    "SessionManager.CONFIRMATION_TITLE": "Weet u het zeker?",
+    "SessionManager.COULD_NOT_LOGOUT": "De sessie kon niet uitgelogd worden. Probeer het later opnieuw.",
+    "SessionManager.CURRENT": "Huidige",
+    "SessionManager.DELETE_CONFIRMATION_BUTTON": "Verwijder ingelogde sessie",
+    "SessionManager.LAST_ACTIVE": "Laatst gebruikt {lastAccessedElapsed}...",
+    "SessionManager.LOGGING_OUT": "Uitloggen...",
+    "SessionManager.LOG_OUT": "Uitloggen"
+}

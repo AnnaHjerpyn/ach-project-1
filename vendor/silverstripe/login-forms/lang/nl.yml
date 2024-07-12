@@ -1,0 +1,5 @@
+nl:
+  SilverStripe\LoginForms:
+    BackToHomePage: 'Terug naar de website'
+    LOGIN: Inloggen
+    SilverstripeDesc: 'Silverstripe logo'
