@@ -53,6 +53,15 @@ body {
             position: relative;
         }
 
+        .toggles {
+            display: flex;
+            align-items: center;
+
+            > * {
+                margin-right: 10px;
+            }
+        }
+
         @media screen and (max-width: 768px) {
             padding: 1rem 0;
         }
