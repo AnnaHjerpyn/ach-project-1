@@ -13,11 +13,9 @@ function App() {
     const [finishedGame, setFinishedGame] = useState(false);
     const [totalGuesses, setTotalGuesses] = useState(0);
     const [gameKey, setGameKey] = useState(0);
-    const [themeMode, setTheme] = useState("");
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
-        setTheme(sessionStorage.getItem('theme'));
 
         if (!boardID) {
             const response = await fetch('/home/board', {method: 'POST'});

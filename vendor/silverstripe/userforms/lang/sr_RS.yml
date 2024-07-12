@@ -1,0 +1,46 @@
+sr_RS:
+  SilverStripe\CMS\Model\SiteTree:
+    TABMAIN: Главно
+  SilverStripe\UserForms\Control\UserDefinedFormAdmin:
+    CANCEL: Одустани
+  SilverStripe\UserForms\Form\UserFormsGridFieldFilterHeader:
+    FILTER: Филтер
+    RESET: 'Врати у пређашње стање'
+  SilverStripe\UserForms\Model\EditableFormField:
+    FIELDISREQUIRED: '{name} је обавезно'
+    GROUP: Група
+    NAME: Име
+    REQUIRED: 'Захтевано?'
+    TITLE: Наслов
+    db_Name: Име
+    db_Title: Наслов
+  SilverStripe\UserForms\Model\EditableFormField\EditableFieldGroupEnd:
+    belongs_to_Group: Група
+  SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
+    has_one_Folder: Фасцикла
+  SilverStripe\UserForms\Model\EditableFormField\EditableLiteralField:
+    db_Content: Садржај
+  SilverStripe\UserForms\Model\EditableFormField\EditableMemberListField:
+    has_one_Group: Група
+  SilverStripe\UserForms\Model\EditableFormField\EditableMultipleOptionField:
+    TITLE: Наслов
+  SilverStripe\UserForms\Model\EditableFormField\EditableOption:
+    db_Name: Име
+    db_Title: Наслов
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'Број редова'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailAddress: 'Адреса е-поште'
+    db_EmailSubject: 'Email Subject'
+  SilverStripe\UserForms\Model\Submission\SubmittedFormField:
+    db_Name: Име
+    db_Title: Наслов
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'

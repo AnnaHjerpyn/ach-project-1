@@ -1,0 +1,25 @@
+da_DK:
+  SilverStripe\UserForms:
+    ONCOMPLETELABEL: 'Vis ved gennemført'
+    SUBMISSIONS: Indsendelse
+    TEXTONSUBMIT: 'Tekst på send-knap'
+  SilverStripe\UserForms\Model\EditableFormField:
+    REQUIRED: 'Dette felt er påkrævet i denne formular og kan derfor ikke slettet'
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'Antal rækker'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailSubject: 'Email Subject'
+    has_one_Form: Formular
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    ONCOMPLETELABEL: 'Vis ved gennemført'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'
+    SUBMISSIONS: Indsendelse
+    TEXTONSUBMIT: 'Tekst på send-knap'
+    has_many_Submissions: Indsendelse

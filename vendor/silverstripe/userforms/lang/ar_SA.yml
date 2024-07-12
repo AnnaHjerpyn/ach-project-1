@@ -1,0 +1,25 @@
+ar_SA:
+  SilverStripe\UserForms:
+    ONCOMPLETELABEL: 'عرض الطلبات المكتملة'
+    SUBMISSIONS: 'الملفات المرسلة'
+    TEXTONSUBMIT: 'النص ال'
+  SilverStripe\UserForms\Model\EditableFormField:
+    REQUIRED: 'هذا الحقل مطلوب لهذا النموذج ولا يمكن حذفه'
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'عدد الصفوف'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailSubject: 'Email Subject'
+    has_one_Form: النموذج
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    ONCOMPLETELABEL: 'عرض الطلبات المكتملة'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'
+    SUBMISSIONS: 'الملفات المرسلة'
+    TEXTONSUBMIT: 'النص ال'
+    has_many_Submissions: 'الملفات المرسلة'

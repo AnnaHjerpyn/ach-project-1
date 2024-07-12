@@ -1,0 +1,37 @@
+{
+  "name": "tractorcow/silverstripe-colorpicker",
+  "description": "Color picker field for Silverstripe CMS using the ColorPicker jQuery plugin",
+  "type": "silverstripe-vendormodule",
+  "keywords": [
+    "silverstripe",
+    "color",
+    "colour",
+    "colorpicker"
+  ],
+  "authors": [
+    {
+      "name": "Damian Mooyman",
+      "email": "damian.mooyman@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/tractorcow/silverstripe-colorpicker/issues"
+  },
+  "require": {
+    "silverstripe/framework": "^4.0 || ^5.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "4.0.x-dev"
+    },
+    "expose": [
+      "client"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "TractorCow\\Colorpicker\\": "src/",
+      "TractorCow\\Colorpicker\\Tests\\": "tests/php/"
+    }
+  }
+}

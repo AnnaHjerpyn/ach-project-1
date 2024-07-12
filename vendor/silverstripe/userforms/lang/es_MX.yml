@@ -1,0 +1,55 @@
+es_MX:
+  SilverStripe\CMS\Model\SiteTree:
+    TABMAIN: Principal
+  SilverStripe\UserForms:
+    CLEARBUTTON: Limpiar
+    ONCOMPLETELABEL: 'Mostrar cuando se complete'
+    SUBMISSIONS: Peticiones
+    TEXTONSUBMIT: 'Texto en el botón de envío:'
+  SilverStripe\UserForms\Control\UserDefinedFormAdmin:
+    CANCEL: Cancelar
+  SilverStripe\UserForms\Form\UserFormsGridFieldFilterHeader:
+    FILTER: Filtrar
+    RESET: Resetear
+  SilverStripe\UserForms\Model\EditableFormField:
+    NAME: Nombre
+    REQUIRED: 'Este campo es obligatorio para el formulario y no se puede eliminar'
+    TITLE: Título
+    TYPE: Tipo
+    db_Name: Nombre
+    db_Title: Título
+  SilverStripe\UserForms\Model\EditableFormField\EditableFileField:
+    has_one_Folder: Carpeta
+  SilverStripe\UserForms\Model\EditableFormField\EditableFormStep:
+    STEP_NEXT: Siguiente
+    STEP_PREV: Anterior
+  SilverStripe\UserForms\Model\EditableFormField\EditableLiteralField:
+    db_Content: Contenido
+  SilverStripe\UserForms\Model\EditableFormField\EditableMultipleOptionField:
+    TITLE: Título
+  SilverStripe\UserForms\Model\EditableFormField\EditableOption:
+    db_Name: Nombre
+    db_Title: Título
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'Número de renglones'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailAddress: 'Dirección de correo-e'
+    db_EmailSubject: 'Email Subject'
+    has_one_Form: Formulario
+  SilverStripe\UserForms\Model\Submission\SubmittedFormField:
+    db_Name: Nombre
+    db_Title: Título
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    CLEARBUTTON: Limpiar
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    ONCOMPLETELABEL: 'Mostrar cuando se complete'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'
+    SUBMISSIONS: Peticiones
+    TEXTONSUBMIT: 'Texto en el botón de envío:'
+    has_many_Submissions: Peticiones

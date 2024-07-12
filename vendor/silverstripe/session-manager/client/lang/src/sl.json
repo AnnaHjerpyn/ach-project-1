@@ -1,0 +1,11 @@
+{
+    "SessionManager.ACTIVITY_TOOLTIP_TEXT": "Prijavljen {signedIn}, Nazadnje aktiven {lastActive}",
+    "SessionManager.AUTHENTICATED": "avtenticiran {createdElapsed}...",
+    "SessionManager.CONFIRMATION_TITLE": "Potrdite akcijo",
+    "SessionManager.COULD_NOT_LOGOUT": "Ni vas bilo mogoče odjaviti. Poskusite ponovno kasneje.",
+    "SessionManager.CURRENT": "Trenutno",
+    "SessionManager.DELETE_CONFIRMATION_BUTTON": "Izvedi odjave",
+    "SessionManager.LAST_ACTIVE": "nazadnje aktiven {lastAccessedElapsed}...",
+    "SessionManager.LOGGING_OUT": "Odjavljam ...",
+    "SessionManager.LOG_OUT": "Odjava"
+}

@@ -1,0 +1,7 @@
+---
+Name: userformsroutes
+After: framework/routes#coreroutes
+---
+SilverStripe\Control\Director:
+  rules:
+    UserDefinedFormController//ping: SilverStripe\UserForms\Control\UserDefinedFormController

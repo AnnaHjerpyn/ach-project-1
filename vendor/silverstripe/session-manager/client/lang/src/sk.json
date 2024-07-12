@@ -1,0 +1,11 @@
+{
+    "SessionManager.ACTIVITY_TOOLTIP_TEXT": "Prihlásený {signedIn}, naposledy aktívny {lastActive}",
+    "SessionManager.AUTHENTICATED": "overený {createdElapsed}...",
+    "SessionManager.CONFIRMATION_TITLE": "Ste si istý?",
+    "SessionManager.COULD_NOT_LOGOUT": "Nepodarilo sa odhlásiť z relácie. Skúste to znovu neskôr.",
+    "SessionManager.CURRENT": "Aktuálny",
+    "SessionManager.DELETE_CONFIRMATION_BUTTON": "Odstrániť reláciu prihlásenia",
+    "SessionManager.LAST_ACTIVE": "naposledy aktívny {lastAccessedElapsed}...",
+    "SessionManager.LOGGING_OUT": "Odhlasuje sa...",
+    "SessionManager.LOG_OUT": "Odhlásiť sa"
+}

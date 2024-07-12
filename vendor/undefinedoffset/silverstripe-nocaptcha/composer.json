@@ -1,0 +1,36 @@
+{
+    "name": "undefinedoffset/silverstripe-nocaptcha",
+    "description": "A spam protector and form field using Google's reCAPTCHA v2 or optionally a foundation v3 implementation",
+    "type": "silverstripe-vendormodule",
+    "keywords": ["silverstripe", "recaptcha", "recaptcha2", "nocaptcha", "spamprotection"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Ed Chipman",
+            "homepage": "http://www.edchipman.ca",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "^4 | ^5",
+        "silverstripe/spamprotection": "^3 | ^4"
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "autoload": {
+		"psr-4": {
+			"UndefinedOffset\\NoCaptcha\\": "src/"
+		}
+    },
+    "support": {
+        "issues": "https://github.com/undefinedoffset/silverstripe-nocaptcha/issues"
+    },
+    "extra": {
+        "expose": [
+            "javascript"
+        ],
+		"branch-alias": {
+			"dev-master": "2.0.x-dev"
+		}
+    }
+}

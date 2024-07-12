@@ -1,0 +1,16 @@
+sk:
+  SilverStripe\ErrorPage\ErrorPage:
+    CODE: 'Kód chyby'
+    DEFAULTERRORPAGECONTENT: '<p>Ľutujeme, zdá sa, že ste sa pokúšali o prístup na stránku, ktorá neexistuje.</p><p>Skontrolujte adresu URL, ku ktorej ste sa pokúšali dostať, a skúste to znova.</p>'
+    DEFAULTERRORPAGETITLE: 'Stránka nenájdená'
+    DEFAULTSERVERERRORPAGECONTENT: '<p>Ľutujeme, vyskytol sa problém so spracovaním vašej požiadavky.</p>'
+    DEFAULTSERVERERRORPAGETITLE: 'Chyba servera'
+    DESCRIPTION: 'Vlastný obsah pre rôzne druhy chýb (napr. "Stránka sa nenašla")'
+    PLURALNAME: 'Chybové stránky'
+    PLURALS:
+      few: '{count} chybové stránky'
+      many: '{count} chybových stránok'
+      one: 'Chybová stránka'
+      other: '{count} chybových stránok'
+    SINGULARNAME: 'Chybová stránka'
+    db_ErrorCode: 'Kód chyby'

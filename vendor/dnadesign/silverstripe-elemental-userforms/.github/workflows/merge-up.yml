@@ -1,0 +1,17 @@
+name: Merge-up
+
+on:
+  # At 4:30 PM UTC, only on Thursday
+  schedule:
+    - cron: '30 16 * * 4'
+  workflow_dispatch:
+
+jobs:
+  merge-up:
+    name: Merge-up
+    # Only run cron on the dnadesign account
+    if: (github.event_name == 'schedule' && github.repository_owner == 'dnadesign') || (github.event_name != 'schedule')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge-up
+        uses: silverstripe/gha-merge-up@v1

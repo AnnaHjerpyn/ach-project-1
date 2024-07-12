@@ -47,6 +47,7 @@ namespace {
                     $loader->findThemedJavascript('vendor/aos.min.js'),
                     $loader->findThemedJavascript('dist/main.js'),
                     $loader->findThemedJavascript('global.js'),
+                    $loader->findThemedJavascript('wordSubmit.js'),
                 ]
             );
         }

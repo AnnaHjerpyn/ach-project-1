@@ -1,0 +1,25 @@
+bg_BG:
+  SilverStripe\UserForms:
+    ONCOMPLETELABEL: 'Покажи при завършване'
+    SUBMISSIONS: Заявления
+    TEXTONSUBMIT: 'Текст за бутона на изпращане:'
+  SilverStripe\UserForms\Model\EditableFormField:
+    REQUIRED: 'Това поле е задължително за този формуляр и неможе да бъде изтрито'
+  SilverStripe\UserForms\Model\EditableFormField\EditableTextField:
+    NUMBERROWS: 'Номер на редове'
+  SilverStripe\UserForms\Model\Recipient\EmailRecipient:
+    PLURALNAME: 'User Defined Form Email Recipients'
+    SINGULARNAME: 'User Defined Form Email Recipient'
+    db_EmailSubject: 'Email Subject'
+    has_one_Form: Формуляр
+  SilverStripe\UserForms\Model\UserDefinedForm:
+    EMAILSUBJECT: 'Email Subject'
+    FROMADDRESS: 'Send Email From'
+    HIDEFORMDATA: 'Hide Form Data from Email'
+    ONCOMPLETELABEL: 'Покажи при завършване'
+    PLURALNAME: 'User Defined Forms'
+    SENDEMAILTO: 'Send Email To'
+    SENDPLAIN: 'Send Email as Plain Text (HTML will be stripped)'
+    SUBMISSIONS: Заявления
+    TEXTONSUBMIT: 'Текст за бутона на изпращане:'
+    has_many_Submissions: Заявления

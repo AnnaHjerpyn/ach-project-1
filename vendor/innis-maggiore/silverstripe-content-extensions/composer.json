@@ -1,0 +1,31 @@
+{
+    "name": "innis-maggiore/silverstripe-content-extensions",
+    "description": "Content Extensions",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/innis-maggiore/silverstripe-content-extensions",
+    "keywords": ["silverstripe", "seo"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Dave Collins",
+            "email": "web-dev@innismaggiore.com"
+        }, {
+            "name": "Joe Chenevey",
+            "email": "web-dev@innismaggiore.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/innis-maggioree/silverstripe-content-extensions/issues"
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "silverstripe/cms": "^4.0 || ^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "InnisMaggiore\\SilverstripeContentExtensions\\": "src/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

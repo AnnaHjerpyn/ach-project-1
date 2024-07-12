@@ -1,0 +1,52 @@
+{
+  "name": "silverstripe-userforms",
+  "engines": {
+    "node": "^18.x"
+  },
+  "description": "UserForms module provides a visual form builder for the SilverStripe CMS. No coding required to build forms such as contact pages.",
+  "scripts": {
+    "build": "yarn && yarn lint && rm -rf client/dist/* && NODE_ENV=production webpack --mode production --bail --progress",
+    "dev": "NODE_ENV=development webpack --progress",
+    "watch": "NODE_ENV=development webpack --watch --progress",
+    "css": "WEBPACK_CHILD=css npm run build",
+    "lint": "yarn lint-js && yarn lint-sass",
+    "lint-js": "eslint client/src",
+    "lint-js-fix": "eslint client/src --fix",
+    "lint-sass": "stylelint **/client/src/**/*.scss"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silverstripe/silverstripe-userforms.git"
+  },
+  "keywords": [
+    "silverstripe",
+    "userforms"
+  ],
+  "author": "SilverStripe Ltd",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/silverstripe/silverstripe-userforms/issues"
+  },
+  "homepage": "https://github.com/silverstripe/silverstripe-userforms#readme",
+  "dependencies": {
+    "jquery": "^3.6.1",
+    "jquery-validation": "^1.19.5",
+    "jquery.are-you-sure": "^1.9.0",
+    "qs": "^6.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@silverstripe/eslint-config": "^1.2.1",
+    "@silverstripe/webpack-config": "^2.1.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "resolutions": {
+    "colors": "1.4.0"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

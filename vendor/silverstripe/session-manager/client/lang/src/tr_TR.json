@@ -1,0 +1,8 @@
+{
+    "SessionManager.CONFIRMATION_TITLE": "Emin misin sen?",
+    "SessionManager.COULD_NOT_LOGOUT": "Oturumdan çıkış yapılamadı. Daha sonra tekrar deneyin.",
+    "SessionManager.CURRENT": "Geçerli",
+    "SessionManager.DELETE_CONFIRMATION_BUTTON": "Oturum açmaya girişi kaldır",
+    "SessionManager.LOGGING_OUT": "Oturum kapatılıyor...",
+    "SessionManager.LOG_OUT": "Çıkış yap"
+}
