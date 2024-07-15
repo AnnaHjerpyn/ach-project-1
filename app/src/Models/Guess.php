@@ -11,6 +11,7 @@ class Guess extends DataObject
 
     private static $db = [
         'Guess' => 'Varchar(5)',
+        'BoardGUID' => 'Text',
     ];
 
     private static $has_one = [

@@ -126,7 +126,7 @@ class WordBankController extends PageController
         $userGuess = $submittedData['newGuess'];
 
         // Check to see if user has already guessed the new guess
-        $oldGuess = Guess::get()->filter(['Guess' => $userGuess, 'BoardID' => $boardID])->first();
+        $oldGuess = Guess::get()->filter(['Guess' => $userGuess, 'BoardGUID' => $boardID])->first();
         if ($oldGuess != null) {
 
             // Return a response to the client
@@ -144,7 +144,7 @@ class WordBankController extends PageController
             // Creates a new Guess object
             $newGuess = new Guess();
             $newGuess->Guess = $userGuess;
-            $newGuess->BoardID = $board->ID;
+            $newGuess->BoardGUID = $board->BoardID;
 
             // Want to check if the new guess is the correct word
             if ($newGuess->Guess === $board->CorrectWord) {
