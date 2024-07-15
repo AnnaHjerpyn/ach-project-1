@@ -44,7 +44,7 @@ class WordBankController extends PageController
 
         // Package it up yup
         $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->BoardID]));
+        $response->setBody(json_encode(['boardID' => $board->BoardID]));
         return $response;
     }
 

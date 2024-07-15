@@ -7,7 +7,7 @@ import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModa
 import HelpToggle from "./HelpToggle";
 
 function App() {
-    const [solution, setSolution] = useState('');
+    //const [solution, setSolution] = useState('');
     const [boardID, setBoardID] = useState('');
     const [showWelcomeModal, setShowWelcomeModal] = useState(false);
     const [finishedGame, setFinishedGame] = useState(false);
@@ -22,7 +22,7 @@ function App() {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem('boardID', data.boardID);
-                setSolution(data.solution);
+                //setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {
                 console.error('Failed to create a new board');
@@ -36,7 +36,7 @@ function App() {
                 }
                 setShowWelcomeModal(true);
                 setTotalGuesses(data.guesses.length);
-                setSolution(data.solution);
+                //setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {
                 console.error('Failed to fetch board');
@@ -46,7 +46,7 @@ function App() {
 
     const handleRestart = async () => {
         sessionStorage.removeItem('boardID');
-        setSolution('');
+        //setSolution('');
         setBoardID('');
         setShowWelcomeModal(false);
         setGameKey(prevKey => prevKey + 1);

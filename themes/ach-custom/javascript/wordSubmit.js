@@ -1,3 +1,5 @@
+export {checkDatabase, updateBoardWithGuess}
+
 async function updateBoardWithGuess(boardID, newGuess) {
     try {
         const response = await fetch(`/home/update`, {
@@ -32,5 +34,3 @@ async function checkDatabase(currentGuess, boardID) {
     }
     return data;
 }
-
-export {checkDatabase, updateBoardWithGuess}
