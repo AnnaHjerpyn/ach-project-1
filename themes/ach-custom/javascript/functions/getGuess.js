@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {checkDatabase, updateBoardWithGuess} from "../wordSubmit";
+import {checkDatabase, updateBoardWithGuess} from "./wordSubmit";
 
 const getGuess = (solution, boardID) => {
 

@@ -2,7 +2,6 @@
 
 namespace AnnaHjerpyn\Custom\Models;
 
-use League\Csv\Query\Row;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 

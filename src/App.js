@@ -22,7 +22,6 @@ function App() {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem('boardID', data.boardID);
-                //setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {
                 console.error('Failed to create a new board');
@@ -36,7 +35,6 @@ function App() {
                 }
                 setShowWelcomeModal(true);
                 setTotalGuesses(data.guesses.length);
-                //setSolution(data.solution);
                 setBoardID(data.boardID);
             } else {
                 console.error('Failed to fetch board');
@@ -46,7 +44,6 @@ function App() {
 
     const handleRestart = async () => {
         sessionStorage.removeItem('boardID');
-        //setSolution('');
         setBoardID('');
         setShowWelcomeModal(false);
         setGameKey(prevKey => prevKey + 1);
