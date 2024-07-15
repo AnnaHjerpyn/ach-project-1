@@ -3,7 +3,7 @@ import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
 import ModalStats from './ModalStats';
-import { checkDatabase, updateBoardWithGuess } from '../wordSubmit';
+import { checkDatabase, updateBoardWithGuess } from '../functions/wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
