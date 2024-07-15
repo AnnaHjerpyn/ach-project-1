@@ -43,10 +43,11 @@ const getGuess = (solution, boardID) => {
     }, [currentGuess, solution, turn, guesses]);
 
     const addNewGuess = useCallback(async () => {
-        const isWinningGuess = currentGuess === solution;
+        const data = await checkDatabase(currentGuess, boardID);
+
         const formattedGuess = formatGuess();
 
-        if (isWinningGuess) {
+        if (data.isCorrect) {
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);
