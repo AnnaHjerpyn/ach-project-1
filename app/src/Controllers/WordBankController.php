@@ -44,17 +44,17 @@ class WordBankController extends PageController
 
         // Package it up yup
         $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->ID]));
+        $response->setBody(json_encode(['solution' => $randomWord, 'boardID' => $board->BoardID]));
         return $response;
     }
 
     public function getBoard()
     {
         // Get the Board object based on its ID from the URL
-        $boardID = intval($this->getRequest()->param('ID'));
-        $board = Board::get()->byID($boardID);
+        $boardID = strval($this->getRequest()->param('ID'));
+        $board = Board::get()->filter(['BoardID' => $boardID])->first();
 
-        if (!$board) {
+        if ($board == '') {
             return null;
         }
 
@@ -71,21 +71,19 @@ class WordBankController extends PageController
         }
 
         // Prepare game statistics
-        $stats = [
-            'correctWord' => $board->CorrectWord,
-            'totalGuesses' => $board->Guesses()->count(),
-            'correctGuesses' => $board->Guesses()->filter('Guess', $board->CorrectWord)->count(),
-        ];
+//        $stats = [
+//            'totalGuesses' => $board->Guesses()->count(),
+//            'correctGuesses' => $board->Guesses()->filter('Guess', $board->CorrectWord)->count(),
+//        ];
 
         // Prepare response data
         $response = [
             'solution' => $board->CorrectWord,
-            'boardID' => $board->ID,
+            'boardID' => $board->BoardID,
             'finished' => $board->GameState,
             'guessCount' => count($guessesArray),
             'guesses' => $guessesArray,
             'usedKeys' => $usedKeys,
-            'stats' => $stats
         ];
 
         $this->getResponse()->addHeader('Content-Type', 'application/json');
@@ -115,12 +113,12 @@ class WordBankController extends PageController
     {
         // Retrieve the current Board being played
         $submittedData = json_decode($request->getBody(), true);
-        $boardID = intval($submittedData['boardID']);
+        $boardID = strval($submittedData['boardID']);
         // Sets Board object
-        $board = Board::get_by_id($boardID);
+        $board = Board::get()->filter(['BoardID' => $boardID])->first();
 
-        if (!$board) {
-            //NO BOARD?!!!?
+        if ($board == '') {
+            // NO BOARD?!!!?
             return null;
         }
 
@@ -242,8 +240,8 @@ class WordBankController extends PageController
         $response['isValidWord'] = true;
 
         // Check if the submitted word matches the correct word for the board
-        $board = Board::get()->byID($boardID);
-        if ($board && $submittedWord === strtolower($board->CorrectWord)) {
+        $board = Board::get()->filter(['BoardID' => $boardID])->first();
+        if ($board !== '' && $submittedWord === strtolower($board->CorrectWord)) {
             $response['isCorrect'] = true;
             $response['message'] = $board->CorrectWord;
         }

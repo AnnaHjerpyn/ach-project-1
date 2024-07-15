@@ -13,6 +13,7 @@ class Board extends DataObject
     private static $db = [
         'CorrectWord' => 'Varchar(255)',
         'GameState' => 'Int',
+        'BoardID' => 'Text',
     ];
 
     private static $has_many = [
@@ -20,10 +21,19 @@ class Board extends DataObject
     ];
 
     private static $summary_fields = [
-        'ID' => 'Board ID',
+        'BoardID' => 'Board ID',
         'CorrectWord' => 'CorrectWord',
         'GameState' => 'GameState',
     ];
+
+    public function onBeforeWrite()
+    {
+        if (!$this->BoardID) {
+            $this->BoardID = $this->getUniqueKey();
+        }
+
+        parent::onBeforeWrite();
+    }
 
     public function getGuesses(){
         return $this->Guesses()->count();
