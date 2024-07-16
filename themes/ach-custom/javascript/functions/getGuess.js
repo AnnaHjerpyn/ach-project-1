@@ -101,7 +101,8 @@ const getGuess = (boardID) => {
                 setShowToast(true);
                 return;
             }
-            if (history.includes(currentGuess)) {
+
+            if (history.includes(currentGuess.toLowerCase())) {
                 setIsValidWord(false);
                 setMessage('Word has already been used');
                 setShowToast(true);
