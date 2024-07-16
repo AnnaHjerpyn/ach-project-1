@@ -1,4 +1,4 @@
-@mixin animation-delay () {
+@mixin animation-delay() {
     @for $i from 1 through 4 {
         &:nth-child(#{$i + 1}) {
             animation-delay: calc(#{$i} * 0.2s);
@@ -166,26 +166,43 @@
     animation: shake 600ms ease-in-out;
 }
 
-body[data-theme='dark'] .row-container > div {
-    border: 2px solid rgb(58, 58, 60);
-}
+body[data-theme='dark'] .row-container {
+    & > div {
+        border: 2px solid rgb(58, 58, 60);
 
-body[data-theme='dark'] .row-container > div.green {
-    --background: #538d4e;
-    --border-color: #538d4e;
-    animation: dark 0.5s ease forwards;
-}
+        &.green {
+            --background: #538d4e;
+            --border-color: #538d4e;
+            animation-name: dark;
+            animation-duration: 0.6s;
+        }
 
-body[data-theme='dark'] .row-container > div.grey {
-    --background: #3a3a3c;
-    --border-color: #3a3a3c;
-    animation: dark 0.6s ease forwards;
-}
+        &.grey {
+            --background: #3a3a3c;
+            --border-color: #3a3a3c;
+            animation-name: dark;
+            animation-duration: 0.6s;
+        }
 
-body[data-theme='dark']  .row-container > div.yellow {
-    --background: #b59f3b;
-    --border-color: #b59f3b;
-    animation: dark 0.5s ease forwards;
+        &.yellow {
+            --background: #b59f3b;
+            --border-color: #b59f3b;
+            animation-name: dark;
+            animation-duration: 0.6s;
+        }
+    }
+
+    &.current {
+        &.win > div.filled {
+            --background: #538d4e;
+            --border-color: #538d4e;
+            animation-name: win-bounce;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+        }
+    }
+
+    @include animation-delay();
 }
 
 @keyframes dark {
