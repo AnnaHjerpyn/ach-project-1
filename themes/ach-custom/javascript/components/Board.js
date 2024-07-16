@@ -9,7 +9,6 @@ import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
 
 function Board({ boardID, onRestart }) {
-    const [solution, setSolution] = useState('');
     const [inputDisabled, setInputDisabled] = useState(false);
     const {
         currentGuess,
@@ -32,7 +31,7 @@ function Board({ boardID, onRestart }) {
         setShowModal,
         gameOver,
         isCorrect,
-    } = getGuess(solution, boardID);
+    } = getGuess(boardID);
 
     const debouncedGuess = useDebounce(currentGuess, 100);
 
@@ -41,7 +40,6 @@ function Board({ boardID, onRestart }) {
             try {
                 const response = await fetch(`/home/getBoard/${boardID}`);
                 const data = await response.json();
-                setSolution(data.solution);
 
                 let oldGuesses = [...Array(6)].map(() => Array(5).fill({ key: '', color: '' }));
                 for (let i = 0; i < data.guesses.length; i++) {
@@ -86,7 +84,7 @@ function Board({ boardID, onRestart }) {
         async function updateBoard() {
             try {
                 if (isCorrect || turn > 5) {
-                    setMessage(solution);
+                    // setMessage(solution);
                     setShowToast(true);
                 }
                 if (currentGuess.length === 5) {
@@ -140,7 +138,7 @@ function Board({ boardID, onRestart }) {
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled} />
             {showToast && <ToastMessage message={message} />}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect} solution={solution} />
+            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect} />
         </>
     );
 }

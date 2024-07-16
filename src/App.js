@@ -7,7 +7,6 @@ import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModa
 import HelpToggle from "./HelpToggle";
 
 function App() {
-    //const [solution, setSolution] = useState('');
     const [boardID, setBoardID] = useState('');
     const [showWelcomeModal, setShowWelcomeModal] = useState(false);
     const [finishedGame, setFinishedGame] = useState(false);

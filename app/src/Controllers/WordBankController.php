@@ -18,6 +18,7 @@ class WordBankController extends PageController
         'setBoard',
         'getBoard',
         'updateBoard',
+        'getFormattedGuess',
     ];
 
     private static $url_handlers = [
@@ -25,6 +26,7 @@ class WordBankController extends PageController
         'board/$ID' => 'getBoard',
         'update' => 'updateBoard',
         'check' => 'checkDatabase',
+        'format' => 'getFormattedGuess',
     ];
 
     protected function init()
@@ -78,7 +80,6 @@ class WordBankController extends PageController
 
         // Prepare response data
         $response = [
-            'solution' => $board->CorrectWord,
             'boardID' => $board->BoardID,
             'finished' => $board->GameState,
             'guessCount' => count($guessesArray),
@@ -174,6 +175,72 @@ class WordBankController extends PageController
         return json_encode($response);
     }
 
+    public function getFormattedGuess(HTTPRequest $request)
+    {
+        // Fetch the data
+        $submittedData = json_decode($request->getBody(), true);
+        // Grabs the board data --> we can have the solution associated to it
+        $boardID = $submittedData['BoardID'];
+        $board = Board::get()->filter(['BoardID' => $boardID])->first();
+        // Make sure that guy exists
+        if (!$board) {
+            // The board does not exist ahhh !!!
+            return json_encode(['error' => 'Board not found']);
+        }
+        // Grabs the current guess provided by the client side
+        $currentGuess = strtolower($submittedData['currentGuess']);
+        // Get the board's solution to be compared to
+        $solution = str_split(strtolower($board->CorrectWord)); // Convert solution to array of lowercase characters
+
+        // Guesses count and the previous guesses
+        $turn = $board->getGuesses(); // Amount of turns
+        $guesses = $board->Guesses(); // Guesses array
+        $guessesArray = [];
+
+        // Building out the guesses array
+        if ($guesses->count() > 0) {
+            foreach ($guesses as $guess) {
+                $guessesArray[] = $guess->Guess;
+            }
+        }
+
+        // Formats the guess based on solution
+        $formattedGuess = $this->formatGuess($currentGuess, $solution, $turn, $guessesArray);
+
+        // Return the formatted guess back to the client
+        return json_encode(['formattedGuess' => $formattedGuess]);
+    }
+
+
+    private function formatGuess($currentGuess, $solution, $turn, $guessesArray)
+    {
+        // Using anonymous functions with array map !
+        $formattedGuess = array_map(function($letter, $i) use ($solution, $turn, $guessesArray) {
+            $color = 'grey';
+
+            // Check if the letter is in the correct position
+            if ($letter === $solution[$i]) {
+                $color = 'green';
+            } elseif (in_array($letter, $solution)) {
+                // Check if the letter exists in solution but is not in the correct position
+                $color = 'yellow';
+            }
+
+            // Check if the letter has already been marked as green in previous turns
+            for ($j = 0; $j < $turn; $j++) {
+                if (isset($guessesArray[$j][$i]['key']) && $guessesArray[$j][$i]['key'] === $letter && isset($guessesArray[$j][$i]['color']) && $guessesArray[$j][$i]['color'] === 'green') {
+                    $color = 'green';
+                    break;
+                }
+            }
+
+            // Return the letter and it's associated color after being formatted
+            return ['key' => $letter, 'color' => $color];
+        }, str_split($currentGuess), array_keys($solution));
+
+        // Return the formatted guess
+        return $formattedGuess;
+    }
 
     public function deleteBoard()
     {

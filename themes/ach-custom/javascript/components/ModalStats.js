@@ -3,7 +3,7 @@ import {useTheme} from '../../../../src/ThemeContext';
 import icon from "../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png";
 import '../../css/src/Components/_modal.scss';
 
-const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
+const ModalStats = ({isOpen, onClose, onRestart, isCorrect}) => {
     const {isDarkMode} = useTheme();
 
     if (!isOpen) return null;
@@ -18,7 +18,7 @@ const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
                     </button>
                     <img src={icon} alt="Icon" className="icon"/>
                     <h1>Congratulations!</h1>
-                    <p>You guessed the word: {solution}</p>
+                    <p>You guessed the word</p>
                     <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
                         Restart
                     </button>
@@ -35,7 +35,7 @@ const ModalStats = ({isOpen, onClose, onRestart, isCorrect, solution}) => {
                     </button>
                     <img src={icon} alt="Icon" className="icon"/>
                     <h1>Almost had it!</h1>
-                    <p>The word was: {solution}</p>
+                    <p>The word was: </p>
                     <button className={`restart-button ${isDarkMode ? 'dark-theme-button' : ''}`} onClick={onRestart}>
                         Restart
                     </button>

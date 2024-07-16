@@ -1,51 +1,49 @@
-import {useCallback, useState} from 'react';
-import {checkDatabase, updateBoardWithGuess} from "./wordSubmit";
+import { useCallback, useState } from 'react';
+import { checkDatabase, updateBoardWithGuess } from "./wordSubmit";
 
-const getGuess = (solution, boardID) => {
-
+const getGuess = (boardID) => {
     const [inKeypad, setKeypad] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [turn, setTurn] = useState(0);
     const [isCorrect, setIsCorrect] = useState(false);
     const [currentGuess, setCurrentGuess] = useState('');
-    const [guesses, setGuesses] = useState([...Array(6)].map(() => [])); // each guess is an array of objects {key, color}
-    const [history, setHistory] = useState([]); // array of strings
-    const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
-    const [isValidWord, setIsValidWord] = useState(true); // Initial state for isValidWord
-    const [message, setMessage] = useState(''); // Sets the toast's message for user
-    const [showToast, setShowToast] = useState(false); // Handles showing the toast message
-    const [showModal, setShowModal] = useState(false); // Show Modal based on if the guess is correct
+    const [guesses, setGuesses] = useState([...Array(6)].map(() => []));
+    const [history, setHistory] = useState([]);
+    const [usedKeys, setUsedKeys] = useState({});
+    const [isValidWord, setIsValidWord] = useState(true);
+    const [message, setMessage] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-    const formatGuess = useCallback(() => {
-        let formattedGuess = [...currentGuess].map((letter, i) => {
-            let color = 'grey';
+    const fetchFormattedGuess = useCallback(async () => {
+        try {
+            const response = await fetch('/home/format', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    BoardID: boardID,            // Send board ID so it can compare to solution
+                    currentGuess: currentGuess   // Send the current guess to be formatted
+                })
+            });
 
-            // Check if the letter is in the correct position
-            if (letter === solution[i]) {
-                color = 'green';
-            } else if (solution.includes(letter)) {
-                // Check if the letter exists in solution but is not in the correct position
-                color = 'yellow';
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
 
-            // Check if the letter has already been marked as green in previous turns
-            for (let j = 0; j < turn; j++) {
-                if (guesses[j][i]?.key === letter && guesses[j][i]?.color === 'green') {
-                    color = 'green';
-                    break;
-                }
-            }
-
-            return { key: letter, color };
-        });
-
-        return formattedGuess;
-    }, [currentGuess, solution, turn, guesses]);
+            const data = await response.json();
+            return data.formattedGuess;
+        } catch (error) {
+            console.error('Error fetching formatted guess:', error);
+            return []; // Return empty array !!
+        }
+    }, [boardID, currentGuess]);
 
     const addNewGuess = useCallback(async () => {
         const data = await checkDatabase(currentGuess, boardID);
 
-        const formattedGuess = formatGuess();
+        const formattedGuess = await fetchFormattedGuess();
 
         if (data.isCorrect) {
             setIsCorrect(true);
@@ -56,7 +54,7 @@ const getGuess = (solution, boardID) => {
 
         if (turn === 5 && !isCorrect) {
             setTimeout(() => setShowModal(true), 2500)
-            setMessage(solution);
+            // setMessage(solution);
             setShowToast(true);
         }
 
@@ -89,52 +87,58 @@ const getGuess = (solution, boardID) => {
             return newUsedKeys;
         });
 
-        setCurrentGuess('');
-    }, [currentGuess, turn, solution, formatGuess, isCorrect]);
+        setCurrentGuess(''); // Clears the current guess
+
+    }, [currentGuess, turn, fetchFormattedGuess, isCorrect, boardID]);
 
     const handleKeyInput = useCallback(async (key) => {
+        // Handle key input logic
         if (key === 'Enter') {
+            // Check game rules and handle enter key press
             if (turn > 5) {
                 setIsValidWord(false);
-                setMessage('Already guessed 6 times.'); // Set toast message
-                setShowToast(true); // Display the toast
+                setMessage('Already guessed 6 times.');
+                setShowToast(true);
                 return;
             }
             if (history.includes(currentGuess)) {
                 setIsValidWord(false);
-                setMessage('Word has already been used'); // Set toast message
-                setShowToast(true); // Display the toast
+                setMessage('Word has already been used');
+                setShowToast(true);
                 return;
             }
 
             if (currentGuess.length !== 5) {
                 setIsValidWord(false);
-                setMessage('Not enough letters'); // Set toast message
-                setShowToast(true); // Display the toast
+                setMessage('Not enough letters');
+                setShowToast(true);
                 return;
             }
 
             const data = await checkDatabase(currentGuess, boardID);
 
             if (!data.isValidWord) {
-                setIsValidWord(false); // Set isValidWord to false for invalid word
-                setMessage('Word is not in list'); // Set toast message
-                setShowToast(true); // Display the toast
+                setIsValidWord(false);
+                setMessage('Word is not in list');
+                setShowToast(true);
                 return;
             } else if (data.isValidWord && !inKeypad) {
                 setIsValidWord(true);
                 await updateBoardWithGuess(boardID, currentGuess);
             }
 
-            addNewGuess();
+            addNewGuess(); // Adds a guess if it makes through the validation !
+
         } else if (key === 'Backspace') {
+            // Removes the current guess letters when user presses 'Backspace'
             setCurrentGuess((prev) => prev.slice(0, -1));
         } else if (/^[A-Za-z]$/.test(key)) {
+            // As the user enters in letters, adds to the current guess until length of 5
             if (currentGuess.length < 5) {
                 setCurrentGuess((prev) => prev + key);
             }
         }
-    }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast]);
+    }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast, inKeypad]);
 
     const handleKeyup = useCallback((event) => {
         setKeypad(true);
@@ -151,7 +155,6 @@ const getGuess = (solution, boardID) => {
         handleKeyup,
         handleKeyInput,
         addNewGuess,
-        formatGuess,
         setGuesses,
         setHistory,
         setTurn,
@@ -165,6 +168,7 @@ const getGuess = (solution, boardID) => {
         setShowModal,
         showModal,
         gameOver,
+        fetchFormattedGuess
     };
 };
 
