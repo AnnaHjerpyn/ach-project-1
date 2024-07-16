@@ -57,11 +57,12 @@ function App() {
         <ThemeProvider>
             {showWelcomeModal && (
                 <WelcomeModal
-                onConfirm={handleRestart}
-                onCancel={() => setShowWelcomeModal(false)}
-                totalGuesses={totalGuesses}
-                finishedGame={finishedGame}
-            />)}
+                    onConfirm={handleRestart}
+                    onRestart={handleRestart}
+                    onCancel={() => setShowWelcomeModal(false)}
+                    totalGuesses={totalGuesses}
+                    finishedGame={finishedGame}
+                />)}
             <div className="App">
                 <nav className="navbar navbar-expand-sm fixed-top">
                     <div className="container-fluid">

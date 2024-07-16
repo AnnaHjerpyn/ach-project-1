@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../css/src/Components/_welcome.scss';
 import icon from '../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png';
 
-const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
+const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses, onRestart}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [header, setHeader] = useState('');
     const [message, setMessage] = useState('');
@@ -11,6 +11,10 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
     // Restart button handler
     const handleConfirm = () => {
         setIsVisible(false);
+        // Restart the game
+        if (finishedGame || totalGuesses === 6) {
+            setTimeout(onRestart, 1000);
+        }
         setTimeout(finishedGame ? onConfirm : onCancel, 1000);
     };
 
@@ -25,7 +29,7 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
             setHeader('Hi Wordler');
             setMessage('Great job on the puzzle! Do you want to play again?');
             setButtonText('Restart Game');
-        } else if (!finishedGame && totalGuesses > 0){
+        } else if (!finishedGame && totalGuesses > 0) {
             setHeader('Welcome Back!');
             setMessage(`You've made ${totalGuesses} of 6 guesses. Keep it up!`);
             setButtonText('Continue');
@@ -40,7 +44,7 @@ const WelcomeModal = ({ onConfirm, onCancel, finishedGame, totalGuesses }) => {
         <div className={`contentWelcome ${!isVisible ? 'fade-out' : ''}`}>
             <div className="contentWelcomeContainer">
                 <div className="contentWelcomeMain">
-                    <img src={icon} alt="Icon" className="icon" />
+                    <img src={icon} alt="Icon" className="icon"/>
                     <div className="title">{header}</div>
                     <div className="subtitle">{message}</div>
                     <div className="buttonContainer">
