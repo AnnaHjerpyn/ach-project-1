@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Toast} from 'react-bootstrap';
 import '../../css/src/Components/_toast.scss';
 
-const ToastMessage = ({message, duration = 3500}) => {
+const ToastMessage = ({message, duration = 5000}) => {
     const [show, toggleShow] = useState(true);
 
     useEffect(() => {
