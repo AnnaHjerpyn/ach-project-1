@@ -313,6 +313,12 @@ class WordBankController extends PageController
             $response['message'] = $board->CorrectWord;
         }
 
+        // Set the message to the solution word when the turn > 5
+        if ($board->getGuesses() > 5){
+            $response['isCorrect'] = false;
+            $response['message'] = $board->CorrectWord;
+        }
+
         // Set the HTTP response headers and encode the response as JSON
         $this->getResponse()->addHeader('Content-Type', 'application/json');
         return json_encode($response);
