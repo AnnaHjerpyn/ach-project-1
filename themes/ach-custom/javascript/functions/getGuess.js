@@ -1,7 +1,7 @@
-import {useCallback, useState} from 'react';
-import {checkDatabase, updateBoardWithGuess} from "./wordSubmit";
+import { useCallback, useState } from 'react';
+import { checkDatabase, updateBoardWithGuess } from "./wordSubmit";
 
-const getGuess = (boardID, finished) => {
+const getGuess = (boardID) => {
     const [inKeypad, setKeypad] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [turn, setTurn] = useState(0);
@@ -56,8 +56,6 @@ const getGuess = (boardID, finished) => {
             setTimeout(() => setShowModal(true), 2500)
             setMessage(data.message);
             setShowToast(true);
-            setGameOver(true);
-            return;
         }
 
         setGuesses((prevGuesses) => {
@@ -70,7 +68,7 @@ const getGuess = (boardID, finished) => {
         setTurn((prevTurn) => prevTurn + 1);
 
         setUsedKeys((prevUsedKeys) => {
-            let newUsedKeys = {...prevUsedKeys};
+            let newUsedKeys = { ...prevUsedKeys };
             formattedGuess.forEach((l) => {
                 const currentColor = newUsedKeys[l.key];
 
@@ -141,14 +139,11 @@ const getGuess = (boardID, finished) => {
                 setCurrentGuess((prev) => prev + key);
             }
         }
-
     }, [turn, currentGuess, history, addNewGuess, boardID, setIsValidWord, setMessage, setShowToast, inKeypad]);
 
     const handleKeyup = useCallback((event) => {
         setKeypad(true);
-        if (!finished) {
-            handleKeyInput(event.key);
-        }
+        handleKeyInput(event.key);
     }, [handleKeyInput]);
 
     return {
