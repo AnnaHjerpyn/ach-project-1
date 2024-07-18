@@ -94,36 +94,22 @@ const getGuess = (boardID) => {
     const handleKeyInput = useCallback(async (key) => {
         // Handle key input logic
         if (key === 'Enter') {
-            // Check game rules and handle enter key press
-            if (turn > 5) {
-                setIsValidWord(false);
-                setMessage('Already guessed 6 times.');
-                setShowToast(true);
-                return;
-            }
 
-            if (history.includes(currentGuess.toLowerCase())) {
-                setIsValidWord(false);
-                setMessage('Word has already been used');
-                setShowToast(true);
-                return;
-            }
-
-            if (currentGuess.length !== 5) {
-                setIsValidWord(false);
-                setMessage('Not enough letters');
-                setShowToast(true);
-                return;
-            }
-
+            // Check the database with current guess
             const data = await checkDatabase(currentGuess, boardID);
 
-            if (!data.isValidWord) {
+            if (history.includes(currentGuess.toLowerCase())){
                 setIsValidWord(false);
-                setMessage('Word is not in list');
+                setMessage("Word has already been used");
                 setShowToast(true);
                 return;
+            }
 
+            if (!data.isValidWord || turn > 5) {
+                setIsValidWord(false);
+                setMessage(data.message);
+                setShowToast(true);
+                return;
             } else if (data.isValidWord && !inKeypad) {
                 setIsValidWord(true);
                 await updateBoardWithGuess(boardID, currentGuess);

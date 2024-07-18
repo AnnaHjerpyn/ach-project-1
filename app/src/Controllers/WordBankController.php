@@ -140,6 +140,20 @@ class WordBankController extends PageController
             return json_encode($response);
         }
 
+        // Check if the word is a valid word in the word bank
+        // Check if the word exists in the WordBank
+        $wordExists = WordBank::get()->filter('Word', $userGuess)->first();
+
+        if (!$wordExists) {
+            $response = [
+                'status' => 'fail',
+                'message' => 'Word not in list.',
+                'board' => $board
+            ];
+
+            return json_encode($response);
+        }
+
         // Checks to see if the Board has less than 6 guesses
         if ($board->getGuesses() < 6) {
             // Creates a new Guess object
@@ -163,6 +177,14 @@ class WordBankController extends PageController
             // Set the Board's game state to finished
             $board->GameState = 1;
             $board->write();
+
+//            $response = [
+//                'status' => 'success',
+//                'message' => $board->CorrectWord,
+//                'board' => $board
+//            ];
+//
+//            return json_encode($response);
         }
 
         // Return a response to the client
@@ -215,7 +237,7 @@ class WordBankController extends PageController
     private function formatGuess($currentGuess, $solution, $turn, $guessesArray)
     {
         // Using anonymous functions with array map !
-        $formattedGuess = array_map(function($letter, $i) use ($solution, $turn, $guessesArray) {
+        $formattedGuess = array_map(function ($letter, $i) use ($solution, $turn, $guessesArray) {
             // Default that grey color
             $color = 'grey';
 
@@ -277,12 +299,6 @@ class WordBankController extends PageController
 
     public function checkDatabase(HTTPRequest $request)
     {
-        // Initialize response array
-        $response = [
-            'isValidWord' => false,
-            'isCorrect' => false,
-            'message' => ''
-        ];
 
         if (!$request->isPOST()) {
             $response['message'] = 'No POST data received.';
@@ -295,11 +311,28 @@ class WordBankController extends PageController
         $submittedWord = strtolower($submittedData['Word']);
         $boardID = $submittedData['BoardID'];
 
+
+        $board = Board::get()->filter(['BoardID' => $boardID])->first();
+
+        // Set the message to the solution word when the turn > 5
+        if ($board->getGuesses() > 6) {
+            $response['isCorrect'] = false;
+            $response['message'] = $board->CorrectWord;
+            return json_encode($response);
+        }
+
+        // Check if the user submitted a word less than 5 letters
+        if (strlen($submittedWord) < 5) {
+            $response['message'] = 'Not enough letters';
+            $this->getResponse()->addHeader('Content-Type', 'application/json');
+            return json_encode($response);
+        }
+
         // Check if the word exists in the WordBank
         $wordExists = WordBank::get()->filter('Word', $submittedWord)->first();
 
         if (!$wordExists) {
-            $response['message'] = 'Not in word list';
+            $response['message'] = 'Word is not in list';
             $this->getResponse()->addHeader('Content-Type', 'application/json');
             return json_encode($response);
         }
@@ -308,15 +341,8 @@ class WordBankController extends PageController
         $response['isValidWord'] = true;
 
         // Check if the submitted word matches the correct word for the board
-        $board = Board::get()->filter(['BoardID' => $boardID])->first();
         if ($board !== '' && $submittedWord === strtolower($board->CorrectWord)) {
             $response['isCorrect'] = true;
-            $response['message'] = $board->CorrectWord;
-        }
-
-        // Set the message to the solution word when the turn > 5
-        if ($board->getGuesses() > 5){
-            $response['isCorrect'] = false;
             $response['message'] = $board->CorrectWord;
         }
 
