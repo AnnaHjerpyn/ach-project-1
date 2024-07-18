@@ -72,12 +72,6 @@ class WordBankController extends PageController
             }
         }
 
-        // Prepare game statistics
-//        $stats = [
-//            'totalGuesses' => $board->Guesses()->count(),
-//            'correctGuesses' => $board->Guesses()->filter('Guess', $board->CorrectWord)->count(),
-//        ];
-
         // Prepare response data
         $response = [
             'boardID' => $board->BoardID,
@@ -158,6 +152,7 @@ class WordBankController extends PageController
 
             // Save the Guess to the Board's Guesses
             $board->Guesses()->add($newGuess);
+
         } else { // This means the Board has more than 6 guesses
 
             // Set the Board's game state to finished
@@ -187,6 +182,7 @@ class WordBankController extends PageController
             // The board does not exist ahhh !!!
             return json_encode(['error' => 'Board not found']);
         }
+
         // Grabs the current guess provided by the client side
         $currentGuess = strtolower($submittedData['currentGuess']);
         // Get the board's solution to be compared to
@@ -240,14 +236,6 @@ class WordBankController extends PageController
 
         // Return the formatted guess
         return $formattedGuess;
-    }
-
-    public function deleteBoard()
-    {
-        // Retrieve the Board
-        $board = $this->getBoard();
-
-        // Does this function actually delete it ??
     }
 
     public function getRandomSolutionWord()

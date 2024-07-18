@@ -7,9 +7,10 @@ import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModa
 import HelpToggle from "./HelpToggle";
 
 function App() {
+
     const [boardID, setBoardID] = useState('');
     const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-    const [finishedGame, setFinishedGame] = useState(false);
+    const [finishedGame, setFinishedGame] = useState(0);
     const [totalGuesses, setTotalGuesses] = useState(0);
     const [gameKey, setGameKey] = useState(0);
 
@@ -29,9 +30,7 @@ function App() {
             const response = await fetch(`/home/getBoard/${boardID}`);
             if (response.ok) {
                 const data = await response.json();
-                if (data.finished) {
-                    setFinishedGame(true);
-                }
+                setFinishedGame(data.finished);
                 setShowWelcomeModal(true);
                 setTotalGuesses(data.guesses.length);
                 setBoardID(data.boardID);
@@ -74,7 +73,7 @@ function App() {
                         </div>
                     </div>
                 </nav>
-                <Board key={gameKey} boardID={boardID} onRestart={handleRestart}/>
+                <Board key={gameKey} boardID={boardID} onRestart={handleRestart} finished={finishedGame}/>
             </div>
         </ThemeProvider>);
 }

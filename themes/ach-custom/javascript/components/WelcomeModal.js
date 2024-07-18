@@ -7,6 +7,9 @@ const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses, onRestar
     const [header, setHeader] = useState('');
     const [message, setMessage] = useState('');
     const [buttonText, setButtonText] = useState('');
+    const [gameOver, setGameOver] = useState(false);
+
+    if (finishedGame) { setGameOver(true) } // if i didn't add this it would display the 0 value
 
     // Restart button handler
     const handleConfirm = () => {
@@ -49,7 +52,7 @@ const WelcomeModal = ({onConfirm, onCancel, finishedGame, totalGuesses, onRestar
                     <div className="subtitle">{message}</div>
                     <div className="buttonContainer">
                         <button className="button" onClick={handleConfirm}>{buttonText}</button>
-                        {finishedGame && (
+                        {gameOver && (
                             <button className="button secondary" onClick={handleCancel}>Cancel</button>
                         )}
                     </div>

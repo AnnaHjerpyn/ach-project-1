@@ -8,7 +8,7 @@ import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
 
-function Board({ boardID, onRestart }) {
+function Board({ boardID, onRestart, finished }) {
     const [inputDisabled, setInputDisabled] = useState(false);
     const {
         currentGuess,
@@ -31,7 +31,7 @@ function Board({ boardID, onRestart }) {
         setShowModal,
         gameOver,
         isCorrect,
-    } = getGuess(boardID);
+    } = getGuess(boardID, finished);
 
     const debouncedGuess = useDebounce(currentGuess, 100);
 
@@ -84,7 +84,6 @@ function Board({ boardID, onRestart }) {
         async function updateBoard() {
             try {
                 if (isCorrect || turn > 5) {
-                    // setMessage(solution);
                     setShowToast(true);
                 }
                 if (currentGuess.length === 5) {
@@ -105,13 +104,13 @@ function Board({ boardID, onRestart }) {
             }
         }
 
-        function handleEnterKey(event) {
-            if (event.key === 'Enter' && !gameOver) {
+        async function handleEnterKey(event) {
+            if (event.key === 'Enter' && !gameOver && !finished) {
                 updateBoard();
             }
         }
 
-        if (!gameOver) {
+        if (!gameOver && !finished) {
             window.addEventListener('keydown', handleEnterKey);
             window.addEventListener('keyup', handleKeyup);
         }
