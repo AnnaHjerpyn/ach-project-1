@@ -7,6 +7,7 @@ import {checkDatabase, updateBoardWithGuess} from '../functions/wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
+import board from "../../../../public/_resources/themes/ach-custom/javascript/components/Board";
 
 function Board({boardID, onRestart}) {
     const [inputDisabled, setInputDisabled] = useState(false);
@@ -89,6 +90,7 @@ function Board({boardID, onRestart}) {
                         setIsValidWord(true);
                         await updateBoardWithGuess(boardID, currentGuess);
                     } else {
+                        const data = await checkDatabase(currentGuess, boardID);
                         setMessage(data.message);
                         setShowToast(true);
                         setIsValidWord(false);
