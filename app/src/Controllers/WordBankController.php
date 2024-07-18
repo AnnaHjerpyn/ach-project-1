@@ -216,6 +216,7 @@ class WordBankController extends PageController
     {
         // Using anonymous functions with array map !
         $formattedGuess = array_map(function($letter, $i) use ($solution, $turn, $guessesArray) {
+            // Default that grey color
             $color = 'grey';
 
             // Check if the letter is in the correct position

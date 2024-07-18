@@ -84,7 +84,6 @@ function Board({ boardID, onRestart }) {
         async function updateBoard() {
             try {
                 if (isCorrect || turn > 5) {
-                    // setMessage(solution);
                     setShowToast(true);
                 }
                 if (currentGuess.length === 5) {

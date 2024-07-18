@@ -49,7 +49,6 @@ const getGuess = (boardID) => {
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);
-            return;
         }
 
         if (turn === 5 && !isCorrect) {
@@ -123,6 +122,7 @@ const getGuess = (boardID) => {
                 setMessage('Word is not in list');
                 setShowToast(true);
                 return;
+
             } else if (data.isValidWord && !inKeypad) {
                 setIsValidWord(true);
                 await updateBoardWithGuess(boardID, currentGuess);

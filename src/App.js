@@ -45,6 +45,7 @@ function App() {
         sessionStorage.removeItem('boardID');
         setBoardID('');
         setShowWelcomeModal(false);
+        setFinishedGame(false);
         setGameKey(prevKey => prevKey + 1);
         await fetchBoard();
     };
