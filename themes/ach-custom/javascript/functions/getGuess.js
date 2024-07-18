@@ -49,6 +49,7 @@ const getGuess = (boardID) => {
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);
+            return;
         }
 
         if (turn === 5 && !isCorrect) {
