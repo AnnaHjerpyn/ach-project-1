@@ -94,7 +94,6 @@ const getGuess = (boardID) => {
     const handleKeyInput = useCallback(async (key) => {
         // Handle key input logic
         if (key === 'Enter') {
-
             // Check the database with current guess
             const data = await checkDatabase(currentGuess, boardID);
 

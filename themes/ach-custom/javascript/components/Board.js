@@ -83,17 +83,14 @@ function Board({boardID, onRestart}) {
     useEffect(() => {
             async function updateBoard() {
                 try {
-                    if (isCorrect || turn > 5) {
+                    if (isCorrect || turn === 5) {
+                        const data = await checkDatabase(currentGuess, boardID);
+                        setMessage(data.message);
                         setShowToast(true);
                     }
                     if (currentGuess.length === 5) {
                         setIsValidWord(true);
                         await updateBoardWithGuess(boardID, currentGuess);
-                    } else {
-                        const data = await checkDatabase(currentGuess, boardID);
-                        setMessage(data.message);
-                        setShowToast(true);
-                        setIsValidWord(false);
                     }
                 } catch
                     (error) {
