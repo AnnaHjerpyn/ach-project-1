@@ -2,7 +2,7 @@
 
 namespace AnnaHjerpyn\Custom\PageTypes;
 
-use AnnaHjerpyn\Custom\Controllers\WordBankController;
+use AnnaHjerpyn\Custom\Controllers\UserAccountController;
 use Page;
 
 class ComponentPage extends Page
@@ -10,7 +10,7 @@ class ComponentPage extends Page
     private static $table_name = 'ComponentPage';
     private static $singular_name = 'Component Page';
     private static $plural_name = 'Component Pages';
-    private static $controller_name = WordBankController::class;
+    private static $controller_name = UserAccountController::class;
 
     public static function getSearchFilter()
     {

@@ -172,19 +172,12 @@ class WordBankController extends PageController
 
             // Save the Guess to the Board's Guesses
             $board->Guesses()->add($newGuess);
+
         } else { // This means the Board has more than 6 guesses
 
             // Set the Board's game state to finished
             $board->GameState = 1;
             $board->write();
-
-//            $response = [
-//                'status' => 'success',
-//                'message' => $board->CorrectWord,
-//                'board' => $board
-//            ];
-//
-//            return json_encode($response);
         }
 
         // Return a response to the client
