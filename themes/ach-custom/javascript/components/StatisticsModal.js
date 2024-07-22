@@ -4,7 +4,7 @@ import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_help.scss';
 
 
-const HTPModal = ({isOpen, onClose}) => {
+const StatisticsModal = ({isOpen, onClose}) => {
     const {isDarkMode} = useTheme();
 
     if (!isOpen) return null;
@@ -16,19 +16,10 @@ const HTPModal = ({isOpen, onClose}) => {
                 <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
                     &times;
                 </button>
-                <h2>How To Play</h2>
-                <div className="subheading">
-                    Guess the Wordle in 6 tries.
-                </div>
-                <section className="help">
-                    <ul className="instructions">
-                        <li>Each guess must be a valid 5-letter word.</li>
-                        <li>The color of the tiles will change to show how close your guess was to the word.</li>
-                    </ul>
-                </section>
+                <h2>Statistics</h2>
             </div>
         </div>
     );
 };
 
-export default HTPModal;
+export default StatisticsModal;

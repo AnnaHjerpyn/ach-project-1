@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTheme } from './ThemeContext';
-import { QuestionCircle } from 'react-bootstrap-icons';
-import HTPModal from '../themes/ach-custom/javascript/components/HTPModal';
+import {BarChartFill } from 'react-bootstrap-icons';
+import StatisticsModal from "../themes/ach-custom/javascript/components/StatisticsModal";
 
-const HelpToggle = () => {
+const StatsToggle = () => {
     const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
 
@@ -17,7 +17,7 @@ const HelpToggle = () => {
 
     return (
         <>
-            <QuestionCircle
+            <BarChartFill
                 onClick={handleOpen}
                 style={{
                     cursor: 'pointer',
@@ -27,9 +27,9 @@ const HelpToggle = () => {
                 }}
             />
 
-            <HTPModal isOpen={open} onClose={handleClose} />
+            <StatisticsModal isOpen={open} onClose={handleClose} />
         </>
     );
 };
 
-export default HelpToggle;
+export default StatsToggle;

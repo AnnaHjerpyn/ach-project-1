@@ -3,7 +3,7 @@ import {useTheme} from '../../../../src/ThemeContext';
 import icon from "../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png";
 import '../../css/src/Components/_modal.scss';
 
-const ModalStats = ({isOpen, onClose, onRestart, isCorrect}) => {
+const WLModal = ({isOpen, onClose, onRestart, isCorrect}) => {
     const {isDarkMode} = useTheme();
 
     if (!isOpen) return null;
@@ -44,4 +44,4 @@ const ModalStats = ({isOpen, onClose, onRestart, isCorrect}) => {
     }
 };
 
-export default ModalStats;
+export default WLModal;

@@ -5,6 +5,7 @@ import ThemeToggle from './ThemeToggle';
 import {ThemeProvider} from './ThemeContext';
 import WelcomeModal from "../themes/ach-custom/javascript/components/WelcomeModal";
 import HelpToggle from "./HelpToggle";
+import StatsToggle from "./StatsToggle";
 
 function App() {
     const [boardID, setBoardID] = useState('');
@@ -70,8 +71,9 @@ function App() {
                         <div className="spacer"></div>
                         <h1>Wordle</h1>
                         <div className="toggles">
-                            <HelpToggle/>
                             <ThemeToggle/>
+                            <StatsToggle />
+                            <HelpToggle/>
                         </div>
                     </div>
                 </nav>

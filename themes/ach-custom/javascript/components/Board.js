@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
-import ModalStats from './ModalStats';
+import WLModal from './WLModal';
 import {checkDatabase, updateBoardWithGuess} from '../functions/wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
-import board from "../../../../public/_resources/themes/ach-custom/javascript/components/Board";
 
 function Board({boardID, onRestart}) {
     const [inputDisabled, setInputDisabled] = useState(false);
@@ -139,7 +138,7 @@ function Board({boardID, onRestart}) {
             </div>
             <Keyboard usedKeys={usedKeys} handleKeyInput={handleKeyInput} disabled={inputDisabled}/>
             {showToast && <ToastMessage message={message}/>}
-            <ModalStats isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
+            <WLModal isOpen={showModal} onClose={closeModal} onRestart={restartGame} isCorrect={isCorrect}/>
         </>
     );
 }
