@@ -6,8 +6,9 @@ namespace AnnaHjerpyn\Custom\Controllers;
 use AnnaHjerpyn\Custom\Models\UserAccount;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Security\LoginForm;
 
-class UserAccountController extends PageController
+class UserAccountController extends LoginForm
 {
 
     private static $allowed_actions = [
@@ -35,7 +36,6 @@ class UserAccountController extends PageController
         $user->Password = $submittedData['Password'] ?? '';
 
         // Statistics is initialized to an empty state for a new user
-        $user->Statistics = '{}';
 
         // Save the User to the db
         $user->write();
@@ -65,5 +65,20 @@ class UserAccountController extends PageController
     protected function init()
     {
         parent::init();
+    }
+
+    public function getAuthenticatorName()
+    {
+        // TODO: Implement getAuthenticatorName() method.
+    }
+
+    protected function getFormFields()
+    {
+        // TODO: Implement getFormFields() method.
+    }
+
+    protected function getFormActions()
+    {
+        // TODO: Implement getFormActions() method.
     }
 }
