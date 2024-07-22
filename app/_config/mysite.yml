@@ -25,6 +25,9 @@ SilverStripe\MimeValidator\MimeUploadValidator:
     svg:
       - 'image/svg+xml'
       - 'image/svg'
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Security\MemberAuthenticator\LoginHandler:
+    class: AnnaHjerpyn\Custom\Controllers\UserAccountController
 SilverStripe\Security\Member:
   has_one:
     HomePage: AnnaHjerpyn\Custom\PageTypes\HomePage

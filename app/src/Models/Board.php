@@ -10,7 +10,7 @@ class Board extends DataObject
     private static $table_name = 'Board';
 
     private static $db = [
-        'CorrectWord' => 'Varchar(255)',
+        'CorrectWord' => 'Varchar(5)',
         'GameState' => 'Int',
         'BoardID' => 'Text',
     ];

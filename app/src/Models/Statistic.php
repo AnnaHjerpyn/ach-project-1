@@ -2,6 +2,8 @@
 
 namespace AnnaHjerpyn\Custom\Models;
 
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
+use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
 
 class Statistic extends DataObject
@@ -9,7 +11,11 @@ class Statistic extends DataObject
     private static $table_name = 'Statistic';
 
     private static $db = [
-        'Statistics' => 'Text',
+        'TotalGamesPlayed' => 'Int',
+        'TotalWins' => 'Int',
+        'WinPercentage' => 'Int',
+        'CurrentStreak' => 'Int',
+        'MaxStreak' => 'Int',
     ];
 
     private static $has_one = [
@@ -26,28 +32,21 @@ class Statistic extends DataObject
 
     public function getTotalGamesPlayed()
     {
-        $stats = $this->getDecodedStatistics();
-        return $stats['totalGamesPlayed'] ?? 0;
+        return $this->TotalGamesPlayed ?? 0;
     }
 
     public function getTotalWins()
     {
-        $stats = $this->getDecodedStatistics();
-        return $stats['totalWins'] ?? 0;
+        return $this->TotalWins ?? 0;
     }
 
     public function getWinPercentage()
     {
-        $stats = $this->getDecodedStatistics();
-        $totalGamesPlayed = $stats['totalGamesPlayed'] ?? 0;
-        $totalWins = $stats['totalWins'] ?? 0;
+        $totalGamesPlayed = $this->TotalGamesPlayed ?? 0;
+        $totalWins = $this->TotalWins ?? 0;
         return $totalGamesPlayed > 0 ? round(($totalWins / $totalGamesPlayed) * 100, 2) : 0;
     }
 
-    private function getDecodedStatistics()
-    {
-        return json_decode($this->Statistics, true) ?: [];
-    }
 
     public function getCMSFields()
     {

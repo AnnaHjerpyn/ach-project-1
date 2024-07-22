@@ -11,8 +11,10 @@ class UserAccount extends DataObject
     private static $table_name = 'UserAccount';
 
     private static $db = [
-        'Username' => 'Text',
+        'Username' => 'Varchar(255)',
         'Password' => 'Text',
+        'Email' => 'Varchar(255)',
+
     ];
 
     private static $has_many = [
@@ -21,6 +23,7 @@ class UserAccount extends DataObject
 
     private static $summary_fields = [
         'Username' => 'Username',
+        'Email' => 'Email',
     ];
 
     public function getCMSFields()

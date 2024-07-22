@@ -8,7 +8,7 @@ use PageController;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\LoginForm;
 
-class UserAccountController extends LoginForm
+class UserAccountHandler extends LoginForm
 {
 
     private static $allowed_actions = [
