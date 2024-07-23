@@ -2,7 +2,6 @@ import React from 'react';
 import { useTheme } from '../../../../src/ThemeContext';
 import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_help.scss';
-import icon from '../../../../public/assets/favicon/32px-Wordle_Logo-v3.svg.png';
 
 const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
     const { isDarkMode } = useTheme();
@@ -44,7 +43,7 @@ const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
                                 <div className="guess">{index + 1}</div>
                                 <div className="graph">
                                     <div className="graph-bar" style={{ width: `${count}%` }}>
-                                        <div className="num-guesses">{statistics.totalWins}</div>
+                                        <div className="num-guesses">{count}</div>
                                     </div>
                                 </div>
                             </div>

@@ -146,7 +146,6 @@
         font-size: 14px;
         line-height: 20px;
 
-
         .guess {
             font-size: 12px;
         }
@@ -160,6 +159,11 @@
             .graph-bar {
                 height: 100%;
                 background-color: #58a351;
+
+                .num-guesses {
+                    color: white;
+                    font-size: 12px;
+                }
             }
         }
     }
