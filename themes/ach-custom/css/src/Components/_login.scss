@@ -1,0 +1,111 @@
+/* General Styles for Login Page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color, #f4f4f4);
+    font-family: Futura, sans-serif;
+}
+
+.login-container {
+    background-color: var(--container-bg, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
+    animation: fadeIn 600ms ease-in-out;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--header-color, #333);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--input-border-color, #ccc);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-form input[type="submit"] {
+    background-color: var(--button-bg, #007bff);
+    color: var(--button-text-color, #fff);
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: var(--button-bg-hover, #0056b3);
+}
+
+.login-form .error-message {
+    color: var(--error-color, #d9534f);
+    font-size: 14px;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark Theme Adjustments */
+[data-theme='dark'] .login-page {
+    background-color: var(--dark-bg, #333);
+}
+
+[data-theme='dark'] .login-container {
+    background-color: var(--dark-container-bg, #1f1f1f);
+    border-color: var(--dark-border-color, #444);
+}
+
+[data-theme='dark'] .login-form input[type="text"],
+[data-theme='dark'] .login-form input[type="password"] {
+    background-color: var(--dark-input-bg, #2c2c2c);
+    color: var(--dark-input-text, #fff);
+    border-color: var(--dark-input-border, #555);
+}
+
+[data-theme='dark'] .login-form input[type="submit"] {
+    background-color: var(--dark-button-bg, #007bff);
+    color: var(--dark-button-text, #fff);
+}
+
+[data-theme='dark'] .login-form input[type="submit"]:hover {
+    background-color: var(--dark-button-bg-hover, #0056b3);
+}
+
+[data-theme='dark'] .login-form .error-message {
+    color: var(--dark-error-color, #d9534f);
+}

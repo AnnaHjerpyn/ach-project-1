@@ -9,4 +9,6 @@ SilverStripe\Control\Director:
   rules:
     'home': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
     'login': 'AnnaHjerpyn\Custom\Controllers\CustomLoginController'
+    'statistic': 'AnnaHjerpyn\Custom\Controllers\UserStatisticsController'
+
 

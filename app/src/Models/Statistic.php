@@ -2,8 +2,6 @@
 
 namespace AnnaHjerpyn\Custom\Models;
 
-use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
-use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 
@@ -17,6 +15,10 @@ class Statistic extends DataObject
         'WinPercentage' => 'Int',
         'CurrentStreak' => 'Int',
         'MaxStreak' => 'Int',
+    ];
+
+    private static $has_one = [
+        'Member' => Member::class,
     ];
 
     private static $summary_fields = [
@@ -44,14 +46,14 @@ class Statistic extends DataObject
         return $totalGamesPlayed > 0 ? round(($totalWins / $totalGamesPlayed) * 100, 2) : 0;
     }
 
+    public static function getUserStatistics(Member $member)
+    {
+        return self::get()->filter('MemberID', $member->ID)->first();
+    }
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-
-//        $fields->removeByName([
-//            '',
-//        ]);
 
         return $fields;
     }

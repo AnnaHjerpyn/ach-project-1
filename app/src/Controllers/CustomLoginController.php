@@ -97,6 +97,7 @@ class CustomLoginController extends PageController
 
     private function _process_register(HTTPRequest $request)
     {
+        // All of the stuff I'd need for the user information
         $firstName = $request->postVar('register_first_name');
         $lastName = $request->postVar('register_last_name');
         $email = $request->postVar('register_email');
@@ -123,8 +124,8 @@ class CustomLoginController extends PageController
         $member->Email = $email;
         $member->write();
 
-        // Add to the 'site-users' group
-        $member->addToGroupByCode('site-users');
+        // Add to the 'Wordle-User' group
+        $member->addToGroupByCode('Wordle-User');
 
         // Set the password
         $member->changePassword($password1);

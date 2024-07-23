@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { useTheme } from './ThemeContext';
-import {BarChartFill } from 'react-bootstrap-icons';
+import { BarChartFill } from 'react-bootstrap-icons';
 import StatisticsModal from "../themes/ach-custom/javascript/components/StatisticsModal";
 
 const StatsToggle = () => {
     const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
+    const [statistics, setStatistics] = useState({});
 
     const handleOpen = () => {
-        setOpen(true);
+        fetch('/statistic/getUserStatistics')
+            .then(response => response.json())
+            .then(data => {
+                setStatistics(data);
+                setOpen(true);
+            })
+            .catch(error => console.error('Failed to fetch user statistics', error));
     }
 
     const handleClose = () => {
@@ -27,7 +34,7 @@ const StatsToggle = () => {
                 }}
             />
 
-            <StatisticsModal isOpen={open} onClose={handleClose} />
+            <StatisticsModal isOpen={open} onClose={handleClose} statistics={statistics} />
         </>
     );
 };
