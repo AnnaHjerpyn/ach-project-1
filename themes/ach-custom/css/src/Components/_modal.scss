@@ -35,11 +35,12 @@
 
 .close-button {
     position: absolute;
+    margin: 10px;
     top: 10px;
     right: 10px;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 25px;
     cursor: pointer;
     color: var(--color-tone-1, #000);
 
@@ -68,28 +69,34 @@
 }
 
 .statistics-content {
+    margin: 35px;
+
     .statistics-header {
-        margin-bottom: 1rem;
-        font-size: 1.5rem;
-        font-weight: bold;
+        font-size: 13px;
+        text-align: left;
+        padding: 0;
+        text-transform: uppercase;
     }
 
     .statistics-list {
         list-style: none;
         padding: 0;
-        margin: 0;
+        display: flex;
+        justify-content: space-between;
 
         .statistics-item {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
 
             .statistics-label {
-                font-weight: bold;
+                width: 40px;
+                font-size: 12px;
             }
 
             .statistics-value {
-                font-weight: normal;
+                font-size: 44px;
             }
         }
     }
@@ -126,31 +133,28 @@
 }
 
 .guess-distribution {
-    margin-top: 1rem;
-}
+    .graph-container {
+        display: flex;
+        align-items: center;
+        padding-bottom: 2px;
 
-.guess-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
+        .guess {
+            font-size: 12px;
+        }
 
-    .guess-label {
-        width: 2rem;
-    }
-
-    .guess-fill {
-        height: 1.5rem;
-        background-color: #ccc;
-        border-radius: 0.25rem;
-        position: relative;
-
-        .guess-count {
-            position: absolute;
-            right: 0.5rem;
-            top: 0;
-            bottom: 0;
+        .graph {
+            flex: 1;
             display: flex;
             align-items: center;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-left: 10px;
+
+            .graph-bar {
+                height: 100%;
+                background-color: #4caf50;
+                border-radius: 4px;
+            }
         }
     }
 }
