@@ -3,12 +3,10 @@ import { useTheme } from '../../../../src/ThemeContext';
 import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_help.scss';
 
-const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
+const StatisticsModal = ({ isOpen, onClose, guessDistribution = {}, statistics = {} }) => {
     const { isDarkMode } = useTheme();
 
     if (!isOpen) return null;
-
-    const guessDistribution = statistics.guessDistribution || [0, 0, 0, 0, 0, 0];
 
     return (
         <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>

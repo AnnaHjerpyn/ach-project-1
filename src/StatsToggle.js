@@ -7,10 +7,24 @@ const StatsToggle = () => {
     const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
     const [userStatistics, setUserStatistics] = useState({}); // Default to empty object
+    const [guessDistribution, setGuessDistribution] = useState({})
+
+    function handleGuessDistribution() {
+        fetch('/statistic/getGuessDistribution')
+            .then(response => response.json())
+            .then(data => {
+                setGuessDistribution(data); // Assuming `data` is an object with the expected structure
+            })
+            .catch(error => {
+                console.error('Failed to fetch guess distribution', error);
+                setGuessDistribution({}); // Handle error case
+            });
+    }
 
     const handleOpen = () => {
         setOpen(true);
         handleViewStatistics();
+        handleGuessDistribution();
     };
 
     const handleClose = () => {
@@ -47,6 +61,7 @@ const StatsToggle = () => {
                 isOpen={open}
                 onClose={handleClose}
                 statistics={userStatistics}
+                guessDistribution={guessDistribution}
             />
         </>
     );
