@@ -8,5 +8,5 @@ After:
 SilverStripe\Control\Director:
   rules:
     'home': 'AnnaHjerpyn\Custom\Controllers\WordBankController'
-    'user': 'AnnaHjerpyn\Custom\Controllers\UserAccountController'
+    'login': 'AnnaHjerpyn\Custom\Controllers\CustomLoginController'
 

@@ -5,6 +5,7 @@ namespace AnnaHjerpyn\Custom\Models;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Member;
 
 class Statistic extends DataObject
 {
@@ -16,10 +17,6 @@ class Statistic extends DataObject
         'WinPercentage' => 'Int',
         'CurrentStreak' => 'Int',
         'MaxStreak' => 'Int',
-    ];
-
-    private static $has_one = [
-        'UserAccount' => UserAccount::class,
     ];
 
     private static $summary_fields = [

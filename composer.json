@@ -8,7 +8,7 @@
         "silverstripe/vendor-plugin": "~2.0.2@stable",
         "silverstripe/recipe-cms": "~5.2.0@stable",
         "silverstripe-themes/simple": "~3.3.1@stable",
-        "silverstripe/login-forms": "~5.2.0@stable",
+        "silverstripe/login-forms": "^5.2",
         "silverstripe/userforms": "^6.0",
         "undefinedoffset/sortablegridfield": "^2.2",
         "wilr/silverstripe-googlesitemaps": "^3.0",

@@ -5040,17 +5040,17 @@
         },
         {
             "name": "silverstripe/login-forms",
-            "version": "5.2.1",
-            "version_normalized": "5.2.1.0",
+            "version": "5.2.2",
+            "version_normalized": "5.2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-login-forms.git",
-                "reference": "7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c"
+                "reference": "35c3cb57a68ef050605523e17b3176a425567eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c",
-                "reference": "7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/35c3cb57a68ef050605523e17b3176a425567eda",
+                "reference": "35c3cb57a68ef050605523e17b3176a425567eda",
                 "shasum": ""
             },
             "require": {
@@ -5063,7 +5063,7 @@
                 "silverstripe/standards": "^1",
                 "squizlabs/php_codesniffer": "^3.7"
             },
-            "time": "2024-05-07T03:25:15+00:00",
+            "time": "2024-06-17T00:44:36+00:00",
             "type": "silverstripe-vendormodule",
             "extra": {
                 "expose": [
@@ -5091,7 +5091,7 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/login-forms/issues",
-                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/5.2.1"
+                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/5.2.2"
             },
             "install-path": "../silverstripe/login-forms"
         },

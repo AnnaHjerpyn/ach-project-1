@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fdc9f40111c180d5e2788553fb600d1",
+    "content-hash": "de8c5bf76a8bb0b699587e2b447e673a",
     "packages": [
         {
             "name": "bummzack/sortablefile",
@@ -3261,16 +3261,16 @@
         },
         {
             "name": "silverstripe/login-forms",
-            "version": "5.2.1",
+            "version": "5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-login-forms.git",
-                "reference": "7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c"
+                "reference": "35c3cb57a68ef050605523e17b3176a425567eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c",
-                "reference": "7d5c40303bcbc88a2f06c0af7810c4fc33ff7c5c",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/35c3cb57a68ef050605523e17b3176a425567eda",
+                "reference": "35c3cb57a68ef050605523e17b3176a425567eda",
                 "shasum": ""
             },
             "require": {
@@ -3309,9 +3309,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/login-forms/issues",
-                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/5.2.1"
+                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/5.2.2"
             },
-            "time": "2024-05-07T03:25:15+00:00"
+            "time": "2024-06-17T00:44:36+00:00"
         },
         {
             "name": "silverstripe/mimevalidator",
@@ -8123,8 +8123,7 @@
         "silverstripe/recipe-plugin": 0,
         "silverstripe/vendor-plugin": 0,
         "silverstripe/recipe-cms": 0,
-        "silverstripe-themes/simple": 0,
-        "silverstripe/login-forms": 0
+        "silverstripe-themes/simple": 0
     },
     "prefer-stable": true,
     "prefer-lowest": false,

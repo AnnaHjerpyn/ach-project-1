@@ -61,10 +61,10 @@ class EnablerExtension extends Extension
         $config = Config::inst();
         $action = $this->getOwner()->getAction();
         $allowedActions = $config->get(Security::class, 'allowed_actions');
-        $excludedActions = $config->get(self::class, 'excluded_actions');
+        $excludedActions = $config->get(EnablerExtension::class, 'excluded_actions');
         $themeActions = array_diff($allowedActions ?? [], $excludedActions);
         if (in_array($action, $themeActions ?? [])) {
-            SSViewer::set_themes($config->get(self::class, 'login_themes'));
+            SSViewer::set_themes($config->get(EnablerExtension::class, 'login_themes'));
         }
         $this->defaultPageClass = $config->get(Security::class, 'page_class');
         Config::modify()->remove(Security::class, 'page_class');

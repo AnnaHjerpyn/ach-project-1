@@ -17,6 +17,9 @@ SilverStripe\ORM\Connect\MySQLDatabase:
 Silverstripe\SiteConfig\SiteConfig:
   extensions:
     - AnnaHjerpyn\Custom\SiteConfig\CustomSiteConfig
+#SilverStripe\Security\MemberAuthenticator:
+#  extensions:
+#    - AnnaHjerpyn\Custom\Controllers\UserController
 SilverStripe\Assets\Images:
   has_one:
     SiteConfig: SilverStripe\SiteConfig\SiteConfig
@@ -25,12 +28,10 @@ SilverStripe\MimeValidator\MimeUploadValidator:
     svg:
       - 'image/svg+xml'
       - 'image/svg'
-SilverStripe\Core\Injector\Injector:
-  SilverStripe\Security\MemberAuthenticator\LoginHandler:
-    class: AnnaHjerpyn\Custom\Controllers\UserAccountController
 SilverStripe\Security\Member:
   has_one:
     HomePage: AnnaHjerpyn\Custom\PageTypes\HomePage
+    Statistic: AnnaHjerpyn\Custom\Models\Statistic
 SilverStripe\Assets\File:
   allowed_extensions:
     - svg
