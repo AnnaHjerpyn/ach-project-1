@@ -6,21 +6,30 @@ import StatisticsModal from "../themes/ach-custom/javascript/components/Statisti
 const StatsToggle = () => {
     const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
-    const [statistics, setStatistics] = useState({});
+    const [userStatistics, setUserStatistics] = useState({}); // Default to empty object
 
     const handleOpen = () => {
-        fetch('/statistic/getUserStatistics')
-            .then(response => response.json())
-            .then(data => {
-                setStatistics(data);
-                setOpen(true);
-            })
-            .catch(error => console.error('Failed to fetch user statistics', error));
-    }
+        setOpen(true);
+        handleViewStatistics();
+    };
 
     const handleClose = () => {
         setOpen(false);
-    }
+    };
+
+    const handleViewStatistics = () => {
+        // Fetch user statistics from the server
+        fetch('/statistic/getUserStatistics')
+            .then(response => response.json())
+            .then(data => {
+                setUserStatistics(data); // Assuming `data` is an object with the expected structure
+                setOpen(true);
+            })
+            .catch(error => {
+                console.error('Failed to fetch user statistics', error);
+                setUserStatistics({}); // Handle error case
+            });
+    };
 
     return (
         <>
@@ -34,7 +43,11 @@ const StatsToggle = () => {
                 }}
             />
 
-            <StatisticsModal isOpen={open} onClose={handleClose} statistics={statistics} />
+            <StatisticsModal
+                isOpen={open}
+                onClose={handleClose}
+                statistics={userStatistics}
+            />
         </>
     );
 };

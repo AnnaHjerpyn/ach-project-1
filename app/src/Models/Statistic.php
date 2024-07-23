@@ -29,6 +29,10 @@ class Statistic extends DataObject
         'MaxStreak' => 'Max Streak',
     ];
 
+    public function getGuessDistribution(){
+
+    }
+
     public function getTotalGamesPlayed()
     {
         return $this->TotalGamesPlayed ?? 0;

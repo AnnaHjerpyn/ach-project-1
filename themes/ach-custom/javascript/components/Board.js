@@ -6,10 +6,18 @@ import WLModal from './WLModal';
 import {checkDatabase, updateBoardWithGuess} from '../functions/wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
+import {updateUserStatistics} from '../functions/updateStatistics'; // Import the function
 import '../../css/src/Components/_board.scss';
 
 function Board({boardID, onRestart}) {
     const [inputDisabled, setInputDisabled] = useState(false);
+    const [userStatistics, setUserStatistics] = useState({
+        totalGamesPlayed: 0,
+        totalWins: 0,
+        currentStreak: 0,
+        maxStreak: 0,
+    });
+
     const {
         currentGuess,
         guesses,
@@ -52,15 +60,12 @@ function Board({boardID, onRestart}) {
                 setGuesses(oldGuesses);
                 setHistory(data.guesses || []);
                 setTurn(data.guessCount || 0);
-                // Need to reformat the array returned by the backend
                 const transformedUsedKeys = {};
                 data.guesses.forEach((guess, i) => {
                     guess.split('').forEach((char, index) => {
                         const color = data.usedKeys[i][index];
-                        // If a letter entry doesn't already exist with a color, add color
                         if (!transformedUsedKeys[char]) {
                             transformedUsedKeys[char] = color;
-                            // Make sure green is takes over all precedence || yellow takes precedence over the grey
                         } else if (color === 'green' || (color === 'yellow' && transformedUsedKeys[char] !== 'green')) {
                             transformedUsedKeys[char] = color;
                         }
@@ -80,46 +85,41 @@ function Board({boardID, onRestart}) {
     }, [boardID, setGuesses, setHistory, setTurn, setUsedKeys, setIsValidWord]);
 
     useEffect(() => {
-            async function updateBoard() {
-                try {
-                    if (isCorrect || turn === 5) {
-                        const data = await checkDatabase(currentGuess, boardID);
-                        setMessage(data.message);
-                        setShowToast(true);
-                    }
-                    if (currentGuess.length === 5) {
-                        setIsValidWord(true);
-                        await updateBoardWithGuess(boardID, currentGuess);
-                    }
-                } catch
-                    (error) {
-                    console.error('Failed to update board:', error);
-                    setMessage('Failed to update board.');
+        async function updateBoard() {
+            try {
+                if (isCorrect || turn === 5) {
+                    const data = await checkDatabase(currentGuess, boardID);
+                    setMessage(data.message);
                     setShowToast(true);
                 }
-            }
 
-            function handleEnterKey(event) {
-                if (event.key === 'Enter' && !gameOver) {
-                    updateBoard();
+                if (currentGuess.length === 5) {
+                    setIsValidWord(true);
+                    await updateBoardWithGuess(boardID, currentGuess);
                 }
+            } catch (error) {
+                console.error('Failed to update board:', error);
+                setMessage('Failed to update board.');
+                setShowToast(true);
             }
-
-            if (!gameOver) {
-                window.addEventListener('keydown', handleEnterKey);
-                window.addEventListener('keyup', handleKeyup);
-            }
-
-            return () => {
-                window.removeEventListener('keydown', handleEnterKey);
-                window.removeEventListener('keyup', handleKeyup);
-            };
         }
 
-        ,
-        [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]
-    )
-    ;
+        function handleEnterKey(event) {
+            if (event.key === 'Enter' && !gameOver) {
+                updateBoard();
+            }
+        }
+
+        if (!gameOver) {
+            window.addEventListener('keydown', handleEnterKey);
+            window.addEventListener('keyup', handleKeyup);
+        }
+
+        return () => {
+            window.removeEventListener('keydown', handleEnterKey);
+            window.removeEventListener('keyup', handleKeyup);
+        };
+    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup, userStatistics]);
 
     const closeModal = () => {
         setShowModal(false);
