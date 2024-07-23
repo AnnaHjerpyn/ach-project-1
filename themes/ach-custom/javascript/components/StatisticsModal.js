@@ -9,7 +9,7 @@ const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
 
     if (!isOpen) return null;
 
-    const guessDistribution = statistics.guessDistribution || [0, 0, 0, 0, 0, 0];  // Default to 0 guesses
+    const guessDistribution = statistics.guessDistribution || [0, 0, 0, 0, 0, 0];
 
     return (
         <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
@@ -43,7 +43,9 @@ const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
                             <div className="graph-container" key={index}>
                                 <div className="guess">{index + 1}</div>
                                 <div className="graph">
-                                    <div className="graph-bar" style={{ width: `${count}%` }}></div>
+                                    <div className="graph-bar" style={{ width: `${count}%` }}>
+                                        <div className="num-guesses">{statistics.totalWins}</div>
+                                    </div>
                                 </div>
                             </div>
                         ))}
