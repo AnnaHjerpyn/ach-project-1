@@ -17,49 +17,28 @@ class UserStatisticsController extends PageController
     ];
 
     private static $url_handlers = [
-        'getUserStatistics' => 'getUserStatistics',
-        'updateUserStatistics' => 'updateUserStatistics',
-        'distribution' => 'getGuessDistribution',
+        'getStatistics' => 'getUserStatistics',
+        'updateStatistics' => 'updateUserStatistics',
     ];
 
     public function getGuessDistribution(HTTPRequest $request)
     {
-        // Get the current logged-in user
         $member = Security::getCurrentUser();
 
-        // Check if the user is logged in
         if (!$member) {
             return $this->getErrorResponse(403, 'You must be logged in to view guess distribution.');
         }
 
-        // Extract and decode data from the request body
-        $submittedData = json_decode($request->getBody(), true);
+        $statistics = Statistic::getUserStatistics($member);
 
-        // Check if 'turns' is set in the submitted data
-        if (!isset($submittedData['turns'])) {
-            return $this->getErrorResponse(400, 'Invalid data format. Expected an array of turns.');
+        if (!$statistics) {
+            return $this->jsonResponse(array_fill(0, 6, 0));
         }
 
-        // Initialize an array to hold the guess distribution counts
-        $distribution = array_fill(0, 6, 0);
+        $distribution = json_decode($statistics->GuessDistribution, true);
 
-        // Extract the 'turns' data from the submitted data
-        $turnsArray = $submittedData['turns'];
-
-        // Loop through the turns array to populate the distribution array
-        foreach ($turnsArray as $turns) {
-            // Ensure the turns value is within the expected range
-            if ($turns >= 1 && $turns <= 6) {
-                // Increment the array where the turn was
-                $distribution[$turns - 1]++;
-            }
-        }
-
-        // Return the distribution array
         return $this->jsonResponse($distribution);
     }
-
-
 
     public function getUserStatistics(HTTPRequest $request)
     {
@@ -78,6 +57,7 @@ class UserStatisticsController extends PageController
                 'winPercentage' => 0,
                 'currentStreak' => 0,
                 'maxStreak' => 0,
+                'guessDistribution' => array_fill(0, 6, 0),
             ]);
         }
 
@@ -87,6 +67,7 @@ class UserStatisticsController extends PageController
             'winPercentage' => $statistics->WinPercentage,
             'currentStreak' => $statistics->CurrentStreak,
             'maxStreak' => $statistics->MaxStreak,
+            'guessDistribution' => json_decode($statistics->GuessDistribution, true),
         ]);
     }
 
@@ -111,14 +92,12 @@ class UserStatisticsController extends PageController
             $statistics->MemberID = $member->ID;
         }
 
-        // Update user statistics
         $statistics->TotalGamesPlayed = $data['totalGamesPlayed'];
         $statistics->TotalWins = $data['totalWins'];
         $statistics->CurrentStreak = $data['currentStreak'];
         $statistics->MaxStreak = $data['maxStreak'];
         $statistics->WinPercentage = $data['totalGamesPlayed'] > 0 ? round(($data['totalWins'] / $data['totalGamesPlayed']) * 100, 2) : 0;
 
-        // Update guess distribution based on turns
         $this->updateGuessDistribution($statistics, $data['turns']);
 
         $statistics->write();
@@ -130,15 +109,12 @@ class UserStatisticsController extends PageController
 
     protected function updateGuessDistribution($statistics, $turns)
     {
-        // Get current guess distribution
-        $distribution = $statistics->getGuessDistributionArray();
+        $distribution = json_decode($statistics->GuessDistribution, true) ?? array_fill(0, 6, 0);
 
-        // Update distribution array based on the number of turns
         if ($turns >= 1 && $turns <= 6) {
             $distribution[$turns - 1]++;
         }
 
-        // Set the updated distribution
         $statistics->GuessDistribution = json_encode($distribution);
     }
 

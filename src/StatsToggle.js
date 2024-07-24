@@ -1,31 +1,22 @@
-import React, {useState} from 'react';
-import {useTheme} from './ThemeContext';
-import {BarChartFill} from 'react-bootstrap-icons';
+import React, { useState } from 'react';
+import { useTheme } from './ThemeContext';
+import { BarChartFill } from 'react-bootstrap-icons';
 import StatisticsModal from "../themes/ach-custom/javascript/components/StatisticsModal";
 
 const StatsToggle = () => {
-    const {isDarkMode} = useTheme();
+    const { isDarkMode } = useTheme();
     const [open, setOpen] = useState(false);
-    const [userStatistics, setUserStatistics] = useState({}); // Default to empty object
-    const [guessDistribution, setGuessDistribution] = useState({})
-
-    function handleGuessDistribution() {
-        fetch('statistic/distribution')
-            .then(response => response.json())
-            .then(data => {
-                setGuessDistribution(data);
-            }).catch(error => {
-                console.error('Failed to fetch guess distribution', error);
-                setGuessDistribution({});
-        });
-    }
-
+    const [userStatistics, setUserStatistics] = useState({
+        totalGamesPlayed: 0,
+        totalWins: 0,
+        winPercentage: 0,
+        currentStreak: 0,
+        maxStreak: 0,
+        guessDistribution: [0, 0, 0, 0, 0, 0]
+    });
 
     const handleOpen = () => {
-        setOpen(true);
         handleViewStatistics();
-        setGuessDistribution([0, 0, 0, 0, 0, 0])
-        //handleGuessDistribution();
     };
 
     const handleClose = () => {
@@ -34,7 +25,7 @@ const StatsToggle = () => {
 
     const handleViewStatistics = () => {
         // Fetch user statistics from the server
-        fetch('/statistic/getUserStatistics')
+        fetch('/statistic/getStatistics')
             .then(response => response.json())
             .then(data => {
                 setUserStatistics(data);
@@ -42,7 +33,6 @@ const StatsToggle = () => {
             })
             .catch(error => {
                 console.error('Failed to fetch user statistics', error);
-                setUserStatistics({});
             });
     };
 
@@ -57,12 +47,10 @@ const StatsToggle = () => {
                     height: '32px'
                 }}
             />
-
             <StatisticsModal
                 isOpen={open}
                 onClose={handleClose}
                 statistics={userStatistics}
-                guessDistribution={guessDistribution}
             />
         </>
     );

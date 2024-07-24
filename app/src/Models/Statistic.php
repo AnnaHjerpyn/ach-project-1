@@ -15,6 +15,7 @@ class Statistic extends DataObject
         'WinPercentage' => 'Int',
         'CurrentStreak' => 'Int',
         'MaxStreak' => 'Int',
+        'GuessDistribution' => 'Text',
     ];
 
     private static $has_one = [
@@ -29,27 +30,6 @@ class Statistic extends DataObject
         'MaxStreak' => 'Max Streak',
     ];
 
-    public function getGuessDistribution(){
-
-    }
-
-    public function getTotalGamesPlayed()
-    {
-        return $this->TotalGamesPlayed ?? 0;
-    }
-
-    public function getTotalWins()
-    {
-        return $this->TotalWins ?? 0;
-    }
-
-    public function getWinPercentage()
-    {
-        $totalGamesPlayed = $this->TotalGamesPlayed ?? 0;
-        $totalWins = $this->TotalWins ?? 0;
-        return $totalGamesPlayed > 0 ? round(($totalWins / $totalGamesPlayed) * 100, 2) : 0;
-    }
-
     public static function getUserStatistics(Member $member)
     {
         return self::get()->filter('MemberID', $member->ID)->first();
@@ -60,5 +40,10 @@ class Statistic extends DataObject
         $fields = parent::getCMSFields();
 
         return $fields;
+    }
+
+    public function getGuessDistributionArray()
+    {
+        return json_decode($this->GuessDistribution, true) ?? array_fill(0, 6, 0);
     }
 }
