@@ -19,6 +19,7 @@ class UserStatisticsController extends PageController
     private static $url_handlers = [
         'getStatistics' => 'getUserStatistics',
         'updateStatistics' => 'updateUserStatistics',
+        'distribution' => 'getGuessDistribution',
     ];
 
     public function getGuessDistribution(HTTPRequest $request)
