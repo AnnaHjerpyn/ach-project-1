@@ -72,7 +72,7 @@ function App() {
                         <h1>Wordle</h1>
                         <div className="toggles">
                             <ThemeToggle/>
-                            <StatsToggle />
+                            <StatsToggle totalGuesses={totalGuesses} />
                             <HelpToggle/>
                         </div>
                     </div>

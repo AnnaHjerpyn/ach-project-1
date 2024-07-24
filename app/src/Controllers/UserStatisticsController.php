@@ -19,7 +19,7 @@ class UserStatisticsController extends PageController
     private static $url_handlers = [
         'getUserStatistics' => 'getUserStatistics',
         'updateUserStatistics' => 'updateUserStatistics',
-        'getGuessDistribution' => 'getGuessDistribution',
+        'distribution' => 'getGuessDistribution',
     ];
 
     public function getGuessDistribution(HTTPRequest $request)
@@ -36,12 +36,12 @@ class UserStatisticsController extends PageController
         $submittedData = json_decode($request->getBody(), true);
 
         // Check if 'turns' is set in the submitted data
-        if (!isset($submittedData['turns']) || !is_array($submittedData['turns'])) {
+        if (!isset($submittedData['turns'])) {
             return $this->getErrorResponse(400, 'Invalid data format. Expected an array of turns.');
         }
 
         // Initialize an array to hold the guess distribution counts
-        $distribution = [0, 0, 0, 0, 0, 0];
+        $distribution = array_fill(0, 6, 0);
 
         // Extract the 'turns' data from the submitted data
         $turnsArray = $submittedData['turns'];
