@@ -107,7 +107,7 @@ class UserStatisticsController extends PageController
 
     public function getGuessDistribution($statistics)
     {
-        $guessDistribution = [];
+        $guessDistribution = array_fill(0, 6, 0);
         // Check to see if the statistic exists -- idk how else to check besides duplicate code ??
         if (!$statistics) {
             // Default to the [0, 0, 0, 0, 0, 0]
