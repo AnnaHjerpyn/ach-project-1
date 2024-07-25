@@ -11,60 +11,84 @@ use SilverStripe\Security\Security;
 class UserStatisticsController extends PageController
 {
     private static $allowed_actions = [
+        'setUserStatistics',
         'getUserStatistics',
         'updateUserStatistics',
         'getGuessDistribution',
     ];
 
     private static $url_handlers = [
+        'statistics' => 'setUserStatistics',
         'getStatistics' => 'getUserStatistics',
         'updateStatistics' => 'updateUserStatistics',
         'distribution' => 'getGuessDistribution',
     ];
 
-    public function getGuessDistribution(HTTPRequest $request)
+    public function setUserStatistics(HTTPRequest $request)
     {
-        // Get the current logged-in user
+        // A new user to assign the new Statistic to
         $member = Security::getCurrentUser();
 
-        // If no user is logged in, return a 403 Forbidden response
+        // Check if the user is signed in — if member is null
         if (!$member) {
-            return $this->getErrorResponse(403, 'You must be logged in to view guess distribution.');
+            return json_encode(['error' => 'User not found.']);
         }
 
-        // Get the user's existing statistics
+        // Create a new Statistic entry
+        $statistics = new Statistic();
+
+        // Set the statistics' default values
+        $statistics->TotalGamesPlayed = 0;
+        $statistics->TotalWins = 0;
+        $statistics->WinPercentage = 0;
+        $statistics->CurrentStreak = 0;
+        $statistics->MaxStreak = 0;
+        $statistics->GuessDistribution = array_fill(0, 6, 0);
+
+        // Write the values to the database for that user
+        $statistics->write();
+
+        // Return the statistics
+        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
+        $response->setBody(json_encode([$statistics]));
+        return $response;
+    }
+
+    public function getUserStatistics()
+    {
+        // We need the user to be able to get their specific statistics
+        $member = Security::getCurrentUser();
+
+        // Check if the user is signed in — if not, member is null
+        if (!$member) {
+            return json_encode(['error' => 'User not found.']);
+        }
+
+        // Grab the specific user’s statistics
         $statistics = Statistic::getUserStatistics($member);
 
-        // If no statistics are found for the user, return a default guess distribution (array of six zeros)
+        // Check to make sure those statistics even exist
         if (!$statistics) {
-            return $this->jsonResponse(array_fill(0, 6, 0));
+            return json_encode(['error' => 'This user\'s statistics not found.']);
         }
 
-        // Decode the guess distribution from JSON format
-        $distribution = json_decode($statistics->GuessDistribution, true);
+        // Return the statistics
+        $response = [
+            'totalGamesPlayed' => $statistics->TotalGamesPlayed,
+            'totalWins' => $statistics->TotalWins,
+            'winPercentage' => $statistics->WinPercentage,
+            'currentStreak' => $statistics->CurrentStreak,
+            'maxStreak' => $statistics->MaxStreak,
+            'guessDistribution' => $statistics->GuessDistribution,
+        ];
 
-        // Return the guess distribution as a JSON response
-        return $this->jsonResponse($distribution);
+        // Adds response header
+        $this->getResponse()->addHeader('Content-Type', 'application/json');
+
+        // Return the statistics
+        return json_encode($response);
     }
 
-    public function getUserStatistics(HTTPRequest $request)
-    {
-        $member = Security::getCurrentUser();
-        if (!$member) {
-            return $this->getErrorResponse(403, 'You must be logged in to view statistics.');
-        }
-
-        $statistics = Statistic::getUserStatistics($member);
-
-        return $this->jsonResponse([
-            'totalGamesPlayed' => $statistics->TotalGamesPlayed ?? 0,
-            'totalWins' => $statistics->TotalWins ?? 0,
-            'winPercentage' => $statistics->WinPercentage ?? 0,
-            'currentStreak' => $statistics->CurrentStreak ?? 0,
-            'maxStreak' => $statistics->MaxStreak ?? 0,
-            'guessDistribution' => json_decode($statistics->GuessDistribution, true) ?? array_fill(0, 6, 0),
-        ]);
-    }
 
     public function updateUserStatistics(HTTPRequest $request)
     {

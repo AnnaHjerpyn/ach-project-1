@@ -28,6 +28,7 @@ class Statistic extends DataObject
         'WinPercentage' => 'Win %',
         'CurrentStreak' => 'Current Streak',
         'MaxStreak' => 'Max Streak',
+        'GuessDistribution' => 'Guess Distribution'
     ];
 
     public static function getUserStatistics(Member $member)
