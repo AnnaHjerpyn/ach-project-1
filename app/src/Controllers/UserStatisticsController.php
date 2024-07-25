@@ -5,7 +5,6 @@ namespace AnnaHjerpyn\Custom\Controllers;
 use AnnaHjerpyn\Custom\Models\Statistic;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Security\Security;
 
 class UserStatisticsController extends PageController
@@ -22,6 +21,58 @@ class UserStatisticsController extends PageController
         'updateStatistics' => 'updateUserStatistics',
         'distribution' => 'getGuessDistribution',
     ];
+
+    public function updateUserStatistic(HTTPRequest $request)
+    {
+        // When updating the user statistics
+        // We only need to consider the win aspect in the request --> total wins (if user loses)
+        // This would also affect the max streak if the user lost
+        $submittedData = json_decode($request->getBody(), true);
+        $win = $submittedData['win'];
+
+        // All that needs to be done is the values get incremented
+        // Get the current user and their stats
+        $member = Security::getCurrentUser();
+
+        // Check if the user is signed in — if member is null
+        if (!$member) {
+            return json_encode(['error' => 'User not found.']);
+        }
+
+        // Grab the specific user’s statistics
+        $statistics = Statistic::getUserStatistics($member);
+
+        // Check to make sure those statistics even exist
+        if (!$statistics) {
+            // If they don't let's set some new default ones !
+            $statistics = $this->setUserStatistics();
+            // Notifies the frontend that the user didn't previously have stats set
+            return json_encode(['message' => 'Statistics didn\'t exist.']);
+        }
+
+        // This value will always be incremented
+        $statistics->TotalGamesPlayed++;
+
+        // If the user won the game --> increase the streak and total wins
+        if ($win) {
+            $statistics->TotalWins++;
+            $statistics->CurrentStreak++;
+            $statistics->WinPercentage = (($statistics->TotalWins / $statistics->TotalGamesPlayed) * 100);
+            // See if the current streak is greater than the old one
+            if ($statistics->CurrentStreak > $statistics->MaxStreak) {
+                $statistics->MaxStreak = $statistics->CurrentStreak;
+            }
+        } else {
+            // Otherwise reset the current streak
+            $statistics->CurrentStreak = 0;
+        }
+
+        // Write the updated values to the database for that user
+        $statistics->write();
+
+        // Notifies the frontend, the statistics were updated properly
+        return json_encode(['message' => 'Statistics successfully updated.']);
+    }
 
     public function setUserStatistics()
     {
@@ -49,9 +100,24 @@ class UserStatisticsController extends PageController
         return $statistics;
     }
 
-    public function getGuessDistribution()
+    public function updateGuessDistribution(HTTPRequest $request)
     {
-        return array_fill(0, 6, 0);
+
+    }
+
+    public function getGuessDistribution($statistics)
+    {
+        $guessDistribution = [];
+        // Check to see if the statistic exists -- idk how else to check besides duplicate code ??
+        if (!$statistics) {
+            // Default to the [0, 0, 0, 0, 0, 0]
+            $guessDistribution = array_fill(0, 6, 0);
+        }
+
+        // This should now handle updating the guess distribution since it's not default
+        // $guessDistribution = $this->updateGuessDistribution();
+
+        return $guessDistribution;
     }
 
     public function getUserStatistics()
@@ -68,7 +134,7 @@ class UserStatisticsController extends PageController
         $statistics = Statistic::getUserStatistics($member);
 
         // Grab the guess distribution --> it's not in the db
-        $guessDistribution = $this->getGuessDistribution();
+        $guessDistribution = $this->getGuessDistribution($statistics);
 
         // Check to make sure those statistics even exist
         if (!$statistics) {
