@@ -6,10 +6,8 @@ import '../../css/src/Components/_help.scss';
 const StatisticsModal = ({ isOpen, onClose, statistics }) => {
     const { isDarkMode } = useTheme();
 
-    let guessDistribution = Array(statistics.guessDistribution);
-
-    console.log(guessDistribution);
-
+    let guessDistribution = statistics.guessDistribution;
+    
     if (!isOpen) return null;
 
     return (

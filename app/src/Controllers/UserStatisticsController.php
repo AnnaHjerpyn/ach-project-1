@@ -42,12 +42,16 @@ class UserStatisticsController extends PageController
         $statistics->WinPercentage = 0;
         $statistics->CurrentStreak = 0;
         $statistics->MaxStreak = 0;
-        $statistics->GuessDistribution = json_encode(array_fill(0, 6, 0));
 
         // Write the values to the database for that user
         $statistics->write();
 
         return $statistics;
+    }
+
+    public function getGuessDistribution()
+    {
+        return array_fill(0, 6, 0);
     }
 
     public function getUserStatistics()
@@ -63,6 +67,9 @@ class UserStatisticsController extends PageController
         // Grab the specific user’s statistics
         $statistics = Statistic::getUserStatistics($member);
 
+        // Grab the guess distribution --> it's not in the db
+        $guessDistribution = $this->getGuessDistribution();
+
         // Check to make sure those statistics even exist
         if (!$statistics) {
             // If they don't let's set some new default ones !
@@ -75,7 +82,7 @@ class UserStatisticsController extends PageController
                 'winPercentage' => $statistics->WinPercentage,
                 'currentStreak' => $statistics->CurrentStreak,
                 'maxStreak' => $statistics->MaxStreak,
-                'guessDistribution' => $statistics->GuessDistribution,
+                'guessDistribution' => $guessDistribution,
             ];
 
             return json_encode($response);
@@ -88,7 +95,7 @@ class UserStatisticsController extends PageController
             'winPercentage' => $statistics->WinPercentage,
             'currentStreak' => $statistics->CurrentStreak,
             'maxStreak' => $statistics->MaxStreak,
-            'guessDistribution' => $statistics->GuessDistribution,
+            'guessDistribution' => $guessDistribution,
         ];
 
         // Adds response header
@@ -98,91 +105,4 @@ class UserStatisticsController extends PageController
         return json_encode($response);
     }
 
-
-    public function updateUserStatistics(HTTPRequest $request)
-    {
-        // Get the current logged-in user
-        $member = Security::getCurrentUser();
-
-        // If no user is logged in, return a 403 Forbidden response
-        if (!$member) {
-            return $this->getErrorResponse(403, 'You must be logged in to update statistics.');
-        }
-
-        // Decode the JSON data from the request body
-        $submittedData = json_decode($request->getBody(), true);
-
-        // If the submitted data is invalid, return a 400 Bad Request response
-        if (!$submittedData) {
-            return $this->getErrorResponse(400, 'Invalid data provided.');
-        }
-
-        // Get the user's existing statistics
-        $statistics = Statistic::getUserStatistics($member);
-
-        // If no statistics are found for the user, return a 403 Forbidden response
-        if (!$statistics) {
-            return $this->getErrorResponse(403, 'Failed to update statistics.');
-        }
-
-        // Update the statistics with the submitted data
-        $statistics->TotalGamesPlayed = $submittedData['totalGamesPlayed'];
-        $statistics->TotalWins = $submittedData['totalWins'];
-        $statistics->CurrentStreak = $submittedData['currentStreak'];
-        $statistics->MaxStreak = $submittedData['maxStreak'];
-
-        // Calculate and update the win percentage
-        $statistics->WinPercentage = $submittedData['totalGamesPlayed'] > 0
-            ? round(($submittedData['totalWins'] / $submittedData['totalGamesPlayed']) * 100, 2)
-            : 0;
-
-        // Update the guess distribution
-        $this->updateGuessDistribution($statistics, $submittedData['turns']);
-
-        // Save the updated statistics to the database
-        $statistics->write();
-
-        // Return a success message
-        return $this->jsonResponse(['message' => 'Statistics updated successfully']);
-    }
-
-    protected function updateGuessDistribution($statistics, $turns)
-    {
-        // The existing guess distribution or initialize a new distribution array with zeros if none exists
-        $distribution = json_decode($statistics->GuessDistribution, true) ?? array_fill(0, 6, 0);
-
-        // Number of turns is within the expected range (1 to 6)
-        if ($turns >= 1 && $turns <= 6) {
-            // Increment the count for the given number of turns
-            $distribution[$turns - 1]++;
-        } else {
-            // Log an error or handle the invalid input appropriately
-            error_log("Invalid number of turns: $turns. Must be between 1 and 6.");
-            return $this->getErrorResponse(400, 'Invalid number of turns provided.');
-        }
-
-        // Encode the updated distribution back to JSON format and assign it to the statistics object
-        $statistics->GuessDistribution = json_encode($distribution);
-
-        // Indicate successful update
-        return $this->jsonResponse(['message' => 'Guess distribution updated successfully']);
-    }
-
-    protected function getErrorResponse($status, $message)
-    {
-        $response = HTTPResponse::create()
-            ->setStatusCode($status)
-            ->setBody(json_encode(['error' => $message]));
-        $response->addHeader('Content-Type', 'application/json');
-        return $response;
-    }
-
-    protected function jsonResponse($data, $status = 200)
-    {
-        $response = $this->getResponse();
-        $response->addHeader('Content-Type', 'application/json');
-        $response->setStatusCode($status);
-        $response->setBody(json_encode($data));
-        return $response;
-    }
 }
