@@ -3,8 +3,12 @@ import { useTheme } from '../../../../src/ThemeContext';
 import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_help.scss';
 
-const StatisticsModal = ({ isOpen, onClose, guessDistribution, statistics }) => {
+const StatisticsModal = ({ isOpen, onClose, statistics }) => {
     const { isDarkMode } = useTheme();
+
+    let guessDistribution = Array(statistics.guessDistribution);
+
+    console.log(guessDistribution);
 
     if (!isOpen) return null;
 
@@ -36,7 +40,7 @@ const StatisticsModal = ({ isOpen, onClose, guessDistribution, statistics }) => 
                     </ul>
                     <h2 className="statistics-header">Guess Distribution</h2>
                     <div className="guess-distribution">
-                        {statistics.guessDistribution.map((count, index) => (
+                        {guessDistribution.map((count, index) => (
                             <div className="graph-container" key={index}>
                                 <div className="guess">{index + 1}</div>
                                 <div className="graph">

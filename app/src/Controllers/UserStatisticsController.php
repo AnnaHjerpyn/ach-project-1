@@ -75,7 +75,7 @@ class UserStatisticsController extends PageController
                 'winPercentage' => $statistics->WinPercentage,
                 'currentStreak' => $statistics->CurrentStreak,
                 'maxStreak' => $statistics->MaxStreak,
-                'guessDistribution' => json_encode($statistics->GuessDistribution),
+                'guessDistribution' => $statistics->GuessDistribution,
             ];
 
             return json_encode($response);
