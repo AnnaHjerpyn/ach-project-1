@@ -18,13 +18,12 @@ class UserStatisticsController extends PageController
     ];
 
     private static $url_handlers = [
-        'statistics' => 'setUserStatistics',
-        'getStatistics' => 'getUserStatistics',
+        'statistics' => 'getUserStatistics',
         'updateStatistics' => 'updateUserStatistics',
         'distribution' => 'getGuessDistribution',
     ];
 
-    public function setUserStatistics(HTTPRequest $request)
+    public function setUserStatistics()
     {
         // A new user to assign the new Statistic to
         $member = Security::getCurrentUser();
@@ -43,15 +42,12 @@ class UserStatisticsController extends PageController
         $statistics->WinPercentage = 0;
         $statistics->CurrentStreak = 0;
         $statistics->MaxStreak = 0;
-        $statistics->GuessDistribution = array_fill(0, 6, 0);
+        $statistics->GuessDistribution = json_encode(array_fill(0, 6, 0));
 
         // Write the values to the database for that user
         $statistics->write();
 
-        // Return the statistics
-        $response = $this->getResponse()->addHeader('Content-Type', 'application/json');
-        $response->setBody(json_encode([$statistics]));
-        return $response;
+        return $statistics;
     }
 
     public function getUserStatistics()
@@ -69,7 +65,20 @@ class UserStatisticsController extends PageController
 
         // Check to make sure those statistics even exist
         if (!$statistics) {
-            return json_encode(['error' => 'This user\'s statistics not found.']);
+            // If they don't let's set some new default ones !
+            $statistics = $this->setUserStatistics();
+
+            // Return the default statistic values
+            $response = [
+                'totalGamesPlayed' => $statistics->TotalGamesPlayed,
+                'totalWins' => $statistics->TotalWins,
+                'winPercentage' => $statistics->WinPercentage,
+                'currentStreak' => $statistics->CurrentStreak,
+                'maxStreak' => $statistics->MaxStreak,
+                'guessDistribution' => json_encode($statistics->GuessDistribution),
+            ];
+
+            return json_encode($response);
         }
 
         // Return the statistics

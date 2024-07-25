@@ -13,6 +13,7 @@ function App() {
     const [finishedGame, setFinishedGame] = useState(false);
     const [totalGuesses, setTotalGuesses] = useState(0);
     const [gameKey, setGameKey] = useState(0);
+    const [userStatistics, setUserStatistics] = useState({});
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
@@ -42,6 +43,16 @@ function App() {
         }
     };
 
+    const fetchUserStatistics = async() => {
+        const response = await fetch('/statistic/statistics');
+        if (response.ok) {
+            const data = await response.json();
+            setUserStatistics(data);
+        } else {
+            console.error('Failed to fetch the user\'s statistics.');
+        }
+    };
+
     const handleRestart = async () => {
         sessionStorage.removeItem('boardID');
         setBoardID('');
@@ -53,6 +64,7 @@ function App() {
 
     useEffect(() => {
         fetchBoard();
+        fetchUserStatistics();
     }, []);
 
     return (
@@ -72,7 +84,7 @@ function App() {
                         <h1>Wordle</h1>
                         <div className="toggles">
                             <ThemeToggle/>
-                            <StatsToggle totalGuesses={totalGuesses} />
+                            <StatsToggle userStatistics={userStatistics}/>
                             <HelpToggle/>
                         </div>
                     </div>
