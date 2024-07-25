@@ -22,7 +22,7 @@ class UserStatisticsController extends PageController
         'distribution' => 'getGuessDistribution',
     ];
 
-    public function updateUserStatistic(HTTPRequest $request)
+    public function updateUserStatistics(HTTPRequest $request)
     {
         // When updating the user statistics
         // We only need to consider the win aspect in the request --> total wins (if user loses)
@@ -143,6 +143,7 @@ class UserStatisticsController extends PageController
 
             // Return the default statistic values
             $response = [
+                'userID' => $member->ID,
                 'totalGamesPlayed' => $statistics->TotalGamesPlayed,
                 'totalWins' => $statistics->TotalWins,
                 'winPercentage' => $statistics->WinPercentage,
@@ -156,6 +157,7 @@ class UserStatisticsController extends PageController
 
         // Return the statistics
         $response = [
+            'userID' => $member->ID,
             'totalGamesPlayed' => $statistics->TotalGamesPlayed,
             'totalWins' => $statistics->TotalWins,
             'winPercentage' => $statistics->WinPercentage,

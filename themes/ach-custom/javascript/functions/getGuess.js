@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { checkDatabase, updateBoardWithGuess } from "./wordSubmit";
+import {checkDatabase, updateBoardWithGuess, updateUserStatistics} from "./databaseRequests";
 
 const getGuess = (boardID) => {
     const [inKeypad, setKeypad] = useState(false);
@@ -46,6 +46,7 @@ const getGuess = (boardID) => {
         const formattedGuess = await fetchFormattedGuess();
 
         if (data.isCorrect) {
+            await updateUserStatistics(isCorrect);
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);

@@ -1,4 +1,3 @@
-import React from 'react';
 async function updateBoardWithGuess(boardID, newGuess) {
     try {
         const response = await fetch(`/home/update`, {
@@ -34,29 +33,22 @@ async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-export { checkDatabase, updateBoardWithGuess }
+async function updateUserStatistics(win) {
+    const response = await fetch('/statistic/updateUserStatistics', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({win: win}),
+    });
 
-// async function formatGuess (currentGuess, boardID) {
-//     try {
-//         const response = await fetch('/home/format', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 boardID: boardID,            // Send board ID so it can compare to solution
-//                 currentGuess: currentGuess   // Send the current guess to be formatted
-//             })
-//         });
-//
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//
-//         const data = await response.json();
-//         return data.formattedGuess;
-//     } catch (error) {
-//         console.error('Error fetching formatted guess:', error);
-//         return []; // Return empty array !!
-//     }
-// }
+    if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData.error || 'Failed to update statistics';
+        throw new Error(errorMessage);
+    }
+    return await response.json();
+}
+
+
+export {checkDatabase, updateBoardWithGuess, updateUserStatistics}

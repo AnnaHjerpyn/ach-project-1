@@ -14,6 +14,7 @@ function App() {
     const [totalGuesses, setTotalGuesses] = useState(0);
     const [gameKey, setGameKey] = useState(0);
     const [userStatistics, setUserStatistics] = useState({});
+    const [userID, setUserID] = useState(0);
 
     const fetchBoard = async () => {
         let boardID = sessionStorage.getItem('boardID');
@@ -44,13 +45,28 @@ function App() {
     };
 
     const fetchUserStatistics = async() => {
-        const response = await fetch('/statistic/statistics');
-        if (response.ok) {
-            const data = await response.json();
-            setUserStatistics(data);
+        let userID = sessionStorage.getItem('userID');
+
+        if (!userID) {
+            const response = await fetch('/statistic/statistics', {method: 'POST'});
+            if (response.ok) {
+                const data = await response.json();
+                sessionStorage.setItem('userID', data.userID);
+                setUserID(data.userID);
+                setUserStatistics(data);
+            } else {
+                console.error('Failed to create a new board');
+            }
         } else {
-            console.error('Failed to fetch the user\'s statistics.');
+            const response = await fetch('/statistic/statistics');
+            if (response.ok) {
+                const data = await response.json();
+                setUserStatistics(data);
+            } else {
+                console.error('Failed to fetch the user\'s statistics.');
+            }
         }
+
     };
 
     const handleRestart = async () => {
@@ -60,11 +76,14 @@ function App() {
         setFinishedGame(false);
         setGameKey(prevKey => prevKey + 1);
         await fetchBoard();
+        await fetchUserStatistics();
     };
 
     useEffect(() => {
-        fetchBoard();
-        fetchUserStatistics();
+        if (!handleRestart()){
+            fetchBoard();
+            fetchUserStatistics();
+        }
     }, []);
 
     return (

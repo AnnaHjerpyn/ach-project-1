@@ -3,19 +3,13 @@ import Grid from './Grid';
 import Keyboard from './Keyboard';
 import ToastMessage from './ToastMessage';
 import WLModal from './WLModal';
-import {checkDatabase, updateBoardWithGuess} from '../functions/wordSubmit';
+import {checkDatabase, updateBoardWithGuess, updateUserStatistics} from '../functions/databaseRequests';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
 import '../../css/src/Components/_board.scss';
 
 function Board({boardID, onRestart}) {
     const [inputDisabled, setInputDisabled] = useState(false);
-    const [userStatistics, setUserStatistics] = useState({
-        totalGamesPlayed: 0,
-        totalWins: 0,
-        currentStreak: 0,
-        maxStreak: 0,
-    });
 
     const {
         currentGuess,
@@ -88,6 +82,7 @@ function Board({boardID, onRestart}) {
             try {
                 if (isCorrect || turn === 5) {
                     const data = await checkDatabase(currentGuess, boardID);
+                    await updateUserStatistics(isCorrect);
                     setMessage(data.message);
                     setShowToast(true);
                 }
@@ -118,7 +113,7 @@ function Board({boardID, onRestart}) {
             window.removeEventListener('keydown', handleEnterKey);
             window.removeEventListener('keyup', handleKeyup);
         };
-    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup, userStatistics]);
+    }, [isCorrect, turn, boardID, currentGuess, guesses, gameOver, handleKeyup]);
 
     const closeModal = () => {
         setShowModal(false);
