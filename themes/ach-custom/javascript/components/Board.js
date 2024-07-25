@@ -6,7 +6,6 @@ import WLModal from './WLModal';
 import {checkDatabase, updateBoardWithGuess} from '../functions/wordSubmit';
 import getGuess from '../functions/getGuess';
 import useDebounce from '../functions/useDebounce';
-import {updateUserStatistics} from '../functions/updateStatistics'; // Import the function
 import '../../css/src/Components/_board.scss';
 
 function Board({boardID, onRestart}) {

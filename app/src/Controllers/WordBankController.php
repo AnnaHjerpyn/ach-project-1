@@ -72,12 +72,6 @@ class WordBankController extends PageController
             }
         }
 
-        // Prepare game statistics
-//        $stats = [
-//            'totalGuesses' => $board->Guesses()->count(),
-//            'correctGuesses' => $board->Guesses()->filter('Guess', $board->CorrectWord)->count(),
-//        ];
-
         // Prepare response data
         $response = [
             'boardID' => $board->BoardID,

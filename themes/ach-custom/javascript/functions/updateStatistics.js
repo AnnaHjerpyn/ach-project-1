@@ -9,12 +9,14 @@ export const updateUserStatistics = async (statistics) => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to update statistics');
+            const errorData = await response.json();
+            const errorMessage = errorData.error || 'Failed to update statistics';
+            throw new Error(errorMessage);
         }
 
         return await response.json();
     } catch (error) {
-        console.error('Error updating statistics:', error);
+        console.error('Error updating statistics:', error.message || error);
         throw error;
     }
 };
