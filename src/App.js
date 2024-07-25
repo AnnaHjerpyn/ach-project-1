@@ -44,7 +44,7 @@ function App() {
         }
     };
 
-    const fetchUserStatistics = async() => {
+    const fetchUserStatistics = async () => {
         let userID = sessionStorage.getItem('userID');
 
         if (!userID) {
@@ -80,10 +80,8 @@ function App() {
     };
 
     useEffect(() => {
-        if (!handleRestart()){
-            fetchBoard();
-            fetchUserStatistics();
-        }
+        fetchBoard();
+        fetchUserStatistics();
     }, []);
 
     return (

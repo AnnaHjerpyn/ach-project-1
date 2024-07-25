@@ -9,6 +9,8 @@ use SilverStripe\Security\Security;
 
 class UserStatisticsController extends PageController
 {
+    protected $guessDistribution;
+
     private static $allowed_actions = [
         'setUserStatistics',
         'getUserStatistics',
@@ -102,7 +104,16 @@ class UserStatisticsController extends PageController
 
     public function updateGuessDistribution(HTTPRequest $request)
     {
+        // I need the amount of turns it took and guess distribution !!
+        $submittedData = json_decode($request->getBody(), true);
+        $turns = $submittedData['turns'];
+        $guessDistribution = $submittedData['guessDistribution'];
 
+        if ($turns >= 1 && $turns <= 6){
+            $guessDistribution[$turns - 1]++;
+        }
+
+        return $guessDistribution;
     }
 
     public function getGuessDistribution($statistics)
@@ -113,9 +124,6 @@ class UserStatisticsController extends PageController
             // Default to the [0, 0, 0, 0, 0, 0]
             $guessDistribution = array_fill(0, 6, 0);
         }
-
-        // This should now handle updating the guess distribution since it's not default
-        // $guessDistribution = $this->updateGuessDistribution();
 
         return $guessDistribution;
     }
