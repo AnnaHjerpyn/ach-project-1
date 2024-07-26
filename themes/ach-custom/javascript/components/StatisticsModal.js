@@ -41,7 +41,7 @@ const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
                     <h2 className="statistics-header">Guess Distribution</h2>
                     <div className="guess-distribution">
                         {guessDistribution.map((count, index) => {
-                            const percentage = maxCount === 0 ? 15 : (count / maxCount) * 100;
+                            const percentage = maxCount === 0 ? 0 : (count / maxCount) * 100;
                             const isHighlighted = Math.round(percentage) === Math.round(maxPercentage); // Highlight if this bar has the maximum percentage
                             return (
                                 <div className="graph-container" key={index}>
