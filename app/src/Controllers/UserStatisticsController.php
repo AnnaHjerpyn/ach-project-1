@@ -73,6 +73,7 @@ class UserStatisticsController extends PageController
                 $guessDistribution[$turns - 1]++;
             }
 
+            $statistics->setGuessDistributionArray($guessDistribution);
         } else {
             // Otherwise reset the current streak
             $statistics->CurrentStreak = 0;

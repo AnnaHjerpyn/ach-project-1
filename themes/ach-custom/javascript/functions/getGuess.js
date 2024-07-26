@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import {checkDatabase, updateBoardWithGuess, updateUserStatistics} from "./databaseRequests";
+import { checkDatabase, updateBoardWithGuess, updateUserStatistics } from "./databaseRequests";
 
 const getGuess = (boardID) => {
     const [inKeypad, setKeypad] = useState(false);
@@ -42,23 +42,7 @@ const getGuess = (boardID) => {
 
     const addNewGuess = useCallback(async () => {
         const data = await checkDatabase(currentGuess, boardID);
-
         const formattedGuess = await fetchFormattedGuess();
-
-        if (data.isCorrect) {
-            await updateUserStatistics(true, turn);
-            setIsCorrect(true);
-            setTimeout(() => setShowModal(true), 2500)
-            setGameOver(true);
-            return;
-        }
-
-        if (turn === 5 && !isCorrect) {
-            await updateUserStatistics(false);
-            setTimeout(() => setShowModal(true), 2500)
-            setMessage(data.message);
-            setShowToast(true);
-        }
 
         setGuesses((prevGuesses) => {
             let newGuesses = [...prevGuesses];
@@ -67,7 +51,6 @@ const getGuess = (boardID) => {
         });
 
         setHistory((prevHistory) => [...prevHistory, currentGuess]);
-        setTurn((prevTurn) => prevTurn + 1);
 
         setUsedKeys((prevUsedKeys) => {
             let newUsedKeys = { ...prevUsedKeys };
@@ -89,17 +72,32 @@ const getGuess = (boardID) => {
             return newUsedKeys;
         });
 
-        setCurrentGuess(''); // Clears the current guess
+        if (data.isCorrect) {
+            setIsCorrect(true);
+            setTimeout(() => setShowModal(true), 2500);
+            setGameOver(true);
+            await updateUserStatistics(true, turn + 1);
+            return;
+        }
 
+        if (turn === 5 && !isCorrect) {
+            setTimeout(() => setShowModal(true), 2500);
+            setMessage(data.message);
+            setShowToast(true);
+            await updateUserStatistics(false, turn + 1);
+        } else {
+            setTurn((prevTurn) => prevTurn + 1);
+        }
+
+        setCurrentGuess(''); // Clears the current guess
     }, [currentGuess, turn, fetchFormattedGuess, isCorrect, boardID]);
 
     const handleKeyInput = useCallback(async (key) => {
         // Handle key input logic
         if (key === 'Enter') {
-            // Check the database with current guess
             const data = await checkDatabase(currentGuess, boardID);
 
-            if (history.includes(currentGuess.toLowerCase())){
+            if (history.includes(currentGuess.toLowerCase())) {
                 setIsValidWord(false);
                 setMessage("Word has already been used");
                 setShowToast(true);
@@ -116,13 +114,10 @@ const getGuess = (boardID) => {
                 await updateBoardWithGuess(boardID, currentGuess);
             }
 
-            addNewGuess(); // Adds a guess if it makes through the validation !
-
+            addNewGuess();
         } else if (key === 'Backspace') {
-            // Removes the current guess letters when user presses 'Backspace'
             setCurrentGuess((prev) => prev.slice(0, -1));
         } else if (/^[A-Za-z]$/.test(key)) {
-            // As the user enters in letters, adds to the current guess until length of 5
             if (currentGuess.length < 5) {
                 setCurrentGuess((prev) => prev + key);
             }
