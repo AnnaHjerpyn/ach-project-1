@@ -15,6 +15,7 @@ class Statistic extends DataObject
         'WinPercentage' => 'Int',
         'CurrentStreak' => 'Int',
         'MaxStreak' => 'Int',
+        'GuessDistribution' => 'Text',
     ];
 
     private static $has_one = [
@@ -43,6 +44,11 @@ class Statistic extends DataObject
 
     public function getGuessDistributionArray()
     {
-        return json_decode($this->GuessDistribution, true) ?? array_fill(0, 6, 0);
+        return $this->GuessDistribution ? unserialize($this->GuessDistribution) : array_fill(0, 6, 0);
+    }
+
+    public function setGuessDistributionArray($array)
+    {
+        $this->GuessDistribution = serialize($array);
     }
 }

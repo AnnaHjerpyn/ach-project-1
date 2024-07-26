@@ -46,7 +46,7 @@ const getGuess = (boardID) => {
         const formattedGuess = await fetchFormattedGuess();
 
         if (data.isCorrect) {
-            await updateUserStatistics(true);
+            await updateUserStatistics(true, turn);
             setIsCorrect(true);
             setTimeout(() => setShowModal(true), 2500)
             setGameOver(true);

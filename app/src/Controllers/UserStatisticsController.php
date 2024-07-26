@@ -4,6 +4,7 @@ namespace AnnaHjerpyn\Custom\Controllers;
 
 use AnnaHjerpyn\Custom\Models\Statistic;
 use PageController;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\Security;
 
@@ -31,6 +32,8 @@ class UserStatisticsController extends PageController
         // This would also affect the max streak if the user lost
         $submittedData = json_decode($request->getBody(), true);
         $win = $submittedData['win'];
+        $turns = $submittedData['turns'];
+
 
         // All that needs to be done is the values get incremented
         // Get the current user and their stats
@@ -64,6 +67,12 @@ class UserStatisticsController extends PageController
             if ($statistics->CurrentStreak > $statistics->MaxStreak) {
                 $statistics->MaxStreak = $statistics->CurrentStreak;
             }
+
+            $guessDistribution = $this->getGuessDistribution($statistics);
+            if ($turns >= 1 && $turns <= 6) {
+                $guessDistribution[$turns - 1]++;
+            }
+
         } else {
             // Otherwise reset the current streak
             $statistics->CurrentStreak = 0;
@@ -95,6 +104,7 @@ class UserStatisticsController extends PageController
         $statistics->WinPercentage = 0;
         $statistics->CurrentStreak = 0;
         $statistics->MaxStreak = 0;
+        $statistics->setGuessDistributionArray(array_fill(0, 6, 0));
 
         // Write the values to the database for that user
         $statistics->write();
@@ -102,30 +112,9 @@ class UserStatisticsController extends PageController
         return $statistics;
     }
 
-    public function updateGuessDistribution(HTTPRequest $request)
-    {
-        // I need the amount of turns it took and guess distribution !!
-        $submittedData = json_decode($request->getBody(), true);
-        $turns = $submittedData['turns'];
-        $guessDistribution = $submittedData['guessDistribution'];
-
-        if ($turns >= 1 && $turns <= 6){
-            $guessDistribution[$turns - 1]++;
-        }
-
-        return $guessDistribution;
-    }
-
     public function getGuessDistribution($statistics)
     {
-        $guessDistribution = array_fill(0, 6, 0);
-        // Check to see if the statistic exists -- idk how else to check besides duplicate code ??
-        if (!$statistics) {
-            // Default to the [0, 0, 0, 0, 0, 0]
-            $guessDistribution = array_fill(0, 6, 0);
-        }
-
-        return $guessDistribution;
+        return $statistics->getGuessDistributionArray();
     }
 
     public function getUserStatistics()
@@ -140,9 +129,10 @@ class UserStatisticsController extends PageController
 
         // Grab the specific user’s statistics
         $statistics = Statistic::getUserStatistics($member);
-
         // Grab the guess distribution --> it's not in the db
         $guessDistribution = $this->getGuessDistribution($statistics);
+
+
 
         // Check to make sure those statistics even exist
         if (!$statistics) {

@@ -33,13 +33,13 @@ async function checkDatabase(currentGuess, boardID) {
     return data;
 }
 
-async function updateUserStatistics(win) {
+async function updateUserStatistics(win, turns) {
     const response = await fetch('/statistic/updateUserStatistics', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({win: win}),
+        body: JSON.stringify({win: win, turns: turns}),
     });
 
     if (!response.ok) {
