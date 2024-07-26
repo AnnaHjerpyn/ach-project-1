@@ -3,8 +3,12 @@ import { useTheme } from '../../../../src/ThemeContext';
 import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_help.scss';
 
-const StatisticsModal = ({ isOpen, onClose, statistics }) => {
+const StatisticsModal = ({ isOpen, onClose, statistics = {} }) => {
     const { isDarkMode } = useTheme();
+
+    const guessDistribution = statistics.guessDistribution || [];
+    const maxCount = Math.max(...guessDistribution);
+    const maxPercentage = maxCount === 0 ? 0 : 100;
 
     if (!isOpen) return null;
 
@@ -36,16 +40,23 @@ const StatisticsModal = ({ isOpen, onClose, statistics }) => {
                     </ul>
                     <h2 className="statistics-header">Guess Distribution</h2>
                     <div className="guess-distribution">
-                        {statistics.guessDistribution.map((count, index) => (
-                            <div className="graph-container" key={index}>
-                                <div className="guess">{index + 1}</div>
-                                <div className="graph">
-                                    <div className="graph-bar" style={{ width: `${count}%` }}>
-                                        <div className="num-guesses">{count}</div>
+                        {guessDistribution.map((count, index) => {
+                            const percentage = maxCount === 0 ? 15 : (count / maxCount) * 100;
+                            const isHighlighted = Math.round(percentage) === Math.round(maxPercentage); // Highlight if this bar has the maximum percentage
+                            return (
+                                <div className="graph-container" key={index}>
+                                    <div className="guess">{index + 1}</div>
+                                    <div className="graph">
+                                        <div
+                                            className={`graph-bar ${isHighlighted ? 'highlight' : ''}`}
+                                            style={{ width: `${percentage}%` }}
+                                        >
+                                            <div className="num-guesses">{count}</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </div>

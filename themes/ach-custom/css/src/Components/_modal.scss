@@ -135,7 +135,7 @@
 }
 
 .guess-distribution {
-    width: 58%;
+    width: 80%;
 
     .graph-container {
         width: 100%;
@@ -149,14 +149,19 @@
         }
 
         .graph {
+            width: 100%;
             display: flex;
             align-items: center;
-            background-color: #3a3a3c;
             margin-left: 4px;
 
             .graph-bar {
                 height: 100%;
-                background-color: #58a351;
+                min-width: 5%;
+                background-color: #3a3a3c;
+
+                &.highlight {
+                    background-color: #58a351;
+                }
 
                 .num-guesses {
                     line-height: 90%;
@@ -165,6 +170,7 @@
                     font-size: 12px;
                 }
             }
+
         }
     }
 }
