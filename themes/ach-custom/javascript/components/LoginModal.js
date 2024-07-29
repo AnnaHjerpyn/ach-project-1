@@ -96,21 +96,20 @@ const LoginModal = ({isOpen, onClose, onLogin}) => {
                         <input type="checkbox" onClick={() => setRemember(!remember)}/> Remember me
                     </label>}
                 </div>
-
                 <p>
                     {isLoginMode ? (
-                        <span>
+                        <span className="login-title">
                             Don't have an account?{' '}
-                            <button type="submit" className="toggle-button" onClick={() => setIsLoginMode(false)}>
+                            <span className="login-button" onClick={() => setIsLoginMode(false)}>
                                 Create Account
-                            </button>
+                            </span>
                         </span>
                     ) : (
-                        <span>
+                        <span className="login-title">
                             Already have an account?{' '}
-                            <button className="toggle-button" onClick={() => setIsLoginMode(true)}>
+                            <span className="login-button" onClick={() => setIsLoginMode(true)}>
                                 Login
-                            </button>
+                            </span>
                         </span>
                     )}
                 </p>
