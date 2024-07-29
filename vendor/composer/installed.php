@@ -3,7 +3,7 @@
         'name' => 'silverstripe/installer',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '96f1bfc94dac9e130467db4fb301cbaa0a2b67d9',
+        'reference' => '5750e302682ca854f922481f47b4e0854474bdf8',
         'type' => 'silverstripe-recipe',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -14,6 +14,12 @@
             'dev_requirement' => false,
             'replaced' => array(
                 0 => '4.0.7',
+            ),
+        ),
+        'ajshort/silverstripe-memberprofiles' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '4.1.0',
             ),
         ),
         'bummzack/sortablefile' => array(
@@ -640,6 +646,12 @@
                 0 => '4.0.7',
             ),
         ),
+        'silverstripe-australia/memberprofiles' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '4.1.0',
+            ),
+        ),
         'silverstripe-themes/simple' => array(
             'pretty_version' => '3.3.2',
             'version' => '3.3.2.0',
@@ -748,7 +760,7 @@
         'silverstripe/installer' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '96f1bfc94dac9e130467db4fb301cbaa0a2b67d9',
+            'reference' => '5750e302682ca854f922481f47b4e0854474bdf8',
             'type' => 'silverstripe-recipe',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -762,6 +774,12 @@
             'install_path' => __DIR__ . '/../silverstripe/login-forms',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'silverstripe/memberprofiles' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '4.1.0',
+            ),
         ),
         'silverstripe/mimevalidator' => array(
             'pretty_version' => '3.1.0',
@@ -897,6 +915,12 @@
             'install_path' => __DIR__ . '/../symbiote/silverstripe-gridfieldextensions',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'symbiote/silverstripe-memberprofiles' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '4.1.0',
+            ),
         ),
         'symfony/cache' => array(
             'pretty_version' => 'v6.4.8',
@@ -1174,6 +1198,15 @@
             'reference' => '402dab8faa34c75cf05b10b3a0af10ebc37d83a4',
             'type' => 'silverstripe-vendormodule',
             'install_path' => __DIR__ . '/../undefinedoffset/sortablegridfield',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'webbuilders-group/silverstripe-memberprofiles' => array(
+            'pretty_version' => '4.1.0',
+            'version' => '4.1.0.0',
+            'reference' => '1ab7ce220c2f4cbb0c187ba107840b9c1e50a566',
+            'type' => 'silverstripe-vendormodule',
+            'install_path' => __DIR__ . '/../webbuilders-group/silverstripe-memberprofiles',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

@@ -122,6 +122,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/undefinedoffset/sortablegridfield" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webonyx/graphql-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wilr/silverstripe-googlesitemaps" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webbuilders-group/silverstripe-memberprofiles" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

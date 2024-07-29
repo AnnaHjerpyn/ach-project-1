@@ -17,7 +17,13 @@ class CustomLoginController extends PageController
 {
     private static $allowed_actions = [
         'LoginForm',
-        'doLogin'
+        'doLogin',
+        'doRegister',
+    ];
+
+    private static $url_handlers = [
+        'doLogin' => 'doLogin',
+        'doRegister' => 'doRegister',
     ];
 
     public function LoginForm()
@@ -58,9 +64,11 @@ class CustomLoginController extends PageController
 
     private function _process_login(HTTPRequest $request)
     {
-        $email = $request->postVar('login_email');
-        $password = $request->postVar('login_password');
-        $rememberMe = $request->postVar('login_remember');
+        $submittedData = json_decode($request->getBody(), true);
+        // All of the stuff I'd need for the user information
+        $email = $submittedData['login_email'];
+        $password = $submittedData['login_password'];
+        $rememberMe = $submittedData['remember'];
 
         $data = [
             'Email' => $email,
@@ -80,7 +88,7 @@ class CustomLoginController extends PageController
         // Check login credentials
         $member = $loginHandler->checkLogin($data, $request, $result);
 
-        if ($member && !$member->inGroup('site-users')) {
+        if ($member && !$member->inGroup('Wordle-User')) {
             // Logout if user is not in the 'site-users' group
             Injector::inst()->get(IdentityStore::class)->logOut($request);
             $result->addError('The provided details don\'t seem to be correct. Please try again.');
@@ -97,12 +105,11 @@ class CustomLoginController extends PageController
 
     private function _process_register(HTTPRequest $request)
     {
+        $submittedData = json_decode($request->getBody(), true);
         // All of the stuff I'd need for the user information
-        $firstName = $request->postVar('register_first_name');
-        $lastName = $request->postVar('register_last_name');
-        $email = $request->postVar('register_email');
-        $password1 = $request->postVar('register_password_1');
-        $password2 = $request->postVar('register_password_2');
+        $email = $submittedData['register_email'];
+        $password1 = $submittedData['register_password1'];
+        $password2 = $submittedData['register_password2'];
 
         $result = ValidationResult::create();
 
@@ -119,8 +126,6 @@ class CustomLoginController extends PageController
 
         // Create the member
         $member = Member::create();
-        $member->FirstName = $firstName;
-        $member->Surname = $lastName;
         $member->Email = $email;
         $member->write();
 
@@ -143,15 +148,6 @@ class CustomLoginController extends PageController
         if ($member) {
             $identityStore = Injector::inst()->get(IdentityStore::class);
             $identityStore->logIn($member, true, $request);
-
-            // Send welcome email
-            $email = Email::create()
-                ->setHTMLTemplate('Email\\RegisterEmail')
-                ->setData($member)
-                ->setSubject("Welcome to Website")
-                ->addData('first_name', $member->FirstName)
-                ->setTo($member->Email);
-            $email->send();
 
             return ['success' => true];
         } else {

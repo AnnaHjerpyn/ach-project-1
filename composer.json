@@ -22,7 +22,8 @@
         "innis-maggiore/silverstripe-social-meta-tags": "^5.0.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "undefinedoffset/silverstripe-nocaptcha": "^2.4"
+        "undefinedoffset/silverstripe-nocaptcha": "^2.4",
+        "webbuilders-group/silverstripe-memberprofiles": "^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"

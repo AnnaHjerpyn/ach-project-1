@@ -37,6 +37,7 @@ return array(
     'Symfony\\Component\\DomCrawler\\' => array($vendorDir . '/symfony/dom-crawler'),
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Symfony\\Component\\Cache\\' => array($vendorDir . '/symfony/cache'),
+    'Symbiote\\MemberProfiles\\' => array($vendorDir . '/webbuilders-group/silverstripe-memberprofiles/src'),
     'Symbiote\\GridFieldExtensions\\Tests\\' => array($vendorDir . '/symbiote/silverstripe-gridfieldextensions/tests'),
     'Symbiote\\GridFieldExtensions\\' => array($vendorDir . '/symbiote/silverstripe-gridfieldextensions/src'),
     'Sminnee\\CallbackList\\' => array($vendorDir . '/sminnee/callbacklist/src'),

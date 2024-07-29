@@ -8325,6 +8325,82 @@
             "install-path": "../undefinedoffset/sortablegridfield"
         },
         {
+            "name": "webbuilders-group/silverstripe-memberprofiles",
+            "version": "4.1.0",
+            "version_normalized": "4.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webbuilders-group/silverstripe-memberprofiles.git",
+                "reference": "1ab7ce220c2f4cbb0c187ba107840b9c1e50a566"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webbuilders-group/silverstripe-memberprofiles/zipball/1ab7ce220c2f4cbb0c187ba107840b9c1e50a566",
+                "reference": "1ab7ce220c2f4cbb0c187ba107840b9c1e50a566",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "silverstripe/cms": "~4.0|~5.0"
+            },
+            "replace": {
+                "ajshort/silverstripe-memberprofiles": "self.version",
+                "silverstripe-australia/memberprofiles": "self.version",
+                "silverstripe/memberprofiles": "self.version",
+                "symbiote/silverstripe-memberprofiles": "self.version"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "suggest": {
+                "symbiote/silverstripe-gridfieldextensions": "Allows drag-and-drop reordering of fields"
+            },
+            "time": "2024-04-11T13:08:41+00:00",
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client"
+                ],
+                "branch-alias": {
+                    "dev-master": "4.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Symbiote\\MemberProfiles\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ed Chipman",
+                    "homepage": "http://webbuildersgroup.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Symbiote",
+                    "homepage": "https://www.symbiote.com.au/"
+                }
+            ],
+            "description": "Member registration and profile management",
+            "keywords": [
+                "member",
+                "profile",
+                "registration",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/webbuilders-group/silverstripe-memberprofiles/issues",
+                "source": "https://github.com/webbuilders-group/silverstripe-memberprofiles/tree/4.1.0"
+            },
+            "install-path": "../webbuilders-group/silverstripe-memberprofiles"
+        },
+        {
             "name": "webonyx/graphql-php",
             "version": "v15.11.1",
             "version_normalized": "15.11.1.0",

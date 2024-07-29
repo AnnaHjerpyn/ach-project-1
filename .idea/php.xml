@@ -130,6 +130,7 @@
       <path value="$PROJECT_DIR$/vendor/silverstripe/recipe-cms" />
       <path value="$PROJECT_DIR$/vendor/silverstripe/framework" />
       <path value="$PROJECT_DIR$/vendor/silverstripe/vendor-plugin" />
+      <path value="$PROJECT_DIR$/vendor/webbuilders-group/silverstripe-memberprofiles" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

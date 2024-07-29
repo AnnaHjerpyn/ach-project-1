@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { useTheme } from '../../../../src/ThemeContext';
+import React, {useState} from 'react';
+import {useTheme} from '../../../../src/ThemeContext';
 import '../../css/src/Components/_modal.scss';
 import '../../css/src/Components/_login.scss';
 
-const LoginModal = ({ isOpen, onClose, onLogin }) => {
-    const { isDarkMode } = useTheme();
+const LoginModal = ({isOpen, onClose, onLogin}) => {
+    const {isDarkMode} = useTheme();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
+    const [remember, setRemember] = useState(false);
     const [isLoginMode, setIsLoginMode] = useState(true);
 
     if (!isOpen) return null;
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('/home/login', {
+            const response = await fetch('/login/doLogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ Email: email, Password: password }),
+                body: JSON.stringify({
+                    login_email: email,
+                    login_password: password1,
+                    remember: remember,
+                }),
             });
 
             if (response.ok) {
@@ -33,12 +39,16 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 
     const handleRegister = async () => {
         try {
-            const response = await fetch('/home/register', {
+            const response = await fetch('/login/doRegister', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ Email: email, Password: password }),
+                body: JSON.stringify({
+                    register_email: email,
+                    register_password1: password1,
+                    register_password2: password2,
+                }),
             });
 
             if (response.ok) {
@@ -54,31 +64,44 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 
     return (
         <div className={`modal ${isDarkMode ? 'dark-theme' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
-            <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`} data-theme={isDarkMode ? 'dark' : 'light'}>
+            <div className={`modal-content ${isDarkMode ? 'dark-theme-content' : ''}`}
+                 data-theme={isDarkMode ? 'dark' : 'light'}>
                 <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
                     &times;
                 </button>
-                <h2>{isLoginMode ? 'Login' : 'Create Account'}</h2>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button onClick={isLoginMode ? handleLogin : handleRegister}>
-                    {isLoginMode ? 'Login' : 'Create Account'}
-                </button>
+                <div className="login-header">{isLoginMode ? 'Login' : 'Create Account'}</div>
+                <div className="login-form">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password1}
+                        onChange={(e) => setPassword1(e.target.value)}
+                    />
+                    {!isLoginMode && <input
+                        type="password"
+                        placeholder="Retype Password"
+                        value={password2}
+                        onChange={(e) => setPassword2(e.target.value)}
+                    />}
+                    <button onClick={isLoginMode ? handleLogin : handleRegister}>
+                        {isLoginMode ? 'Login' : 'Create Account'}
+                    </button>
+                    {isLoginMode && <label>
+                        <input type="checkbox" onClick={() => setRemember(!remember)}/> Remember me
+                    </label>}
+                </div>
+
                 <p>
                     {isLoginMode ? (
                         <span>
                             Don't have an account?{' '}
-                            <button className="toggle-button" onClick={() => setIsLoginMode(false)}>
+                            <button type="submit" className="toggle-button" onClick={() => setIsLoginMode(false)}>
                                 Create Account
                             </button>
                         </span>

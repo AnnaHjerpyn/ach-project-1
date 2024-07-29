@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de8c5bf76a8bb0b699587e2b447e673a",
+    "content-hash": "6c03d886070469282b2f418c22fa4515",
     "packages": [
         {
             "name": "bummzack/sortablefile",
@@ -6359,6 +6359,79 @@
                 "source": "https://github.com/UndefinedOffset/SortableGridField/tree/2.2.0"
             },
             "time": "2023-05-08T13:51:31+00:00"
+        },
+        {
+            "name": "webbuilders-group/silverstripe-memberprofiles",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webbuilders-group/silverstripe-memberprofiles.git",
+                "reference": "1ab7ce220c2f4cbb0c187ba107840b9c1e50a566"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webbuilders-group/silverstripe-memberprofiles/zipball/1ab7ce220c2f4cbb0c187ba107840b9c1e50a566",
+                "reference": "1ab7ce220c2f4cbb0c187ba107840b9c1e50a566",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "silverstripe/cms": "~4.0|~5.0"
+            },
+            "replace": {
+                "ajshort/silverstripe-memberprofiles": "self.version",
+                "silverstripe-australia/memberprofiles": "self.version",
+                "silverstripe/memberprofiles": "self.version",
+                "symbiote/silverstripe-memberprofiles": "self.version"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "suggest": {
+                "symbiote/silverstripe-gridfieldextensions": "Allows drag-and-drop reordering of fields"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client"
+                ],
+                "branch-alias": {
+                    "dev-master": "4.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symbiote\\MemberProfiles\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ed Chipman",
+                    "homepage": "http://webbuildersgroup.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Symbiote",
+                    "homepage": "https://www.symbiote.com.au/"
+                }
+            ],
+            "description": "Member registration and profile management",
+            "keywords": [
+                "member",
+                "profile",
+                "registration",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/webbuilders-group/silverstripe-memberprofiles/issues",
+                "source": "https://github.com/webbuilders-group/silverstripe-memberprofiles/tree/4.1.0"
+            },
+            "time": "2024-04-11T13:08:41+00:00"
         },
         {
             "name": "webonyx/graphql-php",

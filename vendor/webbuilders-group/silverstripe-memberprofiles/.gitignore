@@ -1,0 +1,10 @@
+app
+resources
+vendor
+.DS_Store
+.htaccess
+behat.yml
+composer.lock
+index.php
+web.config
+/*.cache

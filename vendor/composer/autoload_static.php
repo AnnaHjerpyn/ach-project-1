@@ -68,6 +68,7 @@ class ComposerStaticInitf73c716c6c95b927e7c2bbb4085d0b13
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\Cache\\' => 24,
+            'Symbiote\\MemberProfiles\\' => 24,
             'Symbiote\\GridFieldExtensions\\Tests\\' => 35,
             'Symbiote\\GridFieldExtensions\\' => 29,
             'Sminnee\\CallbackList\\' => 21,
@@ -337,6 +338,10 @@ class ComposerStaticInitf73c716c6c95b927e7c2bbb4085d0b13
         'Symfony\\Component\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/cache',
+        ),
+        'Symbiote\\MemberProfiles\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webbuilders-group/silverstripe-memberprofiles/src',
         ),
         'Symbiote\\GridFieldExtensions\\Tests\\' => 
         array (
