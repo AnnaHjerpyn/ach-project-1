@@ -17,14 +17,9 @@ const ToastMessage = ({message, duration = 5000}) => {
     return (
         <>
             <div className="custom-toast-container">
-                <Toast
-                    className="custom-toast"
-                    show={show}
-                    onClose={() => toggleShow(false)}
-                >
-                    <Toast.Body>
-                        <strong>{message}</strong>
-                    </Toast.Body>
+                <Toast className="custom-toast" show={show}
+                       onClose={() => toggleShow(false)}>
+                    <Toast.Body><strong>{message}</strong></Toast.Body>
                 </Toast>
             </div>
         </>

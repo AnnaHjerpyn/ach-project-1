@@ -7,6 +7,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
     const { isDarkMode } = useTheme();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoginMode, setIsLoginMode] = useState(true);
 
     if (!isOpen) return null;
 
@@ -17,17 +18,37 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ Email: email, Password: password }),
             });
 
             if (response.ok) {
-                onLogin(); // Notify parent component to fetch stats after successful login
+                onLogin();
             } else {
-                // Handle login errors
                 alert('Login failed. Please try again.');
             }
         } catch (error) {
             console.error('Login error:', error);
+        }
+    };
+
+    const handleRegister = async () => {
+        try {
+            const response = await fetch('/home/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Email: email, Password: password }),
+            });
+
+            if (response.ok) {
+                alert('Registration successful. Please log in.');
+                setIsLoginMode(true);
+            } else {
+                alert('Registration failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
         }
     };
 
@@ -37,7 +58,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 <button className={`close-button ${isDarkMode ? 'dark-theme-close' : ''}`} onClick={onClose}>
                     &times;
                 </button>
-                <h2>Login</h2>
+                <h2>{isLoginMode ? 'Login' : 'Create Account'}</h2>
                 <input
                     type="email"
                     placeholder="Email"
@@ -50,7 +71,26 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={handleLogin}>Login</button>
+                <button onClick={isLoginMode ? handleLogin : handleRegister}>
+                    {isLoginMode ? 'Login' : 'Create Account'}
+                </button>
+                <p>
+                    {isLoginMode ? (
+                        <span>
+                            Don't have an account?{' '}
+                            <button className="toggle-button" onClick={() => setIsLoginMode(false)}>
+                                Create Account
+                            </button>
+                        </span>
+                    ) : (
+                        <span>
+                            Already have an account?{' '}
+                            <button className="toggle-button" onClick={() => setIsLoginMode(true)}>
+                                Login
+                            </button>
+                        </span>
+                    )}
+                </p>
             </div>
         </div>
     );
